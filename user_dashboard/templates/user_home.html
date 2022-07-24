@@ -1,0 +1,210 @@
+{% include 'user_admin/base.html' %}
+
+{% load static %}
+
+
+
+
+{% block content %}
+
+    <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-xl-6">
+						<div class="row">
+							<div class="col-xl-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="row separate-row">
+											<div class="col-sm-6">
+												<div class="job-icon pb-4 d-flex justify-content-between">
+													<div>
+														<div class="d-flex align-items-center mb-1">
+															<h2 class="mb-0">342</h2>
+														</div>
+														<span class="fs-14 d-block mb-2">All Question</span>
+													</div>
+													<div id="NewCustomers"></div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="job-icon pb-4 pt-4 pt-sm-0 d-flex justify-content-between">
+													<div>
+														<div class="d-flex align-items-center mb-1">
+															<h2 class="mb-0">984</h2>
+														</div>
+														<span class="fs-14 d-block mb-2">All Answer</span>
+													</div>
+													<div id="NewCustomers1"></div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="job-icon pt-4 pb-sm-0 pb-4 pe-3 d-flex justify-content-between">
+													<div>
+														<div class="d-flex align-items-center mb-1">
+															<h2 class="mb-0">1,567k</h2>
+														</div>
+														<span class="fs-14 d-block mb-2">All Job</span>
+													</div>
+													<div id="NewCustomers2"></div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="job-icon pt-4  d-flex justify-content-between">
+													<div>
+														<div class="d-flex align-items-center mb-1">
+															<h2 class="mb-0">437</h2>
+														</div>
+														<span class="fs-14 d-block mb-2">Applicant Sent</span>
+													</div>
+													<div id="NewCustomers3"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-12">
+								<div class="card "  id="user-activity">
+									<div class="card-header border-0 pb-0 flex-wrap">
+										<h4 class="fs-20 mb-1">Vacancy Stats</h4>
+										<div class="card-action coin-tabs mt-3 mt-sm-0">
+											<ul class="nav nav-tabs" role="tablist">
+												<li class="nav-item">
+													<a class="nav-link " data-bs-toggle="tab" href="#Daily" role="tab">Daily</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link " data-bs-toggle="tab" href="#weekly" role="tab" >Weekly</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link active" data-bs-toggle="tab" href="#monthly" role="tab" >Monthly</a>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="pb-4 d-flex flex-wrap">
+											<span class="d-flex align-items-center">
+												<svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13">
+												  <rect  width="13" height="13" rx="6.5" fill="#35c556"/>
+												</svg>
+												Application Sent
+											</span>
+											<span class="application d-flex align-items-center">
+												<svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13">
+												  <rect  width="13" height="13" rx="6.5" fill="#3f4cfe"/>
+												</svg>
+
+												Interviews
+											</span>
+											<span class="application d-flex align-items-center">
+												<svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13">
+												  <rect  width="13" height="13" rx="6.5" fill="#f34040"/>
+												</svg>
+
+												Rejected
+											</span>
+										</div>
+										<div class="tab-content">
+											<div class="tab-pane fade show active" id="Daily">
+												<canvas id="activity" height="115"></canvas>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6">
+						<div class="row">
+							<div class="col-xl-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="row ">
+											<div class="col-xl-8 col-xxl-7 col-sm-7">
+												<div class="update-profile d-flex">
+													<img src="{{ profile.user_image.url }}" alt="">
+													<div class="ms-4">
+														<h3 class="fs-24 font-w600 mb-0">{{ user.full_name }}</h3>
+														<span class="text-primary d-block mb-4">Developer</span>
+														<span><i class="fas fa-map-marker-alt me-1"></i>{{ profile.location }}</span>
+													</div>
+												</div>
+											</div>
+											<div class="col-xl-4 col-xxl-5 col-sm-5 sm-mt-auto mt-3">
+												<a href="javascript:void(0);" class="btn btn-primary btn-rounded">View Profile</a>
+											</div>
+										</div>
+										<div class="row mt-4 align-items-center">
+											<h4 class="fs-20 mb-3">Skills</h4>
+											<div class="col-xl-6 col-sm-6">
+												<div class="progress default-progress">
+													<div class="progress-bar progress-animated" style="width: {{ profile.backend_development }}%; height:13px; background-color: #0c85d0;" role="progressbar">
+														<span class="sr-only">{{ profile.backend_development }}% Complete</span>
+													</div>
+												</div>
+												<div class="d-flex align-items-end mt-2 pb-4 justify-content-between">
+													<span class="fs-14 font-w500">Backend development</span>
+													<span class="fs-16"><span class="text-black pe-2"></span>{{ profile.backend_development }}%</span>
+												</div>
+
+
+												<div class="progress default-progress">
+													<div class="progress-bar progress-animated" style="width: {{ profile.frontend_development }}%; height:13px; background-color: #af5d18" role="progressbar">
+														<span class="sr-only">{{ profile.frontend_development }}% Complete</span>
+													</div>
+												</div>
+												<div class="d-flex align-items-end mt-2 pb-4 justify-content-between">
+													<span class="fs-14 font-w500">Frontend development</span>
+													<span class="fs-16"><span class="text-black pe-2"></span>{{ profile.frontend_development }}%</span>
+												</div>
+
+
+												<div class="progress default-progress">
+													<div class="progress-bar  progress-animated" style="width: {{ profile.hardware }}%; height:13px; background-color: #8c43ff" role="progressbar">
+														<span class="sr-only">{{ profile.hardware }}% Complete</span>
+													</div>
+												</div>
+												<div class="d-flex align-items-end mt-2 pb-4 justify-content-between">
+													<span class="fs-14 font-w500">Hardware</span>
+													<span class="fs-16"><span class="text-black pe-2"></span>{{ profile.hardware }}%</span>
+												</div>
+
+
+                                                <div class="progress default-progress">
+													<div class="progress-bar progress-animated" style="width: {{ profile.uiandux }}%; height:13px; background-color: #9d0621" role="progressbar">
+														<span class="sr-only">{{ profile.uiandux }}% Complete</span>
+													</div>
+												</div>
+												<div class="d-flex align-items-end mt-2 pb-4 justify-content-between">
+													<span class="fs-14 font-w500">UI/UX</span>
+													<span class="fs-16"><span class="text-black pe-2"></span>{{ profile.uiandux }}%</span>
+												</div>
+
+                                                <div class="progress default-progress">
+													<div class="progress-bar progress-animated" style="width: {{ profile.artificial_intelligence }}%; height:13px; background-color: #0b2e13" role="progressbar">
+														<span class="sr-only">{{ profile.artificial_intelligence }}% Complete</span>
+													</div>
+												</div>
+												<div class="d-flex align-items-end mt-2 pb-4 justify-content-between">
+													<span class="fs-14 font-w500">Artificial Intelligence</span>
+													<span class="fs-16"><span class="text-black pe-2"></span>{{ profile.artificial_intelligence }}%</span>
+												</div>
+											</div>
+											<div class="col-xl-6 col-sm-6">
+												<div id="pieChart1"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+            </div>
+        </div>
+
+
+{% endblock %}

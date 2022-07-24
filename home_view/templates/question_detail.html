@@ -1,0 +1,268 @@
+{% extends 'base_white.html' %}
+
+{% load static %}
+
+{% block title %} Question detail {% endblock %}
+
+{% block content %}
+
+    <!--======================================
+        START HERO AREA
+======================================-->
+<section class="hero-area bg-white shadow-sm overflow-hidden pt-40px pb-40px">
+    <span class="stroke-shape stroke-shape-1"></span>
+    <span class="stroke-shape stroke-shape-2"></span>
+    <span class="stroke-shape stroke-shape-3"></span>
+    <span class="stroke-shape stroke-shape-4"></span>
+    <span class="stroke-shape stroke-shape-5"></span>
+    <span class="stroke-shape stroke-shape-6"></span>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-9">
+                <div class="hero-content">
+                    <h2 class="section-title pb-2 fs-24 lh-34">Find the best answer to your technical question, <br>
+                        help others answer theirs
+                    </h2>
+                    <p class="lh-26">If you are going to use a passage of Lorem Ipsum, you need to be sure there
+                        <br> isn't anything embarrassing hidden in the middle of text.
+                    </p>
+                    <ul class="generic-list-item pt-3">
+                        <li><span class="icon-element icon-element-xs shadow-sm d-inline-block mr-2"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#6c727c"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></svg></span> Anybody can ask a question</li>
+                        <li><span class="icon-element icon-element-xs shadow-sm d-inline-block mr-2"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="#6c727c"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg></span> Anybody can answer</li>
+                        <li><span class="icon-element icon-element-xs shadow-sm d-inline-block mr-2"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 320 512" width="20px"><path fill="#6c727c" d="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41zm255-105L177 64c-9.4-9.4-24.6-9.4-33.9 0L24 183c-15.1 15.1-4.4 41 17 41h238c21.4 0 32.1-25.9 17-41z"></path></svg></span> The best answers are voted up and rise to the top</li>
+                    </ul>
+                </div><!-- end hero-content -->
+            </div><!-- end col-lg-9 -->
+            <div class="col-lg-3">
+                <div class="hero-btn-box text-right py-3">
+                    <a href="{% url 'ask_question' %}" class="btn theme-btn">Ask a Question</a>
+                </div>
+            </div>
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section>
+<!--======================================
+        END HERO AREA
+======================================-->
+
+<!-- ================================
+         START QUESTION AREA
+================================= -->
+<section class="question-area pt-40px pb-40px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="question-main-bar mb-50px">
+                    <div class="question-highlight">
+                        <div class="media media-card shadow-none rounded-0 mb-0 bg-transparent p-0">
+                            <div class="media-body">
+                                <h5 class="fs-20"><a href="">{{ question.title }}</a></h5>
+                                <div class="meta d-flex flex-wrap align-items-center fs-13 lh-20 py-1">
+                                    <div class="pr-3">
+                                        <span>Asked</span>
+                                        <span class="text-black">{{ question.publish_date.date }}</span>
+                                    </div>
+                                    <div class="pr-3">
+                                        <span class="pr-1">Viewed</span>
+                                        <span class="text-black">{{ question.viewed }} times</span>
+                                    </div>
+                                </div>
+                                <div class="tags">
+                                    {% for tag in question.tags_as_list %}
+                                    <a href="#" class="tag-link">{{ tag }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div><!-- end media -->
+                    </div><!-- end question-highlight -->
+                    <div class="question d-flex">
+                        <div class="votes votes-styled w-auto">
+                            <div id="vote" class="upvotejs">
+                                <a class="upvote upvote-on" data-toggle="tooltip" data-placement="right" title="This question is useful"></a>
+                                <span class="count">1</span>
+                                <a class="downvote" data-toggle="tooltip" data-placement="right" title="This question is not useful"></a>
+                                <a class="star" data-toggle="tooltip" data-placement="right" title="Bookmark this question."></a>
+                            </div>
+                        </div><!-- end votes -->
+                        <div class="question-post-body-wrap flex-grow-1">
+                            <div class="question-post-body">
+                                <p>{{ question.detail }}</p>
+                                <pre class="">
+                                    <code>{{ question.body }}
+                                    </code>
+                                </pre>
+                            </div><!-- end question-post-body -->
+                            <div class="question-post-user-action">
+                                <div class="post-menu">
+                                    <a href="#" class="btn"></a>
+                                    <button class="btn"></button>
+                                </div><!-- end post-menu -->
+                                {% if messages %}
+                                                {% for message in messages %}
+                                                    <div class="alert alert-success" role="alert">
+                                                    {{ message }}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                <div class="media media-card user-media owner align-items-center">
+                                    <a href="user-profile.html" class="media-img d-block">
+                                        <img src="{% static 'home/images/img3.jpg' %}" alt="avatar">
+                                    </a>
+                                    <div class="media-body d-flex flex-wrap align-items-center justify-content-between">
+                                        <div>
+                                            <h5 class="pb-1"><a href="">{{ question.owner.full_name }}</a></h5>
+                                        </div>
+                                        <small class="meta d-block text-right">
+                                            <span class="text-black d-block lh-18">asked</span>
+                                            <span class="d-block lh-18 fs-12">{{ question.publish_date.date }}</span>
+                                        </small>
+                                    </div>
+                                </div><!-- end media -->
+                            </div><!-- end question-post-user-action -->
+                            <div class="comments-wrap">
+                                <ul class="comments-list">
+                                    {% if answer %}
+                                        {% for answer in answer %}
+                                    <li>
+                                        <div class="comment-actions">
+                                            <span class="comment-score"></span>
+                                        </div>
+                                        <div class="comment-body">
+                                            <span class="comment-copy">{{ answer.message }}</span>
+                                            <span class="comment-separated">-</span>
+                                            <a href="user-profile.html" class="comment-user owner" title="224,110 reputation">{{ answer.name }}</a>
+                                            <span class="comment-separated">-</span>
+                                            <a href="#" class="comment-date">{{ answer.published_time }}</a>
+                                        </div>
+                                    </li>
+                                        {% endfor %}
+                                        {% else %}
+                                        <li>
+                                        <div class="comment-actions">
+                                            <span class="comment-score"></span>
+                                        </div>
+                                        <div class="comment-body">
+                                            <span class="comment-copy">No answer now</span>
+                                        </div>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                                <div class="comment-form">
+                                    <div class="comment-link-wrap text-center">
+                                        <a class="collapse-btn comment-link" data-toggle="collapse" href="#addCommentCollapse" role="button" aria-expanded="false" aria-controls="addCommentCollapse" title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments.">Add a answer</a>
+                                    </div>
+                                    <div class="collapse border-top border-top-gray mt-2 pt-3" id="addCommentCollapse">
+                                        <form method="post" class="row pb-3" action="">
+                                            {% csrf_token %}
+                                            <div class="col-lg-12">
+                                                <h4 class="fs-16 pb-2">Leave Answer</h4>
+                                                <div class="divider mb-2"><span></span></div>
+                                            </div><!-- end col-lg-12 -->
+                                            <div class="col-lg-12">
+                                                <div class="input-box">
+                                                    <label class="fs-13 text-black lh-20">Name</label>
+                                                    <div class="form-group">
+                                                        <input class="form-control form--control form-control-sm fs-13" type="text" name="name"  placeholder="Your name">
+                                                    </div>
+                                                </div>
+                                            </div><!-- end col-lg-6 -->
+                                            <div class="col-lg-12">
+                                                <div class="input-box">
+                                                    <label class="fs-13 text-black lh-20">Message</label>
+                                                    <div class="form-group">
+                                                        <textarea class="form-control form--control form-control-sm fs-13" name="message" rows="5" placeholder="Your comment here..."></textarea>
+                                                        <div class="d-flex flex-wrap align-items-center pt-2">
+                                                            <div class="badge bg-gray border border-gray mr-3 fw-regular fs-13">[named hyperlinks] (https://example.com)</div>
+                                                            <div class="mr-3 fw-bold fs-13">**bold**</div>
+                                                            <div class="mr-3 font-italic fs-13">_italic_</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end col-lg-12 -->
+                                            <div class="col-lg-12">
+                                                <div class="input-box d-flex flex-wrap align-items-center justify-content-between">
+                                                    <button class="btn theme-btn theme-btn-sm theme-btn-outline theme-btn-outline-gray" type="submit">Post Answer</button>
+                                                </div>
+                                            </div><!-- end col-lg-12 -->
+
+                                        </form>
+                                    </div><!-- end collapse -->
+                                </div>
+                            </div><!-- end comments-wrap -->
+                        </div><!-- end question-post-body-wrap -->
+                    </div><!-- end question -->
+                    <div class="subheader">
+                        <div class="subheader-title">
+                            <h3 class="fs-16">Answer above</h3>
+                        </div><!-- end subheader-title -->
+                    </div><!-- end subheader -->
+                </div><!-- end question-main-bar -->
+            </div><!-- end col-lg-9 -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <div class="card card-item">
+                        <div class="card-body">
+                            <h3 class="fs-17 pb-3">Related Questions</h3>
+                            <div class="divider"><span></span></div>
+                            <div class="sidebar-questions pt-3">
+                                {% for related_question in related_question %}
+                                    {% if not question == related_question  %}
+                                <div class="media media-card media--card media--card-2">
+                                    <div class="media-body">
+                                        <h5><a href="{% url 'question_detail' related_question.id %}">{{ related_question.title }}</a></h5>
+                                        <small class="meta">
+                                            <span class="pr-1">{{ related_question.publish_date }} ago</span>
+                                            <span class="pr-1">. by</span>
+                                            <a href="#" class="author">{{ related_question.owner.full_name }}</a>
+                                        </small>
+                                    </div>
+                                </div><!-- end media -->
+                                    {% endif %}
+                                {% endfor %}
+                            </div><!-- end sidebar-questions -->
+                        </div>
+                    </div><!-- end card -->
+                    <div class="card card-item">
+                        <div class="card-body">
+                            <h3 class="fs-17 pb-3">Trending Tags</h3>
+                            <div class="divider"><span></span></div>
+                            <div class="tags pt-4">
+                                {% for tag, tag_count in all_tag %}
+                                <div class="tag-item">
+                                    <a href="#" class="tag-link tag-link-md">{{ tag }}</a>
+                                    <span class="item-multiplier fs-13">
+                                    <span>×</span>
+                                    <span>{{ tag_count }}</span>
+                                </span>
+                                </div><!-- end tag-item -->
+                                {% endfor %}
+                                <div class="collapse" id="showMoreTags">
+                                    {% if all_tag_more %}
+                                        {% for tag, tag_count in all_tag_more %}
+                                    <div class="tag-item">
+                                        <a href="#" class="tag-link tag-link-md">{{ tag }}</a>
+                                        <span class="item-multiplier fs-13">
+                                    <span>×</span>
+                                    <span>{{ tag_count }}</span>
+                                </span>
+                                    </div><!-- end tag-item -->
+                                        {% endfor %}
+                                    {% endif %}
+                                </div><!-- end collapse -->
+                                <a class="collapse-btn fs-13" data-toggle="collapse" href="#showMoreTags" role="button" aria-expanded="false" aria-controls="showMoreTags">
+                                    <span class="collapse-btn-hide">Show more<i class="la la-angle-down ml-1 fs-11"></i></span>
+                                    <span class="collapse-btn-show">Show less<i class="la la-angle-up ml-1 fs-11"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div><!-- end card -->
+                </div><!-- end sidebar -->
+            </div><!-- end col-lg-3 -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section><!-- end question-area -->
+<!-- ================================
+         END QUESTION AREA
+================================= -->
+
+{% endblock %}

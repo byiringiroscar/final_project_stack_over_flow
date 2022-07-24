@@ -1,0 +1,378 @@
+{% extends 'base_white.html' %}
+
+{% load static %}
+
+{% block title %} profile {% endblock %}
+
+{% block content %}
+
+<!--======================================
+        START HERO AREA
+======================================-->
+<section class="hero-area bg-white shadow-sm overflow-hidden pt-60px">
+    <span class="stroke-shape stroke-shape-1"></span>
+    <span class="stroke-shape stroke-shape-2"></span>
+    <span class="stroke-shape stroke-shape-3"></span>
+    <span class="stroke-shape stroke-shape-4"></span>
+    <span class="stroke-shape stroke-shape-5"></span>
+    <span class="stroke-shape stroke-shape-6"></span>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="hero-content d-flex align-items-center">
+                    <div class="icon-element shadow-sm flex-shrink-0 mr-3 border border-gray lh-55">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 0 24 24" width="32px" fill="#2d86eb"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19.43 12.98c.04-.32.07-.64.07-.98 0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.09-.16-.26-.25-.44-.25-.06 0-.12.01-.17.03l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.06-.02-.12-.03-.18-.03-.17 0-.34.09-.43.25l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98 0 .33.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.09.16.26.25.44.25.06 0 .12-.01.17-.03l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.06.02.12.03.18.03.17 0 .34-.09.43-.25l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zm-1.98-1.71c.04.31.05.52.05.73 0 .21-.02.43-.05.73l-.14 1.13.89.7 1.08.84-.7 1.21-1.27-.51-1.04-.42-.9.68c-.43.32-.84.56-1.25.73l-1.06.43-.16 1.13-.2 1.35h-1.4l-.19-1.35-.16-1.13-1.06-.43c-.43-.18-.83-.41-1.23-.71l-.91-.7-1.06.43-1.27.51-.7-1.21 1.08-.84.89-.7-.14-1.13c-.03-.31-.05-.54-.05-.74s.02-.43.05-.73l.14-1.13-.89-.7-1.08-.84.7-1.21 1.27.51 1.04.42.9-.68c.43-.32.84-.56 1.25-.73l1.06-.43.16-1.13.2-1.35h1.39l.19 1.35.16 1.13 1.06.43c.43.18.83.41 1.23.71l.91.7 1.06-.43 1.27-.51.7 1.21-1.07.85-.89.7.14 1.13zM12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                    </div>
+                    <h2 class="section-title fs-30">Settings</h2>
+                </div><!-- end hero-content -->
+            </div><!-- end col-lg-8 -->
+            <div class="col-lg-4">
+                <div class="hero-btn-box text-right py-3">
+                    <a href="{% url 'view_profile' %}" class="btn theme-btn theme-btn-outline theme-btn-outline-gray"><i class="la la-user mr-1"></i>View Profile</a>
+                </div>
+            </div><!-- end col-lg-4 -->
+        </div><!-- end row -->
+        <ul class="nav nav-tabs generic-tabs generic--tabs generic--tabs-2 mt-4" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="edit-profile-tab" data-toggle="tab" href="#edit-profile" role="tab" aria-controls="edit-profile" aria-selected="true">Edit Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="edit-skills-tab" data-toggle="tab" href="#edit-skills" role="tab" aria-controls="edit-skills" aria-selected="true">Edit Skills</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="delete-account-tab" data-toggle="tab" href="#delete-account" role="tab" aria-controls="delete-account" aria-selected="false">Delete Account</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="two-authentication-tab" data-toggle="tab" href="#two-factor" role="tab" aria-controls="two-factor" aria-selected="false">Two factor authentication</a>
+            </li>
+        </ul>
+    </div><!-- end container -->
+</section>
+<!--======================================
+        END HERO AREA
+======================================-->
+
+<!-- ================================
+         START USER DETAILS AREA
+================================= -->
+<section class="user-details-area pt-40px pb-40px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="tab-content mb-50px" id="myTabContent">
+                    <div class="tab-pane fade show active" id="edit-profile" role="tabpanel" aria-labelledby="edit-profile-tab">
+                        <div class="user-panel-main-bar">
+                            <div class="user-panel">
+                                <div class="bg-gray p-3 rounded-rounded">
+                                    <h3 class="fs-17">Edit your profile</h3>
+                                </div>
+                                <form method="POST" action="{% url 'user_profile' %}" class="pt-35px" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="settings-item mb-10px">
+                                        <h4 class="fs-14 pb-2 text-gray text-uppercase">Public information</h4>
+                                        <div class="divider"><span></span></div>
+                                        <div class="row pt-4 align-items-center">
+                                            <div class="col-lg-6">
+                                                <div class="edit-profile-photo d-flex flex-wrap align-items-center">
+                                                    <img src="{{ user_profile.user_image.url }}" alt="user avatar" class="profile-img mr-4">
+                                                    <div>
+                                                        <div class="file-upload-wrap file--upload-wrap">
+                                                            <input type="file" name="user_image" class="multi file-upload-input" multiple>
+                                                            <span class="file-upload-text"><i class="la la-photo mr-2"></i>Upload Photo</span>
+                                                        </div>
+                                                        <p class="fs-14">Maximum file size: 10 MB.</p>
+                                                    </div>
+                                                </div><!-- end edit-profile-photo -->
+                                                {% for err in form.user_image.errors %}
+                                                <div class="alert alert-danger" role="alert">
+                                                  <strong>{{ err }}</strong>
+                                                </div>
+                                                {% endfor %}
+                                            </div><!-- end col-lg-6 -->
+                                            <div class="col-lg-6">
+                                                <div class="input-box">
+                                                    <label class="fs-13 text-black lh-20 fw-medium">Display name</label>
+                                                    <div class="form-group">
+                                                        <input class="form-control form--control" type="text" name="full_name" value="{{ user.get_full_name }}">
+                                                    </div>
+                                                    {% if messages %}
+                                                    {% for message in messages %}
+                                                        <div class="alert alert-danger" role="alert">
+                                                          {{ message }}
+                                                        </div>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                </div>
+                                                <div class="input-box">
+                                                    <label class="fs-13 text-black lh-20 fw-medium">Location</label>
+                                                    <div class="form-group">
+                                                        <input class="form-control form--control" type="text" name="location" value="{{ user_profile.location }}">
+                                                    </div>
+                                                    {% for err in form.location.errors %}
+                                                <div class="alert alert-danger" role="alert">
+                                                  <strong>{{ err }}</strong>
+                                                </div>
+                                                {% endfor %}
+                                                </div>
+                                            </div><!-- end col-lg-6 -->
+                                            <div class="col-lg-12">
+                                                <div class="input-box">
+                                                    <label class="fs-15 text-black lh-20 fw-medium">About me</label>
+                                                    <div class="form-group">
+                                                        <textarea class="form-control form--control user-text-editor" name="about_me" rows="10" cols="40">{{ user_profile.about_me }}</textarea>
+                                                    </div>
+                                                    {% for err in form.about_me.errors %}
+                                                    <div class="alert alert-danger" role="alert">
+                                                      <strong>{{ err }}</strong>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div><!-- end col-lg-12 -->
+                                        </div><!-- end row -->
+                                    </div><!-- end settings-item -->
+                                    <div class="settings-item">
+                                        <h4 class="fs-14 pb-2 text-gray text-uppercase">Web presence</h4>
+                                        <div class="divider"><span></span></div>
+                                        <div class="row pt-4">
+                                            <div class="col-lg-6">
+                                                <div class="input-box">
+                                                    <label class="fs-13 text-black lh-20 fw-medium">Website link</label>
+                                                    <div class="form-group">
+                                                        <input class="form-control form--control pl-40px" type="text" value="{{ user_profile.website_link }}" name="website_link">
+                                                        <span class="la la-link input-icon"></span>
+                                                    </div>
+                                                </div>
+                                                {% for err in form.website_link.errors %}
+                                                <div class="alert alert-danger" role="alert">
+                                                  <strong>{{ err }}</strong>
+                                                </div>
+                                                {% endfor %}
+                                            </div><!-- end col-lg-6 -->
+                                            <div class="col-lg-6">
+                                                <div class="input-box">
+                                                    <label class="fs-13 text-black lh-20 fw-medium">GitHub link</label>
+                                                    <div class="form-group">
+                                                        <input class="form-control form--control pl-40px" type="text" value="{{ user_profile.github_link }}" name="github_link">
+                                                        <span class="la la-github input-icon"></span>
+                                                    </div>
+                                                </div>
+                                                {% for err in form.github_link.errors %}
+                                                <div class="alert alert-danger" role="alert">
+                                                  <strong>{{ err }}</strong>
+                                                </div>
+                                                {% endfor %}
+                                            </div><!-- end col-lg-12 -->
+                                            <div class="col-lg-12">
+                                                <div class="submit-btn-box pt-3">
+                                                    <button class="btn theme-btn" type="submit">Save changes</button>
+                                                </div>
+                                            </div><!-- end col-lg-12 -->
+                                        </div><!-- end row -->
+                                    </div><!-- end settings-item -->
+                                </form>
+                            </div><!-- end user-panel -->
+                        </div><!-- end user-panel-main-bar -->
+                    </div><!-- end tab-pane -->
+                    <div class="tab-pane fade" id="edit-skills" role="tabpanel" aria-labelledby="edit-skills-tab">
+                        <div class="user-panel-main-bar">
+                            <div class="user-panel">
+                                <div class="bg-gray p-3 rounded-rounded">
+                                    <h3 class="fs-17">Rank your skills</h3>
+                                    <p class="fs-13">Rank your skills on percent</p>
+                                </div>
+                                <form method="post" action="{% url 'skills_update' %}" class="pt-20px">
+                                    {% csrf_token %}
+                                    <div class="settings-item">
+                                        <div class="input-box">
+                                            <label class="fs-13 text-black lh-20 fw-medium">Backend Development</label>
+                                            <div class="form-group">
+                                                <input class="form-control form--control" type="number" name="backend_development" placeholder="please number only" value="{{ user_profile.backend_development }}">
+                                            </div>
+                                            {% for err in form.backend_development.errors %}
+                                                <div class="alert alert-danger" role="alert">
+                                                  <strong>{{ err }}</strong>
+                                                </div>
+                                                {% endfor %}
+                                        </div>
+                                        <div class="input-box">
+                                            <label class="fs-13 text-black lh-20 fw-medium">Frontend Development</label>
+                                            <div class="form-group">
+                                                <input class="form-control form--control" type="number" name="frontend_development" placeholder="please number only" value="{{ user_profile.frontend_development }}">
+                                            </div>
+                                            {% for err in form.frontend_development.errors %}
+                                                <div class="alert alert-danger" role="alert">
+                                                  <strong>{{ err }}</strong>
+                                                </div>
+                                                {% endfor %}
+                                        </div>
+                                        <div class="input-box">
+                                            <label class="fs-13 text-black lh-20 fw-medium">Hardware</label>
+                                            <div class="form-group">
+                                                <input class="form-control form--control" type="number" name="hardware" placeholder="please number only" value="{{ user_profile.hardware }}">
+                                            </div>
+                                            {% for err in form.hardware.errors %}
+                                                <div class="alert alert-danger" role="alert">
+                                                  <strong>{{ err }}</strong>
+                                                </div>
+                                                {% endfor %}
+                                        </div>
+                                        <div class="input-box">
+                                            <label class="fs-13 text-black lh-20 fw-medium">UI/UX</label>
+                                            <div class="form-group">
+                                                <input class="form-control form--control" type="number" name="uiandux" placeholder="please number only" value="{{ user_profile.uiandux }}">
+                                            </div>
+                                            {% for err in form.uiandux.errors %}
+                                                <div class="alert alert-danger" role="alert">
+                                                  <strong>{{ err }}</strong>
+                                                </div>
+                                                {% endfor %}
+                                        </div>
+                                        <div class="input-box">
+                                            <label class="fs-13 text-black lh-20 fw-medium">Artificial Intelligence</label>
+                                            <div class="form-group">
+                                                <input class="form-control form--control" type="number" name="artificial_intelligence" placeholder="please number only" value="{{ user_profile.artificial_intelligence }}">
+                                            </div>
+                                            {% for err in form.artificial_intelligence.errors %}
+                                                <div class="alert alert-danger" role="alert">
+                                                  <strong>{{ err }}</strong>
+                                                </div>
+                                                {% endfor %}
+                                        </div>
+                                        <div class="submit-btn-box pt-3">
+                                            <button class="btn theme-btn" type="submit">Save changes</button>
+                                        </div>
+                                    </div><!-- end settings-item -->
+                                </form>
+                            </div><!-- end user-panel -->
+                        </div><!-- end user-panel-main-bar -->
+                    </div><!-- end tab-pane -->
+                    <div class="tab-pane fade" id="delete-account" role="tabpanel" aria-labelledby="delete-account-tab">
+                        <div class="user-panel-main-bar">
+                            <div class="user-panel">
+                                <div class="delete-account-info card card-item border border-danger">
+                                    <div class="card-body">
+                                        <h3 class="fs-22 text-danger fw-bold">Delete Account</h3>
+                                        <p class="pb-3 pt-2 lh-22 fs-15">Before confirming that you would like your profile deleted, we'd like to take a moment to explain the implications of deletion:</p>
+                                        <ul class="generic-list-item generic-list-item-bullet fs-15">
+                                            <li>Deletion is irreversible, and you will have no way to regain any of your original content, should this deletion be carried out and you change your mind later on.</li>
+                                            <li>Your questions and answers will remain on the site, but will be disassociated and anonymized .</li>
+                                        </ul>
+                                        <p class="pb-3 pt-2 lh-22 fs-15">Once you delete your account, there is no going back. Please be certain.</p>
+                                        <div class="custom-control custom-checkbox fs-15 mb-4">
+                                            <input type="checkbox" class="custom-control-input" id="delete-terms">
+                                            <label class="custom-control-label custom--control-label lh-22" for="delete-terms">I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.</label>
+                                        </div>
+                                        <button type="button" class="btn btn-danger fw-medium" data-toggle="modal" data-target="#deleteModal" id="delete-button" disabled><i class="la la-trash mr-1"></i> Delete your account</button>
+                                    </div>
+                                </div>
+                            </div><!-- end user-panel -->
+                        </div><!-- end user-panel-main-bar -->
+                    </div><!-- end tab-pane -->
+                    <div class="tab-pane fade" id="two-factor" role="tabpanel" aria-labelledby="two-authentication-tab">
+                        <div class="user-panel-main-bar">
+                            <div class="user-panel">
+                                <div class="delete-account-info card card-item border border-info">
+                                    <div class="card-body">
+                                        <h3 class="fs-22 text-info fw-bold">Two factor authentication</h3>
+                                        <p class="pb-3 pt-2 lh-22 fs-15">Multi-factor authentication is an electronic authentication method in which a user is granted access to a website or application only after successfully presenting two or more pieces of evidence to an authentication mechanism:</p>
+                                        <ul class="generic-list-item generic-list-item-bullet fs-15">
+                                            <li>The intention is to provide stronger protection against unauthorised access to user accounts..</li>
+                                            <li>you will be received the code on your phone and confirm before login .</li>
+                                        </ul>
+                                        <p class="pb-3 pt-2 lh-22 fs-15">Don't worry you will have to disable or enable it if you need it.</p>
+                                        <div class="custom-control custom-checkbox fs-15 mb-4">
+                                            <input type="checkbox" class="custom-control-input" id="approve-terms">
+                                            <label class="custom-control-label custom--control-label lh-22" for="approve-terms">I have read the information stated above, and I understand the reason two activate or dis-activate two-factor authentication.</label>
+                                        </div>
+                                        <button type="button" class="btn btn-info fw-medium" data-toggle="modal" data-target="" id="approve-button" disabled><i class="la la-angle-double-right mr-1"></i> Enable</button>
+                                    </div>
+                                </div>
+                            </div><!-- end user-panel -->
+                        </div><!-- end user-panel-main-bar -->
+                    </div><!-- end tab-pane -->
+                </div>
+            </div><!-- end col-lg-9 -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <div class="card card-item p-4">
+                        <div class="card-body">
+                            <h3 class="fs-17 pb-3">Number Achievement</h3>
+                            <div class="divider"><span></span></div>
+                            <div class="row no-gutters text-center">
+                                <div class="col-lg-6 responsive-column-half">
+                                    <div class="icon-box pt-3">
+                                        <span class="fs-20 fw-bold text-color">980k</span>
+                                        <p class="fs-14">Questions</p>
+                                    </div><!-- end icon-box -->
+                                </div><!-- end col-lg-6 -->
+                                <div class="col-lg-6 responsive-column-half">
+                                    <div class="icon-box pt-3">
+                                        <span class="fs-20 fw-bold text-color-2">610k</span>
+                                        <p class="fs-14">Answers</p>
+                                    </div><!-- end icon-box -->
+                                </div><!-- end col-lg-6 -->
+                                <div class="col-lg-6 responsive-column-half">
+                                    <div class="icon-box pt-3">
+                                        <span class="fs-20 fw-bold text-color-3">650k</span>
+                                        <p class="fs-14">Answer accepted</p>
+                                    </div><!-- end icon-box -->
+                                </div><!-- end col-lg-6 -->
+                                <div class="col-lg-6 responsive-column-half">
+                                    <div class="icon-box pt-3">
+                                        <span class="fs-20 fw-bold text-color-4">320k</span>
+                                        <p class="fs-14">Users</p>
+                                    </div><!-- end icon-box -->
+                                </div><!-- end col-lg-6 -->
+                            </div><!-- end row -->
+                        </div>
+                    </div><!-- end card -->
+                    <div class="card card-item p-4">
+                        <div class="card-body">
+                            <h3 class="fs-17 pb-3">Trending Questions</h3>
+                            <div class="divider"><span></span></div>
+                            <div class="sidebar-questions pt-3">
+                                <div class="media media-card media--card media--card-2">
+                                    <div class="media-body">
+                                        <h5><a href="question-details.html">Using web3 to call precompile contract</a></h5>
+                                        <small class="meta">
+                                            <span class="pr-1">2 mins ago</span>
+                                            <span class="pr-1">. by</span>
+                                            <a href="#" class="author">Sudhir Kumbhare</a>
+                                        </small>
+                                    </div>
+                                </div><!-- end media -->
+                                <div class="media media-card media--card media--card-2">
+                                    <div class="media-body">
+                                        <h5><a href="question-details.html">Is it true while finding Time Complexity of the algorithm [closed]</a></h5>
+                                        <small class="meta">
+                                            <span class="pr-1">48 mins ago</span>
+                                            <span class="pr-1">. by</span>
+                                            <a href="#" class="author">wimax</a>
+                                        </small>
+                                    </div>
+                                </div><!-- end media -->
+                                <div class="media media-card media--card media--card-2">
+                                    <div class="media-body">
+                                        <h5><a href="question-details.html">image picker and store them into firebase with flutter</a></h5>
+                                        <small class="meta">
+                                            <span class="pr-1">1 hour ago</span>
+                                            <span class="pr-1">. by</span>
+                                            <a href="#" class="author">Antonin gavrel</a>
+                                        </small>
+                                    </div>
+                                </div><!-- end media -->
+                            </div><!-- end sidebar-questions -->
+                        </div>
+                    </div><!-- end card -->
+                </div><!-- end sidebar -->
+            </div><!-- end col-lg-3 -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section><!-- end user-details-area -->
+<!-- ================================
+         END USER DETAILS AREA
+================================= -->
+
+    <script src="{% static 'home/js/button_disable.js' %}"></script>
+
+{% endblock %}

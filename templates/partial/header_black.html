@@ -1,0 +1,128 @@
+{% load static %}
+
+<header class="header-area bg-dark">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-2">
+                <div class="logo-box">
+                    <a href="{% url 'home' %}" class="logo"><img src="{% static 'home/images/logo-white.png' %}" alt="logo"></a>
+                    <div class="user-action">
+                        <div class="search-menu-toggle icon-element icon-element-xs shadow-sm mr-1" data-toggle="tooltip" data-placement="top" title="Search">
+                            <i class="la la-search"></i>
+                        </div>
+                        <div class="off-canvas-menu-toggle icon-element icon-element-xs shadow-sm" data-toggle="tooltip" data-placement="top" title="Main menu">
+                            <i class="la la-bars"></i>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end col-lg-2 -->
+            <div class="col-lg-10">
+                <div class="menu-wrapper">
+                    <nav class="menu-bar mr-auto menu-bar-white">
+                        <ul>
+                            <li>
+                                <a href="{% url 'home' %}">Home <i class="la la-angle-down fs-11"></i></a>
+                            </li>
+                            <li class="is-mega-menu">
+                                <a href="{% url 'question' %}">Question <i class="la la-angle-down fs-11"></i></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'ask_question' %}">Ask Question <i class="la la-angle-down fs-11"></i></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'job_list' %}">Job <i class="la la-angle-down fs-11"></i></a>
+                            </li>
+                            {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'user_home' %}">Main <i class="la la-angle-down fs-11"></i></a>
+                            </li>
+                            {% endif %}
+
+                        </ul><!-- end ul -->
+                    </nav><!-- end main-menu -->
+                    <form method="post" class="mr-4">
+                        <div class="form-group mb-0">
+                            <input class="form-control form--control form--control-bg-gray text-white" type="text" name="search" placeholder="Search your question ...">
+                            <button class="form-btn text-white-50" type="button"><i class="la la-search"></i></button>
+                        </div>
+                    </form>
+                    {% if user.is_authenticated %}
+                    <div class="nav-right-button">
+                        <ul class="user-action-wrap d-flex align-items-center">
+                            <li class="dropdown">
+                                <span class="ball red ball-lg noti-dot"></span>
+                                <a class="nav-link dropdown-toggle dropdown--toggle" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="la la-bell"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown--menu dropdown-menu-right mt-3 keep-open" aria-labelledby="notificationDropdown">
+                                    <h6 class="dropdown-header"><i class="la la-bell pr-1 fs-16"></i>Notifications</h6>
+                                    <div class="dropdown-divider border-top-gray mb-0"></div>
+                                    <div class="dropdown-item-list">
+                                        <a class="dropdown-item" href="notifications.html">
+                                            <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
+                                                <div class="media-img media-img-sm flex-shrink-0">
+                                                    <img src="{% static 'home/images/img3.jpg' %}" alt="avatar">
+                                                </div>
+                                                <div class="media-body p-0 border-left-0">
+                                                    <h5 class="fs-14 fw-regular">John Doe following your post</h5>
+                                                    <small class="meta d-block lh-24">
+                                                        <span>45 secs ago</span>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a class="dropdown-item" href="notifications.html">
+                                            <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
+                                                <div class="media-img media-img-sm flex-shrink-0">
+                                                    <img src="{% static 'home/images/img4.jpg' %}" alt="avatar">
+                                                </div>
+                                                <div class="media-body p-0 border-left-0">
+                                                    <h5 class="fs-14 fw-regular">Arnold Smith answered on your post</h5>
+                                                    <small class="meta d-block lh-24">
+                                                        <span>5 mins ago</span>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <a class="dropdown-item pb-1 border-bottom-0 text-center btn-text fw-regular" href="notifications.html">View All Notifications <i class="la la-arrow-right icon ml-1"></i></a>
+                                </div>
+                            </li>
+                            <li class="dropdown user-dropdown">
+                                <a class="nav-link dropdown-toggle dropdown--toggle pl-2" href="#" id="userMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
+                                        <div class="media-img media-img-xs flex-shrink-0 rounded-full mr-2">
+                                            <img src="{{ profile.user_image.url }}" alt="avatar" class="rounded-full">
+                                        </div>
+                                        <div class="media-body p-0 border-left-0">
+                                            <h5 class="fs-14 text-white">{{ user.full_name }}</h5>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu dropdown--menu dropdown-menu-right mt-3 keep-open" aria-labelledby="userMenuDropdown">
+                                    <h6 class="dropdown-header">Hi, {{ user.full_name }}</h6>
+                                    <div class="dropdown-divider border-top-gray mb-0"></div>
+                                    <div class="dropdown-item-list">
+                                        <a class="dropdown-item" href="{% url 'user_profile' %}"><i class="la la-user mr-2"></i>Profile</a>
+                                        <a class="dropdown-item" href="{% url 'notifications' %}"><i class="la la-bell mr-2"></i>Notifications</a>
+                                        <a class="dropdown-item" href="{% url 'logout' %}"><i class="la la-power-off mr-2"></i>Log out</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div><!-- end nav-right-button -->
+                        {% else %}
+                        <div class="nav-right-button">
+                        <a href="{% url 'login' %}" class="btn theme-btn theme-btn-outline theme-btn-outline-white mr-2" data-target="{% url 'login' %}"><i class="la la-sign-in mr-1"></i> Login</a>
+                        <a href="{% url 'register' %}" class="btn theme-btn theme-btn-white" data-target="{% url 'login' %}"><i class="la la-user mr-1"></i> Sign up</a>
+
+                    </div><!-- end nav-right-button -->
+                    {% endif %}
+
+
+                </div><!-- end menu-wrapper -->
+            </div><!-- end col-lg-10 -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+    <div class="body-overlay"></div>
+</header><!-- end header-area -->

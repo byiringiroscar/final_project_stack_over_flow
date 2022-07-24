@@ -1,0 +1,35 @@
+{% extends 'base_white.html' %}
+
+{% load static %}
+
+{% block title %} link sent {% endblock %}
+
+{% block content %}
+
+
+    <!-- ================================
+         START ERROR AREA
+================================= -->
+<section class="error-area section-padding position-relative">
+    <span class="icon-shape icon-shape-1"></span>
+    <span class="icon-shape icon-shape-2"></span>
+    <span class="icon-shape icon-shape-3"></span>
+    <span class="icon-shape icon-shape-4"></span>
+    <span class="icon-shape icon-shape-5"></span>
+    <span class="icon-shape icon-shape-6"></span>
+    <span class="icon-shape icon-shape-7"></span>
+    <div class="container">
+        <div class="text-center">
+            <img src="{% static 'home/images/error-img.png' %}" alt="error-image" class="img-fluid mb-40px">
+            {% include 'partial/_messages.html' %}
+            <h2 class="section-title pb-3">Confirm your email please!</h2>
+            <p class="section-desc pb-4">Link sent to email please confirm your email.</p>
+            <a class="btn theme-btn" href="{% url 'home' %}"> Go to homepage </a>
+        </div>
+    </div><!-- end container -->
+</section>
+<!-- ================================
+         END ERROR AREA
+================================= -->
+
+{% endblock %}
