@@ -358,289 +358,68 @@
                         </button>
                     </div><!-- end filter-btn-group -->
                     <div class="d-flex flex-wrap align-items-center justify-content-between">
-                        <p class="fs-14 fw-medium">682 jobs founded</p>
-                        <div class="d-flex align-items-center lh-1">
-                            <label for="sort" class="mb-0 mr-2 fs-13">Sort by:</label>
-                            <select id="sort" class="custom-select w-100px">
-                                <option value="i" selected="">Matches</option>
-                                <option value="p">Newest</option>
-                                <option value="y">Salary</option>
-                            </select>
-                        </div>
+                        <p class="fs-14 fw-medium">{{ job_count }} jobs founded</p>
                     </div>
                 </form>
                 <div class="row mt-4">
-                    <div class="col-lg-9">
+                    <div class="col-lg-12">
                         <div class="jobs-snippet">
+                            {% for job in posts %}
                             <div class="media media-card media--card align-items-center">
                                 <div class="media-body border-left-0">
-                                    <h5 class="pb-1"><a href="career-details.html">React Native Engineer at sustainable mobility Start-up (m/f/x)</a></h5>
+                                    <h5 class="pb-1"><a href="{% url 'job_detail' job.id %}">{{ job.title_developer }}</a></h5>
                                     <small class="meta d-block lh-20 pb-1">
-                                        <span class="author text-gray">Canva</span>
+                                        <span class="author text-gray">{{ job.job_owner.full_name }}</span>
                                         <span class="px-1">-</span>
-                                        <span> Amsterdam, Netherlands</span>
+                                        <span> {{ job.country_location }}</span>
                                         <span class="px-1">-</span>
-                                        <span>20 mins ago</span>
+                                        <span>{{ job.published_date }}</span>
                                         <span class="px-1">-</span>
-                                        <span class="text-success fw-medium">High response rate</span>
+                                        <span class="fw-bold text-color-2">{{ job.experience }}-Experience</span>
                                     </small>
                                     <small class="meta d-block lh-20">
-                                        <span class="pr-1 text-success fw-medium">£30k - 50k</span>
-                                        <span class="pr-1 text-success">| Equity</span>
-                                        <span class="pr-1 text-danger">Visa sponsor</span>
-                                        <span class="text-info">Paid relocation</span>
+                                        <span class="pr-1 text-success fw-medium">£{{ job.amount_range_start }} - {{ job.amount_range_end }}</span>
+                                        <span class="fw-bold text-color">| {{ job.job_type }}</span>
+                                        {% if job.enable_remote == True %}
+                                        <span class="fw-bold text-color-4">Remote On</span>
+                                            {% else %}
+                                            <span class="fw-bold text-color-4">Relocation</span>
+                                        {% endif %}
                                     </small>
                                     <div class="tags pt-2">
-                                        <a href="#" class="tag-link">javascript</a>
-                                        <a href="#" class="tag-link">react-native</a>
-                                        <a href="#" class="tag-link">typescript</a>
-                                        <a href="#" class="tag-link">node.js</a>
+                                        {% for tag in job.tags_as_list %}
+                                        <a href="#" class="tag-link">{{ tag }}</a>
+                                            {% endfor %}
                                     </div>
                                 </div>
                             </div><!-- end media -->
-                            <div class="media media-card media--card align-items-center">
-                                <div class="media-body border-left-0">
-                                    <h5 class="pb-1"><a href="career-details.html">Senior Software Engineer - Core Platforms &amp; Libraries (Java)</a></h5>
-                                    <small class="meta d-block lh-20 pb-1">
-                                        <span class="author text-gray">Canva</span>
-                                        <span class="px-1">-</span>
-                                        <span> Amsterdam, Netherlands</span>
-                                        <span class="px-1">-</span>
-                                        <span>20 mins ago</span>
-                                    </small>
-                                    <small class="meta d-block lh-20">
-                                        <span class="pr-1 text-success fw-medium">£30k - 50k</span>
-                                        <span class="pr-1 text-success">| Equity</span>
-                                        <span class="pr-1 text-danger">Visa sponsor</span>
-                                        <span class="text-info">Paid relocation</span>
-                                    </small>
-                                    <div class="tags pt-2">
-                                        <a href="#" class="tag-link">javascript</a>
-                                        <a href="#" class="tag-link">react-native</a>
-                                        <a href="#" class="tag-link">typescript</a>
-                                        <a href="#" class="tag-link">node.js</a>
-                                    </div>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card align-items-center">
-                                <div class="media-body border-left-0">
-                                    <h5 class="pb-1"><a href="career-details.html">React Native Engineer at sustainable mobility Start-up (m/f/x)</a></h5>
-                                    <small class="meta d-block lh-20 pb-1">
-                                        <span class="author text-gray">Canva</span>
-                                        <span class="px-1">-</span>
-                                        <span> Amsterdam, Netherlands</span>
-                                        <span class="px-1">-</span>
-                                        <span>20 mins ago</span>
-                                        <span class="px-1">-</span>
-                                        <span class="text-success fw-medium">High response rate</span>
-                                    </small>
-                                    <small class="meta d-block lh-20">
-                                        <span class="pr-1 text-success fw-medium">£30k - 50k</span>
-                                        <span class="pr-1 text-success">| Equity</span>
-                                        <span class="pr-1 text-danger">Visa sponsor</span>
-                                        <span class="text-info">Paid relocation</span>
-                                    </small>
-                                    <div class="tags pt-2">
-                                        <a href="#" class="tag-link">javascript</a>
-                                        <a href="#" class="tag-link">react-native</a>
-                                        <a href="#" class="tag-link">typescript</a>
-                                        <a href="#" class="tag-link">node.js</a>
-                                    </div>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card align-items-center">
-                                <div class="media-body border-left-0">
-                                    <h5 class="pb-1"><a href="career-details.html">Senior Software Engineer - Core Platforms &amp; Libraries (Java)</a></h5>
-                                    <small class="meta d-block lh-20 pb-1">
-                                        <span class="author text-gray">Canva</span>
-                                        <span class="px-1">-</span>
-                                        <span> Amsterdam, Netherlands</span>
-                                        <span class="px-1">-</span>
-                                        <span>20 mins ago</span>
-                                    </small>
-                                    <small class="meta d-block lh-20">
-                                        <span class="pr-1 text-success fw-medium">£30k - 50k</span>
-                                        <span class="pr-1 text-success">| Equity</span>
-                                        <span class="pr-1 text-danger">Visa sponsor</span>
-                                        <span class="text-info">Paid relocation</span>
-                                    </small>
-                                    <div class="tags pt-2">
-                                        <a href="#" class="tag-link">javascript</a>
-                                        <a href="#" class="tag-link">react-native</a>
-                                        <a href="#" class="tag-link">typescript</a>
-                                        <a href="#" class="tag-link">node.js</a>
-                                    </div>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card align-items-center">
-                                <div class="media-body border-left-0">
-                                    <h5 class="pb-1"><a href="career-details.html">React Native Engineer at sustainable mobility Start-up (m/f/x)</a></h5>
-                                    <small class="meta d-block lh-20 pb-1">
-                                        <span class="author text-gray">Canva</span>
-                                        <span class="px-1">-</span>
-                                        <span> Amsterdam, Netherlands</span>
-                                        <span class="px-1">-</span>
-                                        <span>20 mins ago</span>
-                                        <span class="px-1">-</span>
-                                        <span class="text-success fw-medium">High response rate</span>
-                                    </small>
-                                    <small class="meta d-block lh-20">
-                                        <span class="pr-1 text-success fw-medium">£30k - 50k</span>
-                                        <span class="pr-1 text-success">| Equity</span>
-                                        <span class="pr-1 text-danger">Visa sponsor</span>
-                                        <span class="text-info">Paid relocation</span>
-                                    </small>
-                                    <div class="tags pt-2">
-                                        <a href="#" class="tag-link">javascript</a>
-                                        <a href="#" class="tag-link">react-native</a>
-                                        <a href="#" class="tag-link">typescript</a>
-                                        <a href="#" class="tag-link">node.js</a>
-                                    </div>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card align-items-center">
-                                <div class="media-body border-left-0">
-                                    <h5 class="pb-1"><a href="career-details.html">Senior Software Engineer - Core Platforms &amp; Libraries (Java)</a></h5>
-                                    <small class="meta d-block lh-20 pb-1">
-                                        <span class="author text-gray">Canva</span>
-                                        <span class="px-1">-</span>
-                                        <span> Amsterdam, Netherlands</span>
-                                        <span class="px-1">-</span>
-                                        <span>20 mins ago</span>
-                                    </small>
-                                    <small class="meta d-block lh-20">
-                                        <span class="pr-1 text-success fw-medium">£30k - 50k</span>
-                                        <span class="pr-1 text-success">| Equity</span>
-                                        <span class="pr-1 text-danger">Visa sponsor</span>
-                                        <span class="text-info">Paid relocation</span>
-                                    </small>
-                                    <div class="tags pt-2">
-                                        <a href="#" class="tag-link">javascript</a>
-                                        <a href="#" class="tag-link">react-native</a>
-                                        <a href="#" class="tag-link">typescript</a>
-                                        <a href="#" class="tag-link">node.js</a>
-                                    </div>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card align-items-center">
-                                <div class="media-body border-left-0">
-                                    <h5 class="pb-1"><a href="career-details.html">React Native Engineer at sustainable mobility Start-up (m/f/x)</a></h5>
-                                    <small class="meta d-block lh-20 pb-1">
-                                        <span class="author text-gray">Canva</span>
-                                        <span class="px-1">-</span>
-                                        <span> Amsterdam, Netherlands</span>
-                                        <span class="px-1">-</span>
-                                        <span>20 mins ago</span>
-                                        <span class="px-1">-</span>
-                                        <span class="text-success fw-medium">High response rate</span>
-                                    </small>
-                                    <small class="meta d-block lh-20">
-                                        <span class="pr-1 text-success fw-medium">£30k - 50k</span>
-                                        <span class="pr-1 text-success">| Equity</span>
-                                        <span class="pr-1 text-danger">Visa sponsor</span>
-                                        <span class="text-info">Paid relocation</span>
-                                    </small>
-                                    <div class="tags pt-2">
-                                        <a href="#" class="tag-link">javascript</a>
-                                        <a href="#" class="tag-link">react-native</a>
-                                        <a href="#" class="tag-link">typescript</a>
-                                        <a href="#" class="tag-link">node.js</a>
-                                    </div>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card align-items-center">
-                                <div class="media-body border-left-0">
-                                    <h5 class="pb-1"><a href="career-details.html">Senior Software Engineer - Core Platforms &amp; Libraries (Java)</a></h5>
-                                    <small class="meta d-block lh-20 pb-1">
-                                        <span class="author text-gray">Canva</span>
-                                        <span class="px-1">-</span>
-                                        <span> Amsterdam, Netherlands</span>
-                                        <span class="px-1">-</span>
-                                        <span>20 mins ago</span>
-                                    </small>
-                                    <small class="meta d-block lh-20">
-                                        <span class="pr-1 text-success fw-medium">£30k - 50k</span>
-                                        <span class="pr-1 text-success">| Equity</span>
-                                        <span class="pr-1 text-danger">Visa sponsor</span>
-                                        <span class="text-info">Paid relocation</span>
-                                    </small>
-                                    <div class="tags pt-2">
-                                        <a href="#" class="tag-link">javascript</a>
-                                        <a href="#" class="tag-link">react-native</a>
-                                        <a href="#" class="tag-link">typescript</a>
-                                        <a href="#" class="tag-link">node.js</a>
-                                    </div>
-                                </div>
-                            </div><!-- end media -->
+                            {% endfor %}
                         </div>
                         <div class="pager pt-4">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination generic-pagination pr-1">
+                                    {% if posts.has_previous %}
                                     <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
+                                        <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
                                             <span aria-hidden="true"><i class="la la-arrow-left"></i></span>
                                             <span class="sr-only">Previous</span>
                                         </a>
                                     </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                    {% endif %}
+                                    <li class="page-item"><a class="page-link" href="#">{{ posts.number }}</a></li>
+                                    {% if posts.has_next %}
                                     <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
+                                        <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next">
                                             <span aria-hidden="true"><i class="la la-arrow-right"></i></span>
                                             <span class="sr-only">Next</span>
                                         </a>
                                     </li>
+                                    {% endif %}
                                 </ul>
                             </nav>
+                        <p class="fs-13 pt-2">Showing {{posts.number}}-{{ posts.paginator.num_pages }} results of {{ posts.paginator.count }} job</p>
                         </div><!-- end pager -->
                     </div><!-- end col-lg-9 -->
-                    <div class="col-lg-3">
-                        <div class="sidebar">
-                            <div class="card card-item">
-                                <div class="card-body">
-                                    <h3 class="fs-17 pb-3">Number Achievement</h3>
-                                    <div class="divider"><span></span></div>
-                                    <div class="row no-gutters text-center">
-                                        <div class="col-lg-6 responsive-column-half">
-                                            <div class="icon-box pt-3">
-                                                <span class="fs-20 fw-bold text-color">980k</span>
-                                                <p class="fs-14">Questions</p>
-                                            </div><!-- end icon-box -->
-                                        </div><!-- end col-lg-6 -->
-                                        <div class="col-lg-6 responsive-column-half">
-                                            <div class="icon-box pt-3">
-                                                <span class="fs-20 fw-bold text-color-2">610k</span>
-                                                <p class="fs-14">Answers</p>
-                                            </div><!-- end icon-box -->
-                                        </div><!-- end col-lg-6 -->
-                                        <div class="col-lg-6 responsive-column-half">
-                                            <div class="icon-box pt-3">
-                                                <span class="fs-20 fw-bold text-color-3">650k</span>
-                                                <p class="fs-14">Answer accepted</p>
-                                            </div><!-- end icon-box -->
-                                        </div><!-- end col-lg-6 -->
-                                        <div class="col-lg-6 responsive-column-half">
-                                            <div class="icon-box pt-3">
-                                                <span class="fs-20 fw-bold text-color-4">320k</span>
-                                                <p class="fs-14">Users</p>
-                                            </div><!-- end icon-box -->
-                                        </div><!-- end col-lg-6 -->
-                                        <div class="col-lg-12 pt-3">
-                                            <p class="fs-14">To get answer of question <a href="signup.html" class="text-color hover-underline">Join<i class="la la-arrow-right ml-1"></i></a></p>
-                                        </div>
-                                    </div><!-- end row -->
-                                </div>
-                            </div><!-- end card -->
-                            <div class="ad-card">
-                                <h4 class="text-gray text-uppercase fs-13 pb-3 text-center">Advertisements</h4>
-                                <div class="ad-banner mb-4 mx-auto">
-                                    <span class="ad-text">290x500</span>
-                                </div>
-                            </div><!-- end ad-card -->
-                        </div>
-                    </div><!-- end col-lg-3 -->
                 </div><!-- end row -->
             </div><!-- end tab-pane -->
             <div class="tab-pane fade" id="companies" role="tabpanel" aria-labelledby="companies-tab">

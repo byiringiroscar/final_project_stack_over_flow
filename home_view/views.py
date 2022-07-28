@@ -7,6 +7,10 @@ from questions.forms import QuestionsForm, AnswerForm
 from questions.models import Questions_stuff, Answer_stuff
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
+from questions.models import Job_work
+from django.utils import timezone
+
+now = timezone.now()
 
 
 # Create your views here.
@@ -19,7 +23,7 @@ def question(request):
     all_questions = Questions_stuff.objects.filter().order_by('-publish_date')
     all_answer = Answer_stuff.objects.all()
     profile_detail = Profile.objects.all()
-    paginator = Paginator(all_questions, 5)
+    paginator = Paginator(all_questions, 8)
     page_number = request.GET.get('page')
     try:
         posts = paginator.page(page_number)
@@ -105,7 +109,28 @@ def ask_question(request):
 
 
 def job_list(request):
-    return render(request, 'job_list.html')
+    all_job = Job_work.objects.filter(expire_date__gte=now.date()).order_by('-published_date')
+    paginator = Paginator(all_job, 8)
+    page_number = request.GET.get('page')
+    try:
+        posts = paginator.page(page_number)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    context = {
+        'posts': posts,
+        'job_count': all_job.count()
+    }
+    return render(request, 'job_list.html', context)
+
+
+def job_detail(request, id):
+    job_speci = get_object_or_404(Job_work, id=id)
+    context = {
+        'job': job_speci
+    }
+    return render(request, 'job_detail.html', context)
 
 
 @login_required(login_url='login')

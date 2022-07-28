@@ -1,0 +1,183 @@
+{% extends 'base_white.html' %}
+
+{% load static %}
+
+{% block title %} Job deteail {% endblock %}
+
+
+{% block content %}
+
+
+<!--======================================
+        START HERO AREA
+======================================-->
+<section class="hero-area bg-white shadow-sm overflow-hidden pt-20px pb-50px">
+    <span class="stroke-shape stroke-shape-1"></span>
+    <span class="stroke-shape stroke-shape-2"></span>
+    <span class="stroke-shape stroke-shape-3"></span>
+    <span class="stroke-shape stroke-shape-4"></span>
+    <span class="stroke-shape stroke-shape-5"></span>
+    <span class="stroke-shape stroke-shape-6"></span>
+    <div class="container">
+        <div class="hero-content d-flex flex-wrap align-items-center justify-content-between">
+            <div class="pt-5 pb-3">
+                <ul class="breadcrumb-list pb-2">
+                    <li><a href="{% url 'user_home' %}">Home</a><span><svg xmlns="http://www.w3.org/2000/svg" height="19px" viewBox="0 0 24 24" width="19px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg></span></li>
+                    <li><a href="{% url 'job_list' %}">Jobs</a><span><svg xmlns="http://www.w3.org/2000/svg" height="19px" viewBox="0 0 24 24" width="19px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg></span></li>
+                    <li>{{ job.title_developer }}</li>
+                </ul>
+                <h2 class="section-title pb-2">{{ job.title_developer }}</h2>
+                <p class="section-desc">{{ job.country_location }}, {% if job.enable_remote == True %}Remote{% else %}Relocation{% endif %}</p>
+            </div>
+            <div class="hero-btn-box">
+                <a href="#job-apply" class="btn theme-btn theme-btn-sm page-scroll">Apply for this job</a>
+            </div>
+        </div><!-- end hero-content -->
+    </div><!-- end container -->
+</section><!-- end hero-area -->
+<!--======================================
+        END HERO AREA
+======================================-->
+
+<!-- ================================
+         START JOBS AREA
+================================= -->
+<section class="jobs-area pt-70px pb-40px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="job-details-panel-main-bar">
+                    <div class="job-details-panel mb-30px">
+                        <h3 class="fs-20 pb-3 fw-bold">Job Description</h3>
+                        <p class="pb-3">{{ job.job_description }}</p>
+                    </div><!-- end job-details-panel -->
+                    <div class="job-details-panel mb-30px">
+                        <h3 class="fs-20 pb-3 fw-bold">Requirements</h3>
+                        <ul class="generic-list-item generic-list-item-bullet">
+                            {% for tag in job.tags_as_list %}
+                            <li>Knowledge in {{ tag }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div><!-- end job-details-panel -->
+                    <div class="job-details-panel mb-30px">
+                        <h3 class="fs-20 pb-3 fw-bold">Task</h3>
+                        <p class="pb-3">{{ job.title_task }}</p>
+                    </div><!-- end job-details-panel -->
+                    <hr class="border-top-gray">
+                    <div class="job-details-panel mt-30px mb-30px" id="job-apply">
+                        <h3 class="fs-20 pb-4 fw-bold">Apply to this role</h3>
+                        <form action="#" class="career-form">
+                            <div class="mb-40px">
+                                <h5 class="fs-14 text-uppercase mb-3 text-gray">1. Personal Details</h5>
+                                <div class="form-group">
+                                    <label class="fs-14 text-black fw-medium">Full Name</label>
+                                    <input type="text" class="form-control form--control fs-14" placeholder="Your name">
+                                </div><!-- end form-group -->
+                                <div class="form-group">
+                                    <label class="fs-14 text-black fw-medium">Email</label>
+                                    <input type="email" class="form-control form--control fs-14" placeholder="Your email">
+                                </div><!-- end form-group -->
+                                <div class="form-group">
+                                    <label class="fs-14 text-black fw-medium">Phone Number</label>
+                                    <input type="tel" class="form-control form--control fs-14" id="phone" placeholder="+25078222 .....">
+                                </div><!-- end form-group -->
+                                <div class="form-group">
+                                    <label class="fs-14 text-black fw-medium">Place of residence</label>
+                                    <input type="text" class="form-control form--control fs-14" placeholder="Your address">
+                                </div><!-- end form-group -->
+                                <div class="form-group">
+                                    <label class="fs-14 text-black fw-medium">Current Company</label>
+                                    <input type="text" class="form-control form--control fs-14" placeholder="Your current company">
+                                </div><!-- end form-group -->
+                                <div class="form-group">
+                                    <label class="fs-14 text-black fw-medium">Resume</label>
+                                    <div class="file-upload-wrap file-upload-layout-2">
+                                        <input type="file" name="files[]" class="cv-input file-upload-input" multiple>
+                                        <span class="file-upload-text d-flex align-items-center justify-content-center"><i class="la la-cloud-upload mr-2 fs-24"></i>Drop files here or click to upload.</span>
+                                    </div>
+                                    <p class="fs-14">.pdf, .doc, .docx, .rtf, .html, .odf, .zip files accepted</p>
+                                </div><!-- end form-group -->
+                            </div>
+                            <div class="mb-40px">
+                                <h5 class="fs-14 text-uppercase mb-3 text-gray">2. links</h5>
+                                <div class="form-group">
+                                    <label class="fs-14 text-black fw-medium">LinkedIn URL</label>
+                                    <input type="text" class="form-control form--control fs-14" placeholder="LinkedIn URL">
+                                </div><!-- end form-group -->
+                            </div>
+                            <div class="mb-40px">
+                                <h5 class="fs-14 text-uppercase mb-3 text-gray">3. additional information</h5>
+                                <div class="form-group">
+                                    <label class="fs-14 text-black fw-medium">Let me know more about your interest and biography</label>
+                                    <textarea class="form-control form--control fs-14" rows="5"></textarea>
+                                </div><!-- end form-group -->
+                                <button class="btn theme-btn mt-2" type="submit">Submit Application</button>
+                            </div>
+                        </form>
+                    </div><!-- end job-details-panel -->
+                </div><!-- end job-details-panel-main-bar -->
+            </div><!-- end col-lg-8 -->
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <div class="card card-item p-4">
+                        <h3 class="fs-17 pb-3">Other Related jobs</h3>
+                        <div class="divider"><span></span></div>
+                        <div class="sidebar-items-list pt-3">
+                            <div class="media media-card media--card media--card-2">
+                                <div class="media-body">
+                                    <h5><a href="career-details.html">Junior Product Researcher</a></h5>
+                                    <small class="meta d-block lh-20">
+                                        <span class="pr-1">Remote</span>
+                                        <span class="pr-1">.</span>
+                                        <span>2 days ago</span>
+                                    </small>
+                                    <a href="career-details.html" class="btn-text hover-underline fs-12">Apply Now</a>
+                                </div>
+                            </div><!-- end media -->
+                            <div class="media media-card media--card media--card-2">
+                                <div class="media-body">
+                                    <h5><a href="career-details.html">Salesforce Developer</a></h5>
+                                    <small class="meta d-block lh-20">
+                                        <span class="pr-1">Remote</span>
+                                        <span class="pr-1">.</span>
+                                        <span>22 days ago</span>
+                                    </small>
+                                    <a href="career-details.html" class="btn-text hover-underline fs-12">Apply Now</a>
+                                </div>
+                            </div><!-- end media -->
+                            <div class="media media-card media--card media--card-2">
+                                <div class="media-body">
+                                    <h5><a href="career-details.html">Senior Software Engineer</a></h5>
+                                    <small class="meta d-block lh-20">
+                                        <span class="pr-1">Remote</span>
+                                        <span class="pr-1">.</span>
+                                        <span>12 days ago</span>
+                                    </small>
+                                    <a href="career-details.html" class="btn-text hover-underline fs-12">Apply Now</a>
+                                </div>
+                            </div><!-- end media -->
+                            <div class="media media-card media--card media--card-2">
+                                <div class="media-body">
+                                    <h5><a href="career-details.html">Sr. Full Stack Engineer</a></h5>
+                                    <small class="meta d-block lh-20">
+                                        <span class="pr-1">Remote</span>
+                                        <span class="pr-1">.</span>
+                                        <span>18 days ago</span>
+                                    </small>
+                                    <a href="career-details.html" class="btn-text hover-underline fs-12">Apply Now</a>
+                                </div>
+                            </div><!-- end media -->
+                            <a href="#" class="btn-text hover-underline">Show all jobs <i class="la la-arrow-right icon ml-1"></i></a>
+                        </div><!-- end sidebar-items-list -->
+                    </div><!-- end card -->
+                </div><!-- end sidebar -->
+            </div><!-- end col-lg-4 -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section><!-- end jobs-area -->
+<!-- ================================
+         END JOBS AREA
+================================= -->
+
+
+{% endblock %}

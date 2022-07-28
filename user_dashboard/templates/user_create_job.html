@@ -12,131 +12,199 @@
 			<div class="container-fluid">
 				<div class="d-flex align-items-center mb-4">
 					<h4 class="fs-20 font-w600 mb-0 me-auto">New Job</h4>
-					<div>
-						<a href="javascript:void(0);" class="btn btn-secondary btn-sm me-3"> <i class="fas fa-envelope"></i></a>
-						<a href="javascript:void(0);" class="btn btn-secondary btn-sm me-3"><i class="fas fa-phone-alt"></i></a>
-						<a href="javascript:void(0);" class="btn btn-primary btn-sm"><i class="fas fa-info"></i></a>
-
-					</div>
 				</div>
 				<div class="row">
 					<div class="col-xl-12">
+                    <form method="post" action="">
+                        {% csrf_token %}
 						<div class="card">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-xl-6  col-md-6 mb-4">
-									  <label  class="form-label font-w600">Company Name<span class="text-danger scale5 ms-2">*</span></label>
-										<input type="text" class="form-control solid" placeholder="Name" aria-label="name">
+									  <label  class="form-label font-w600">Developer Type<span class="text-danger scale5 ms-2">*</span></label>
+										<input class="form-control solid" type="text" name="title_developer" placeholder="e.g. Looking Python Developer" value="{{ fieldValues.title_developer }}" aria-label="name">
+                                        {% for err in form.title_developer.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
 									</div>
 									<div class="col-xl-6  col-md-6 mb-4">
-									  <label  class="form-label font-w600">Position<span class="text-danger scale5 ms-2">*</span></label>
-										<input type="text" class="form-control solid" placeholder="Name" aria-label="name">
-									</div>
-									<div class="col-xl-6  col-md-6 mb-4">
-										<label  class="form-label font-w600">Job Category<span class="text-danger scale5 ms-2">*</span></label>
-										<select  class="form-select form-control solid">
-										  <option selected>Choose...</option>
-										  <option>QA Analyst</option>
-										   <option>IT Manager</option>
-										    <option>Systems Analyst</option>
-										</select>
+									  <label  class="form-label font-w600">Task title<span class="text-danger scale5 ms-2">*</span></label>
+										<input type="text" class="form-control solid" value="{{ fieldValues.title_task }}" name="title_task" placeholder="e.g. I need someone to login by using google in node" aria-label="name">
+                                        {% for err in form.title_task.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
 									</div>
 									<div class="col-xl-6  col-md-6 mb-4">
 										<label  class="form-label font-w600">Job Type<span class="text-danger scale5 ms-2">*</span></label>
-										<select  class="form-select form-control solid">
-										  <option selected>Choose...</option>
-										  <option>Part-Time</option>
-										   <option>Full-Time</option>
-										    <option>Freelancer</option>
+										<select name="job_type"  class="form-select form-control solid">
+                                            <option selected name="job_type" value="Freelancer">Freelancer</option>
+										  <option name="job_type" value="Part-Time">Part-Time</option>
+										   <option name="job_type" value="Full-Time">Full-Time</option>
+
 										</select>
-									</div>
-									<div class="col-xl-6  col-md-6 mb-4">
-									  <label  class="form-label font-w600">No. of Vancancy<span class="text-danger scale5 ms-2">*</span></label>
-										<input type="text" class="form-control solid" placeholder="Name" aria-label="name">
+                                        {% for err in form.job_type.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
 									</div>
 									<div class="col-xl-6  col-md-6 mb-4">
 										<label  class="form-label font-w600">Select Experience<span class="text-danger scale5 ms-2">*</span></label>
-										<select  class="form-select form-control solid">
-										  <option selected>1 yr</option>
-										  <option>2 Yr</option>
-										   <option>3 Yr</option>
-										    <option>4 Yr</option>
+										<select name="experience" class="form-select form-control solid">
+										  <option name="experience" value="1 yr" selected>1 yr</option>
+										  <option name="experience" value="2 Yr">2 Yr</option>
+										   <option name="experience" value="3 Yr">3 Yr</option>
+										    <option name="experience" value="4 Yr">4 Yr</option>
+                                            <option name="experience" value="Over 5 Yr">Over 5 Yr</option>
 										</select>
+                                        {% for err in form.experience.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
+									</div>
+                                    <div class="col-xl-6  col-md-6 mb-4">
+									  <label  class="form-label font-w600">Salary Minimum<span class="text-danger scale5 ms-2">*</span></label>
+										<input type="number" name="amount_range_start" value="{{ fieldValues.amount_range_start }}" class="form-control solid" placeholder="$" aria-label="name">
+                                        {% for err in form.amount_range_start.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
+									</div>
+                                    <div class="col-xl-6  col-md-6 mb-4">
+									  <label  class="form-label font-w600">Enter Tags:<span class="text-danger scale5 ms-2">*</span></label>
+										<input type="text" class="form-control solid" id="skills_need" name="tags" value="{{ fieldValues.tags }}" placeholder="e.g. python" aria-label="name">
+                                        {% for err in form.tags.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
 									</div>
 									<div class="col-xl-6  col-md-6 mb-4">
-										<label  class="form-label font-w600">Posted Date<span class="text-danger scale5 ms-2">*</span></label>
-										<div class="input-group">
-											 <div class="input-group-text"><i class="far fa-clock"></i></div>
-											<input size="16" type="text" value="2012-06-15" readonly class="form-control form_datetime solid">
-										</div>
+									  <label  class="form-label font-w600">Salary Maximum<span class="text-danger scale5 ms-2">*</span></label>
+										<input type="number" name="amount_range_end" value="{{ fieldValues.amount_range_end }}" class="form-control solid" placeholder="$" aria-label="name">
+                                        {% for err in form.amount_range_end.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
 									</div>
-									<div class="col-xl-6  col-md-6 mb-4">
-										<label  class="form-label font-w600">Last Date To Apply<span class="text-danger scale5 ms-2">*</span></label>
-										<div class="input-group">
-											 <div class="input-group-text"><i class="far fa-clock"></i></div>
-											<input size="16" type="text" value="2012-06-15" readonly class="form-control form_datetime solid">
-										</div>
-									</div>
-									<div class="col-xl-6  col-md-6 mb-4">
-										<label  class="form-label font-w600">Close Date<span class="text-danger scale5 ms-2">*</span></label>
-										<div class="input-group">
-											 <div class="input-group-text"><i class="far fa-clock"></i></div>
-											<input size="16" type="text" value="2012-06-15" readonly class="form-control form_datetime solid">
-										</div>
-									</div>
-									<div class="col-xl-6  col-md-6 mb-4">
-										<label  class="form-label font-w600">Select Gender:<span class="text-danger scale5 ms-2">*</span></label>
-										<select  class="form-select form-control solid">
-										  <option selected>Choose...</option>
-										  <option>Male</option>
-										   <option>Female</option>
+                                    <div class="col-xl-6  col-md-6 mb-4">
+										<label  class="form-label font-w600">Choose Country<span class="text-danger scale5 ms-2">*</span></label>
+										<select name="country_location"  class="form-select form-control solid">
+                                            {% for country_name in country_name %}
+                                                {% if forloop.first %}
+                                                <option name="country_location" value="{{ country_name }}" selected>{{ country_name }}</option>
+                                                {% else %}
+										  <option name="country_location" value="{{ country_name }}">{{ country_name }}</option>
+                                                {% endif %}
+                                            {% endfor %}
 										</select>
+                                    {% for err in form.country_location.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
 									</div>
-									<div class="col-xl-6  col-md-6 mb-4">
-									  <label  class="form-label font-w600">Salary Form<span class="text-danger scale5 ms-2">*</span></label>
-										<input type="text" class="form-control solid" placeholder="$" aria-label="name">
-									</div>
-									<div class="col-xl-6  col-md-6 mb-4">
-									  <label  class="form-label font-w600">Salary To<span class="text-danger scale5 ms-2">*</span></label>
-										<input type="text" class="form-control solid" placeholder="$" aria-label="name">
-									</div>
-									<div class="col-xl-6  col-md-6 mb-4">
-									  <label  class="form-label font-w600">Enter City:<span class="text-danger scale5 ms-2">*</span></label>
-										<input type="text" class="form-control solid" placeholder="$" aria-label="name">
-									</div>
-									<div class="col-xl-6  col-md-6 mb-4">
-									  <label  class="form-label font-w600">Enter State:<span class="text-danger scale5 ms-2">*</span></label>
-										<input type="text" class="form-control solid" placeholder="State" aria-label="name">
-									</div>
-									<div class="col-xl-6  col-md-6 mb-4">
-									  <label  class="form-label font-w600">Enter Counter:<span class="text-danger scale5 ms-2">*</span></label>
-										<input type="text" class="form-control solid" placeholder="State" aria-label="name">
-									</div>
-									<div class="col-xl-6  col-md-6 mb-4">
-									  <label  class="form-label font-w600">Enter Education Level:<span class="text-danger scale5 ms-2">*</span></label>
-										<input type="text" class="form-control solid" placeholder="Education Level" aria-label="name">
+                                    <div class="col-xl-6  col-md-6 mb-4">
+										<label  class="form-label font-w600">Expire Date<span class="text-danger scale5 ms-2">*</span></label>
+										<div class="input-group">
+											 <div class="input-group-text"><i class="far fa-clock"></i></div>
+											<input size="16" type="date" name="expire_date" value="{{ fieldValues.expire_date }}" class="form-control form_datetime solid">
+										</div>
+                                        {% for err in form.expire_date.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
 									</div>
 									<div class="col-xl-12 mb-4">
 										  <label  class="form-label font-w600">Description:<span class="text-danger scale5 ms-2">*</span></label>
-										  <textarea class="form-control solid" aria-label="With textarea"></textarea>
+										  <textarea class="form-control solid" name="job_description" aria-label="With textarea">{{ fieldValues.job_description }}</textarea>
+                                        {% for err in form.job_description.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
 									</div>
 								</div>
 								<div>
-									<span>Status:<label class="radio-inline mx-3"><input type="radio" name="optradio"> Active</label></span>
-									<span><label class="radio-inline me-3"><input type="radio" name="optradio"> In Active</label></span>
+									<span>Remote:<label class="radio-inline mx-3"><input type="radio" name="enable_remote" value="1"> True</label></span>
+									<span><label class="radio-inline me-3"><input type="radio" name="enable_remote" value="0"> False</label></span>
+                                    {% for err in form.enable_remote.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
 								</div>
 							</div>
 							<div class="card-footer text-end">
 								<div>
-									<a href="javascript:void(0);" class="btn btn-primary me-3">Close</a>
-									<a href="javascript:void(0);" class="btn btn-secondary">Submit</a>
+                                    <button class="btn btn-secondary" type="submit">Submit </button>
 								</div>
 							</div>
 						</div>
+                    </form>
 					</div>
 				</div>
             </div>
         </div>
 
+
+    <!-- js for tag skills customization -->
+        <script>
+
+
+        // Vanilla JavaScript
+        var input = document.querySelector('input[id=skills_need]'),
+        tagify = new Tagify( input, {
+            duplicates : false,
+            delimiters: ",",
+            maxTags: 5,
+        });
+
+
+
+
+
+    </script>
 
 {% endblock %}
