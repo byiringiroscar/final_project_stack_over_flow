@@ -44,6 +44,7 @@
 ================================= -->
 <section class="jobs-area pt-70px pb-40px">
     <div class="container">
+    {% include 'partial/_messages.html' %}
         <div class="row">
             <div class="col-lg-9">
                 <div class="job-details-panel-main-bar">
@@ -66,50 +67,91 @@
                     <hr class="border-top-gray">
                     <div class="job-details-panel mt-30px mb-30px" id="job-apply">
                         <h3 class="fs-20 pb-4 fw-bold">Apply to this role</h3>
-                        <form action="#" class="career-form">
+                        <form method="POST" action="" class="career-form" enctype="multipart/form-data">
+                            {% csrf_token %}
                             <div class="mb-40px">
                                 <h5 class="fs-14 text-uppercase mb-3 text-gray">1. Personal Details</h5>
                                 <div class="form-group">
                                     <label class="fs-14 text-black fw-medium">Full Name</label>
-                                    <input type="text" class="form-control form--control fs-14" placeholder="Your name">
+                                    <input type="text" class="form-control form--control fs-14" name="full_name" value="{{ fieldValues.full_name }}" placeholder="Your name">
+                                    {% for err in form.full_name.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                          {{ err }}
+                                        </div>
+                                    {% endfor %}
                                 </div><!-- end form-group -->
                                 <div class="form-group">
                                     <label class="fs-14 text-black fw-medium">Email</label>
-                                    <input type="email" class="form-control form--control fs-14" placeholder="Your email">
+                                    <input type="email" class="form-control form--control fs-14" name="email" value="{{ fieldValues.email }}" placeholder="Your email">
+                                    {% for err in form.email.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                          {{ err }}
+                                        </div>
+                                    {% endfor %}
                                 </div><!-- end form-group -->
                                 <div class="form-group">
                                     <label class="fs-14 text-black fw-medium">Phone Number</label>
-                                    <input type="tel" class="form-control form--control fs-14" id="phone" placeholder="+25078222 .....">
+                                    <input type="tel" class="form-control form--control fs-14" id="phone" name="phone_number" value="{{ fieldValues.phone_number }}" placeholder="+25078222 .....">
+                                    {% for err in form.phone_number.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                          {{ err }}
+                                        </div>
+                                    {% endfor %}
                                 </div><!-- end form-group -->
                                 <div class="form-group">
                                     <label class="fs-14 text-black fw-medium">Place of residence</label>
-                                    <input type="text" class="form-control form--control fs-14" placeholder="Your address">
+                                    <input type="text" class="form-control form--control fs-14" name="residence" value="{{ fieldValues.residence }}" placeholder="Your address">
+                                    {% for err in form.residence.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                          {{ err }}
+                                        </div>
+                                    {% endfor %}
                                 </div><!-- end form-group -->
                                 <div class="form-group">
                                     <label class="fs-14 text-black fw-medium">Current Company</label>
-                                    <input type="text" class="form-control form--control fs-14" placeholder="Your current company">
+                                    <input type="text" class="form-control form--control fs-14" name="current_company" value="{{ fieldValues.current_company }}" placeholder="Your current company if not write None">
+                                    {% for err in form.current_company.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                          {{ err }}
+                                        </div>
+                                    {% endfor %}
                                 </div><!-- end form-group -->
                                 <div class="form-group">
                                     <label class="fs-14 text-black fw-medium">Resume</label>
                                     <div class="file-upload-wrap file-upload-layout-2">
-                                        <input type="file" name="files[]" class="cv-input file-upload-input" multiple>
+                                        <input type="file" name="resume" class="cv-input file-upload-input" value="{{ fieldValues.resume }}" multiple>
                                         <span class="file-upload-text d-flex align-items-center justify-content-center"><i class="la la-cloud-upload mr-2 fs-24"></i>Drop files here or click to upload.</span>
                                     </div>
                                     <p class="fs-14">.pdf, .doc, .docx, .rtf, .html, .odf, .zip files accepted</p>
+                                    {% for err in form.resume.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                          {{ err }}
+                                        </div>
+                                    {% endfor %}
                                 </div><!-- end form-group -->
                             </div>
                             <div class="mb-40px">
                                 <h5 class="fs-14 text-uppercase mb-3 text-gray">2. links</h5>
                                 <div class="form-group">
                                     <label class="fs-14 text-black fw-medium">LinkedIn URL</label>
-                                    <input type="text" class="form-control form--control fs-14" placeholder="LinkedIn URL">
+                                    <input type="text" class="form-control form--control fs-14" name="linkedin_url" value="{{ fieldValues.linkedin_url }}" placeholder="LinkedIn URL">
+                                    {% for err in form.linkedin_url.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                          {{ err }}
+                                        </div>
+                                    {% endfor %}
                                 </div><!-- end form-group -->
                             </div>
                             <div class="mb-40px">
                                 <h5 class="fs-14 text-uppercase mb-3 text-gray">3. additional information</h5>
                                 <div class="form-group">
                                     <label class="fs-14 text-black fw-medium">Let me know more about your interest and biography</label>
-                                    <textarea class="form-control form--control fs-14" rows="5"></textarea>
+                                    <textarea class="form-control form--control fs-14" name="biography"  rows="5">{{ fieldValues.biography }}</textarea>
+                                    {% for err in form.biography.errors %}
+                                        <div class="alert alert-danger" role="alert">
+                                          {{ err }}
+                                        </div>
+                                    {% endfor %}
                                 </div><!-- end form-group -->
                                 <button class="btn theme-btn mt-2" type="submit">Submit Application</button>
                             </div>

@@ -66,13 +66,14 @@ class Job_work(models.Model):
     enable_remote = models.BooleanField()
     country_location = models.CharField(max_length=250)
     viewed = models.PositiveIntegerField(default=0)
+    job_hired = models.BooleanField(default=False)
     published_date = models.DateField(auto_now_add=True)
     expire_date = models.DateField()
 
     def __str__(self):
         return f'{self.title_developer} --- {self.expire_date}'
 
-    def save(self, *args, **kwargs):
+    def tags_as_list(self):
         skills = self.tags
         skills = skills[:-1]
         skills = skills.split(",")
@@ -82,11 +83,7 @@ class Job_work(models.Model):
             new_skills = new_skills[1][1:-2]
             final_skills += f'{new_skills},'
         final_skills = final_skills[:-1]
-        self.tags = final_skills
-        super().save(*args, **kwargs)
-
-    def tags_as_list(self):
-        return self.tags.split(',')
+        return final_skills.split(',')
 
     class Meta:
         verbose_name_plural = 'Job'
@@ -102,12 +99,38 @@ class Applied_job(models.Model):
     resume = models.FileField()
     linkedin_url = models.URLField()
     biography = models.TextField()
-    hired = models.BooleanField(default=False)
+    rejected_apply = models.BooleanField(default=False)
+    hired_apply = models.BooleanField(default=False)
     interview = models.BooleanField(default=False)
-    applied_date = models.DateField()
+    applied_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.job.title_developer} --- {self.full_name}'
 
     class Meta:
         verbose_name_plural = 'Job Applied'
+
+    def get_progress_percent(self):
+        profile_percent = 50
+        interview = self.interview
+        hired_apply = self.hired_apply
+        if hired_apply:
+            profile_percent = 100
+        if interview:
+            profile_percent = profile_percent + 35
+        if interview and hired_apply:
+            profile_percent = 100
+        return profile_percent
+
+
+class InterviewApplied(models.Model):
+    applied_person = models.ForeignKey(Applied_job, on_delete=models.CASCADE)
+    interview_link = models.URLField()
+    interview_date = models.DateTimeField()
+    sent_date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Interview List'
+
+    def __str__(self):
+        return f'{self.applied_person.full_name} --- {self.interview_date}'

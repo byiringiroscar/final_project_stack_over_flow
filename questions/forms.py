@@ -1,8 +1,9 @@
 from django import forms
-from questions.models import Questions_stuff, Answer_stuff, Job_work
+from questions.models import Questions_stuff, Answer_stuff, Job_work, Applied_job, InterviewApplied
 from django.utils import timezone
 
 now = timezone.now().date()
+now_interview = timezone.now()
 
 
 class QuestionsForm(forms.ModelForm):
@@ -37,3 +38,24 @@ class JobForm(forms.ModelForm):
         if expire_date < now:
             raise forms.ValidationError("Expire date must be great than today's date")
         return expire_date
+
+
+class ApplyJobForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = Applied_job
+        fields = ['full_name', 'email', 'phone_number', 'residence', 'current_company', 'resume', 'linkedin_url',
+                  'biography', ]
+
+
+class InterviewAppliedForm(forms.ModelForm):
+    class Meta:
+        model = InterviewApplied
+        fields = ['interview_link', 'interview_date', ]
+
+    def clean_interview_date(self):
+        interview_date = self.cleaned_data['interview_date']
+        if interview_date <= now_interview:
+            raise forms.ValidationError("please date must be greater than today's date")
+        return interview_date

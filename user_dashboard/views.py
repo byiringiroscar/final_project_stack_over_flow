@@ -1,19 +1,48 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from questions.models import Questions_stuff, Answer_stuff
+from questions.models import Questions_stuff, Answer_stuff, Job_work, Applied_job, InterviewApplied
 from authentication.models import Profile
-from questions.forms import JobForm
+from questions.forms import JobForm, InterviewAppliedForm
 import json
 from django.http import JsonResponse, HttpResponse
 import os
 from django.conf import settings
+from django.utils import timezone
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.template.loader import get_template
+from django_pandas.io import read_frame
+import threading
+
+now = timezone.now()
 
 
 # Create your views here.
+class EmailThread(threading.Thread):
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.email.send(fail_silently=False)
+
 
 @login_required(login_url='login')
 def user_home(request):
-    return render(request, 'user_home.html')
+    all_questions = Questions_stuff.objects.filter(owner=request.user)
+    all_answer = Answer_stuff.objects.filter(question__owner=request.user)
+    all_job = Job_work.objects.filter(job_owner=request.user)
+    all_applied = Applied_job.objects.filter(job__job_owner=request.user)
+    interviewed_stat = InterviewApplied.objects.filter(applied_person__job__job_owner=request.user)
+    context = {
+        'all_questions': all_questions.count(),
+        'all_answer': all_answer.count(),
+        'all_job': all_job.count(),
+        'all_applied': all_applied.count(),
+        'job_hired': all_job.filter(job_hired=True).count(),
+        'interviewed_stat': interviewed_stat.count()
+    }
+    return render(request, 'user_home.html', context)
 
 
 @login_required(login_url='login')
@@ -75,3 +104,122 @@ def user_create_job(request):
     }
 
     return render(request, 'user_create_job.html', context)
+
+
+def job_user_admin(request):
+    job_posted = Job_work.objects.filter(job_owner=request.user).order_by('-published_date')
+    context = {
+        'job': job_posted,
+        'now': now.date()
+    }
+    return render(request, 'job_user_admin.html', context)
+
+
+def job_user_view_admin(request, id):
+    job_detail = get_object_or_404(Job_work, id=id)
+    context = {
+        'job': job_detail
+    }
+    return render(request, 'job_user_view_admin.html', context)
+
+
+def job_person_applied_all(request, id):
+    job_id = get_object_or_404(Job_work, id=id)
+    applied_job_all = Applied_job.objects.filter(job=job_id)
+    context = {
+        'person_job': applied_job_all
+    }
+    return render(request, 'job_person_applied_all.html', context)
+
+
+def job_applied_admin(request):
+    job_apply = Applied_job.objects.filter(job__job_owner=request.user).order_by('-applied_date')
+    context = {
+        'person_job': job_apply
+    }
+    return render(request, 'job_applied_admin.html', context)
+
+
+def applied_profile(request, id):
+    profile_detail = get_object_or_404(Applied_job, id=id)
+    context = {
+        'profile_detail': profile_detail
+    }
+    return render(request, 'applied_profile.html', context)
+
+
+def invitation_applied(request, id):
+    applied_person = get_object_or_404(Applied_job, id=id)
+    form = InterviewAppliedForm()
+    if request.method == 'POST':
+        form = InterviewAppliedForm(request.POST)
+        dateInterview = request.POST['interview_date']
+        new_date = dateInterview.split('T')
+        date_exact = new_date[0]
+        time_exact = new_date[1]
+        if form.is_valid():
+            link_interview = form.cleaned_data.get('interview_link')
+            instance = form.save(commit=False)
+            instance.applied_person = applied_person
+            instance.save()
+            Applied_job.objects.filter(id=id).update(interview=True)
+            message = f"Hello, {applied_person.full_name}  \n Congratulations you have been selected to attend " \
+                      f"Interview for Your applied job called {applied_person.job.title_developer} \n please prepare " \
+                      f"your microphone and camera for better communication "
+            subject = 'Interview Invitation'
+            html_content = get_template('newsletter.html').render(
+                {'applied_person': applied_person, 'message': message, 'date_exact': date_exact,
+                 'time_exact': time_exact, 'link_interview': link_interview, 'now': now.date()})
+            from_email = 'koracodeafrica@gmail.com'
+            msg = EmailMessage(subject, html_content, from_email, to=[applied_person.email, ])
+            msg.content_subtype = "html"
+            EmailThread(msg).start()
+            messages.success(request, "Invite link sent to email successfully")
+            return redirect(applied_profile, id=applied_person.id)
+    else:
+        form = InterviewAppliedForm()
+    context = {
+        'form': form,
+        'fieldValues': request.POST
+    }
+    return render(request, 'invitation_applied.html', context)
+
+
+def hire_person_admin(request, id):
+    profile_detail = get_object_or_404(Applied_job, id=id)
+    Applied_job.objects.filter(id=id).update(hired_apply=True)
+    job_detail = get_object_or_404(Job_work, id=profile_detail.job.id)
+    job_status = Job_work.objects.filter(id=job_detail.id).update(job_hired=True)
+    # send message to people applied on this specified job if they get hired or failed to get the job
+    job_announce = Applied_job.objects.filter(job=profile_detail.job)
+    if job_announce.exists():
+        for person in job_announce:
+            if not person.hired_apply:
+                person.rejected_apply = True
+                person.save()
+                message = f"Hello, {person.full_name}  \n We are sorry to tell you  that you haven't selected " \
+                          f"for Job you applied called {person.job.title_developer} \n After best review " \
+                          f"We have decided to continue with other match with our criteria \n " \
+                          f"We wish only best in the future"
+                subject = 'Job Response'
+                html_content = get_template('selected_person.html').render(
+                    {'applied_person': person.full_name, 'message': message, 'now': now.date()})
+                from_email = 'koracodeafrica@gmail.com'
+                msg = EmailMessage(subject, html_content, from_email, to=[person.email, ])
+                msg.content_subtype = "html"
+                EmailThread(msg).start()
+            else:
+                message_congz = f"Hello, {person.full_name}  \n We are Happy to inform you  that you have be selected " \
+                                f"for Job you applied called {person.job.title_developer} \n After best review " \
+                                f"We have decided to continue with you \n "
+                subject_congz = 'Job Response'
+                html_content = get_template('selected_person.html').render(
+                    {'applied_person': person.full_name, 'message': message_congz, 'now': now.date()})
+                from_email = 'koracodeafrica@gmail.com'
+                msg = EmailMessage(subject_congz, html_content, from_email, to=[person.email, ])
+                msg.content_subtype = "html"
+                EmailThread(msg).start()
+        messages.success(request, "Result sent successfully")
+        return redirect('applied_profile', id=profile_detail.id)
+    else:
+        return redirect('user_home')

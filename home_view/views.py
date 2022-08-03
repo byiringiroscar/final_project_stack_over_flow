@@ -3,8 +3,8 @@ from authentication.forms import UserForm, UpdateProfileForm, SkillsForm
 from authentication.models import Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from questions.forms import QuestionsForm, AnswerForm
-from questions.models import Questions_stuff, Answer_stuff
+from questions.forms import QuestionsForm, AnswerForm, ApplyJobForm
+from questions.models import Questions_stuff, Answer_stuff, Applied_job
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from questions.models import Job_work
@@ -109,7 +109,7 @@ def ask_question(request):
 
 
 def job_list(request):
-    all_job = Job_work.objects.filter(expire_date__gte=now.date()).order_by('-published_date')
+    all_job = Job_work.objects.filter(expire_date__gte=now.date(), job_hired=False).order_by('-published_date')
     paginator = Paginator(all_job, 8)
     page_number = request.GET.get('page')
     try:
@@ -127,8 +127,24 @@ def job_list(request):
 
 def job_detail(request, id):
     job_speci = get_object_or_404(Job_work, id=id)
+    form = ApplyJobForm()
+    if request.method == 'POST':
+        email = request.POST['email']
+        job_check = Applied_job.objects.filter(email=email, job=job_speci)
+        if job_check.exists():
+            messages.error(request, "User with this email already applied this Job")
+            return redirect('job_detail', id=job_speci.id)
+        form = ApplyJobForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.job = job_speci
+            instance.save()
+            messages.success(request, "Job apply done successfully")
+            return redirect(job_detail, id=job_speci.id)
     context = {
-        'job': job_speci
+        'job': job_speci,
+        'form': form,
+        'fieldValues': request.POST
     }
     return render(request, 'job_detail.html', context)
 
