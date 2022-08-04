@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'phonenumber_field',
     'questions.apps.QuestionsConfig',
-    'user_dashboard.apps.UserDashboardConfig'
+    'user_dashboard.apps.UserDashboardConfig',
+    'super_admin.apps.SuperAdminConfig'
 ]
 
 MIDDLEWARE = [

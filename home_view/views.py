@@ -9,6 +9,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from questions.models import Job_work
 from django.utils import timezone
+from django.conf import settings
+from django.db.models import Q
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 now = timezone.now()
 
@@ -21,6 +25,9 @@ def home(request):
 
 def question(request):
     all_questions = Questions_stuff.objects.filter().order_by('-publish_date')
+    search_question = request.GET.get('search_question')
+    if search_question != '' and search_question is not None:
+        all_questions = Questions_stuff.objects.filter(Q(title__icontains=search_question) | Q(tag__icontains=search_question) | Q(body__in=search_question) | Q(detail__icontains=search_question)).distinct()
     all_answer = Answer_stuff.objects.all()
     profile_detail = Profile.objects.all()
     paginator = Paginator(all_questions, 8)
@@ -110,6 +117,15 @@ def ask_question(request):
 
 def job_list(request):
     all_job = Job_work.objects.filter(expire_date__gte=now.date(), job_hired=False).order_by('-published_date')
+    job_search = request.GET.get('job_all')
+    job_langauge = request.GET.get('language')
+    job_price = request.GET.get('job_price')
+    if job_search != '' and job_search is not None:
+        all_job = all_job.filter(Q(title_task__contains=job_search) | Q(title_developer__icontains=job_search))
+    elif job_langauge != '' and job_langauge is not None:
+        all_job = all_job.filter(Q(country_location__icontains=job_langauge) | Q(job_type__icontains=job_langauge)).distinct()
+    elif job_price != '' and job_price is not None:
+        all_job = all_job.filter(amount_range_end__gte=job_price)
     paginator = Paginator(all_job, 8)
     page_number = request.GET.get('page')
     try:
@@ -118,6 +134,7 @@ def job_list(request):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
+
     context = {
         'posts': posts,
         'job_count': all_job.count()
@@ -127,6 +144,15 @@ def job_list(request):
 
 def job_detail(request, id):
     job_speci = get_object_or_404(Job_work, id=id)
+    job_tag_all = job_speci.tags_as_list()
+    all_job = Job_work.objects.filter(job_hired=False, expire_date__gte=now.date())
+    job_related = []
+    for job in all_job:
+        for tag_all in job.tags_as_list():
+            if tag_all in job_tag_all:
+                job_related.append(job)
+    job_related = list(set(job_related))
+
     form = ApplyJobForm()
     if request.method == 'POST':
         email = request.POST['email']
@@ -143,6 +169,7 @@ def job_detail(request, id):
             return redirect(job_detail, id=job_speci.id)
     context = {
         'job': job_speci,
+        'job_related': job_related,
         'form': form,
         'fieldValues': request.POST
     }
@@ -194,6 +221,28 @@ def skills_update(request):
 @login_required(login_url='login')
 def view_profile(request):
     return render(request, 'view_profile.html')
+
+
+def view_profile_outside(request, id):
+    question_det = get_object_or_404(Questions_stuff, id=id)
+    profile_id = question_det.owner.id
+    all_question = Questions_stuff.objects.filter(owner_id=profile_id)
+    all_answer = Answer_stuff.objects.filter(question__owner_id=profile_id)
+    user_question = get_object_or_404(User, id=profile_id)
+    profile_user = get_object_or_404(Profile, user=user_question)
+    count_view = 0
+    for quest in Questions_stuff.objects.filter(owner_id=profile_id):
+        count_view += quest.viewed
+    print("count ---------------", count_view)
+    context = {
+        'user_question': user_question,
+        'profile_user': profile_user,
+        'all_answer_count': all_answer.count(),
+        'all_question_count': all_question.count(),
+        'count_view': count_view
+    }
+
+    return render(request, 'view_profile_outside.html', context)
 
 
 def notifications(request):

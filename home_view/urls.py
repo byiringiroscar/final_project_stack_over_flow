@@ -14,5 +14,6 @@ urlpatterns = [
     path('setting/', views.user_profile, name="user_profile"),
     path('skills/', views.skills_update, name="skills_update"),
     path('view_profile/', views.view_profile, name="view_profile"),
+    path('view_profile_outside/<int:id>/', views.view_profile_outside, name="view_profile_outside"),
     path('notifications/', views.notifications, name="notifications"),
 ]

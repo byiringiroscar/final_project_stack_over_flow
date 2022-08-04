@@ -165,51 +165,26 @@
                         <h3 class="fs-17 pb-3">Other Related jobs</h3>
                         <div class="divider"><span></span></div>
                         <div class="sidebar-items-list pt-3">
+                            {% for job_related in job_related %}
+                                {% if not job == job_related %}
                             <div class="media media-card media--card media--card-2">
                                 <div class="media-body">
-                                    <h5><a href="career-details.html">Junior Product Researcher</a></h5>
+                                    <h5><a href="{% url 'job_detail' job_related.id %}">{{ job_related.title_developer }}</a></h5>
                                     <small class="meta d-block lh-20">
+                                        {% if job_related.enable_remote %}
                                         <span class="pr-1">Remote</span>
+                                            {% else %}
+                                            <span class="pr-1">Relocation</span>
+                                            {% endif %}
                                         <span class="pr-1">.</span>
-                                        <span>2 days ago</span>
+                                        <span>{{ job_related.published_date }}</span>
                                     </small>
-                                    <a href="career-details.html" class="btn-text hover-underline fs-12">Apply Now</a>
+                                    <a href="{% url 'job_detail' job_related.id %}" class="btn-text hover-underline fs-12">Apply Now</a>
                                 </div>
                             </div><!-- end media -->
-                            <div class="media media-card media--card media--card-2">
-                                <div class="media-body">
-                                    <h5><a href="career-details.html">Salesforce Developer</a></h5>
-                                    <small class="meta d-block lh-20">
-                                        <span class="pr-1">Remote</span>
-                                        <span class="pr-1">.</span>
-                                        <span>22 days ago</span>
-                                    </small>
-                                    <a href="career-details.html" class="btn-text hover-underline fs-12">Apply Now</a>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card media--card-2">
-                                <div class="media-body">
-                                    <h5><a href="career-details.html">Senior Software Engineer</a></h5>
-                                    <small class="meta d-block lh-20">
-                                        <span class="pr-1">Remote</span>
-                                        <span class="pr-1">.</span>
-                                        <span>12 days ago</span>
-                                    </small>
-                                    <a href="career-details.html" class="btn-text hover-underline fs-12">Apply Now</a>
-                                </div>
-                            </div><!-- end media -->
-                            <div class="media media-card media--card media--card-2">
-                                <div class="media-body">
-                                    <h5><a href="career-details.html">Sr. Full Stack Engineer</a></h5>
-                                    <small class="meta d-block lh-20">
-                                        <span class="pr-1">Remote</span>
-                                        <span class="pr-1">.</span>
-                                        <span>18 days ago</span>
-                                    </small>
-                                    <a href="career-details.html" class="btn-text hover-underline fs-12">Apply Now</a>
-                                </div>
-                            </div><!-- end media -->
-                            <a href="#" class="btn-text hover-underline">Show all jobs <i class="la la-arrow-right icon ml-1"></i></a>
+                                {% endif %}
+                            {% endfor %}
+                            <a href="{% url 'job_list' %}" class="btn-text hover-underline">Show all jobs <i class="la la-arrow-right icon ml-1"></i></a>
                         </div><!-- end sidebar-items-list -->
                     </div><!-- end card -->
                 </div><!-- end sidebar -->

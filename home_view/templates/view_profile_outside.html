@@ -22,30 +22,17 @@
                 <div class="hero-content">
                     <div class="media media-card align-items-center shadow-none p-0 mb-0 rounded-0 bg-transparent">
                         <div class="media-img media--img">
-                            <img src="{{ profile.user_image.url }}" alt="avatar">
+                            <img src="{{ profile_user.user_image.url }}" alt="avatar">
                         </div>
                         <div class="media-body">
-                            <h5>{{ user.full_name }}</h5>
+                            <h5>{{ user_question.full_name }}</h5>
                             <small class="meta d-block lh-20 pb-2">
-                                <span>{{ profile.location }}, member since {{ profile.date_created }} </span>
+                                <span>{{ profile_user.location }}, member since {{ profile_user.date_created }} </span>
                             </small>
                         </div>
                     </div><!-- end media -->
                 </div><!-- end hero-content -->
             </div><!-- end col-lg-8 -->
-            <div class="col-lg-4">
-                <div class="hero-btn-box text-right py-3">
-                    <a href="{% url 'user_profile' %}" class="btn theme-btn theme-btn-outline theme-btn-outline-gray"><i class="la la-gear mr-1"></i> Edit Profile</a>
-                </div>
-            </div><!-- end col-lg-4 -->
-            <div class="col-lg-12">
-                {% include 'partial/_messages.html' %}
-                <ul class="nav nav-tabs generic-tabs generic--tabs generic--tabs-2 mt-4" id="myTab" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="user-profile-tab" data-toggle="tab" href="#user-profile" role="tab" aria-controls="user-profile" aria-selected="true">Profile</a>
-                    </li>
-                </ul>
-            </div><!-- end col-lg-4 -->
         </div><!-- end row -->
     </div><!-- end container -->
 </section>
@@ -64,7 +51,7 @@
                     <div class="tab-pane fade show active" id="user-profile" role="tabpanel" aria-labelledby="user-profile-tab">
                         <div class="user-panel-main-bar">
                             <div class="user-panel mb-30px">
-                                <p class="pb-2">{{ profile.about_me }}</p>
+                                <p class="pb-2">{{ profile_user.about_me }}</p>
                             </div><!-- end user-panel -->
                             <div class="user-panel mb-30px">
                                 <div class="row">
@@ -87,7 +74,7 @@
                                                 </svg>
                                             </div>
                                             <div class="media-body">
-                                                <h5 class="fw-medium">1,979</h5>
+                                                <h5 class="fw-medium">{{ all_answer_count }}</h5>
                                                 <p class="fs-15">Answers</p>
                                             </div>
                                         </div>
@@ -129,7 +116,7 @@
                                                 </svg>
                                             </div>
                                             <div class="media-body">
-                                                <h5 class="fw-medium">11</h5>
+                                                <h5 class="fw-medium">{{ all_question_count }}</h5>
                                                 <p class="fs-15">Questions</p>
                                             </div>
                                         </div>
@@ -142,7 +129,7 @@
                                                 </svg>
                                             </div>
                                             <div class="media-body">
-                                                <h5 class="fw-medium">~46.3m</h5>
+                                                <h5 class="fw-medium">{{ count_view }}</h5>
                                                 <p class="fs-15">People reached</p>
                                             </div>
                                         </div>
@@ -162,26 +149,20 @@
                             <div class="row no-gutters text-center">
                                 <div class="col-lg-6 responsive-column-half">
                                     <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color">980k</span>
+                                        <span class="fs-20 fw-bold text-color">{{ all_question_count }}</span>
                                         <p class="fs-14">Questions</p>
                                     </div><!-- end icon-box -->
                                 </div><!-- end col-lg-6 -->
                                 <div class="col-lg-6 responsive-column-half">
                                     <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-2">610k</span>
+                                        <span class="fs-20 fw-bold text-color-2">{{ all_answer_count }}</span>
                                         <p class="fs-14">Answers</p>
                                     </div><!-- end icon-box -->
                                 </div><!-- end col-lg-6 -->
                                 <div class="col-lg-6 responsive-column-half">
                                     <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-3">650k</span>
-                                        <p class="fs-14">Answer accepted</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-4">320k</span>
-                                        <p class="fs-14">Users</p>
+                                        <span class="fs-20 fw-bold text-color-3">{{ count_view }}</span>
+                                        <p class="fs-14">Reached</p>
                                     </div><!-- end icon-box -->
                                 </div><!-- end col-lg-6 -->
                             </div><!-- end row -->

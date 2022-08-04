@@ -43,10 +43,11 @@
 
                         </ul><!-- end ul -->
                     </nav><!-- end main-menu -->
-                <form method="post">
+                <form method="GET" action="{% url 'question' %}">
+                    {% csrf_token %}
                         <div class="form-group mb-0">
-                            <input class="form-control form--control form--control-bg-gray text-white" type="text" name="search" placeholder="Search your question ...">
-                            <button class="form-btn text-white-50" type="button"><i class="la la-search"></i></button>
+                            <input class="form-control form--control form--control-bg-gray text-black" type="text" name="search_question" placeholder="Search your question ...">
+                            <button class="form-btn text-white-50" type="submit"><i class="la la-search"></i></button>
                         </div>
                     </form>
                     {% if user.is_authenticated %}
@@ -125,5 +126,48 @@
             </div><!-- end col-lg-10 -->
         </div><!-- end row -->
     </div><!-- end container -->
+    <div class="off-canvas-menu custom-scrollbar-styled">
+        <div class="off-canvas-menu-close icon-element icon-element-sm shadow-sm" data-toggle="tooltip" data-placement="left" title="Close menu">
+            <i class="la la-times"></i>
+        </div><!-- end off-canvas-menu-close -->
+        <ul class="generic-list-item off-canvas-menu-list pt-90px">
+                    <li>
+                    <a href="{% url 'home' %}">Home <i class="la la-angle-down fs-11"></i></a>
+                </li>
+                <li class="is-mega-menu">
+                    <a href="{% url 'question' %}">Question <i class="la la-angle-down fs-11"></i></a>
+                </li>
+                <li>
+                    <a href="{% url 'ask_question' %}">Ask Question <i class="la la-angle-down fs-11"></i></a>
+                </li>
+                <li>
+                    <a href="{% url 'job_list' %}">Job <i class="la la-angle-down fs-11"></i></a>
+                </li>
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'user_home' %}">Main <i class="la la-angle-down fs-11"></i></a>
+                </li>
+                {% endif %}
+        </ul>
+        <div class="off-canvas-btn-box px-4 pt-5 text-center">
+            <a href="{% url 'login' %}" class="btn theme-btn theme-btn-sm theme-btn-outline" data-target="{% url 'login' %}"><i class="la la-sign-in mr-1"></i> Login</a>
+            <span class="fs-15 fw-medium d-inline-block mx-2">Or</span>
+            <a href="{% url 'register' %}" class="btn theme-btn theme-btn-sm" data-target="{% url 'register' %}"><i class="la la-plus mr-1"></i> Sign up</a>
+        </div>
+    </div><!-- end off-canvas-menu -->
+    <div class="mobile-search-form">
+        <div class="d-flex align-items-center">
+            <form method="GET" action="{% url 'question' %}" class="flex-grow-1 mr-3">
+                {% csrf_token %}
+                <div class="form-group mb-0">
+                    <input class="form-control form--control pl-40px" type="text" name="search_question" placeholder="Type your search questions...">
+                    <span class="la la-search input-icon"></span>
+                </div>
+            </form>
+            <div class="search-bar-close icon-element icon-element-sm shadow-sm">
+                <i class="la la-times"></i>
+            </div><!-- end off-canvas-menu-close -->
+        </div>
+    </div><!-- end mobile-search-form -->
     <div class="body-overlay"></div>
 </header><!-- end header-area -->

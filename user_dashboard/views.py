@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from questions.models import Questions_stuff, Answer_stuff, Job_work, Applied_job, InterviewApplied
 from authentication.models import Profile
-from questions.forms import JobForm, InterviewAppliedForm
+from questions.forms import JobForm, InterviewAppliedForm, QuestionsForm
 import json
 from django.http import JsonResponse, HttpResponse
 import os
@@ -64,9 +64,11 @@ def user_dashboard_profile(request):
     user = request.user
     all_question = Questions_stuff.objects.filter(owner=user)
     all_answer = Answer_stuff.objects.filter(question__owner=user)
+    all_job = Job_work.objects.filter(job_owner=request.user)
     context = {
         'question_count': all_question.count(),
-        'answer_count': all_answer.count()
+        'answer_count': all_answer.count(),
+        'all_job': all_job.count(),
     }
     return render(request, 'user_dashboard_profile.html', context)
 
@@ -106,6 +108,7 @@ def user_create_job(request):
     return render(request, 'user_create_job.html', context)
 
 
+@login_required(login_url='login')
 def job_user_admin(request):
     job_posted = Job_work.objects.filter(job_owner=request.user).order_by('-published_date')
     context = {
@@ -115,6 +118,7 @@ def job_user_admin(request):
     return render(request, 'job_user_admin.html', context)
 
 
+@login_required(login_url='login')
 def job_user_view_admin(request, id):
     job_detail = get_object_or_404(Job_work, id=id)
     context = {
@@ -123,6 +127,7 @@ def job_user_view_admin(request, id):
     return render(request, 'job_user_view_admin.html', context)
 
 
+@login_required(login_url='login')
 def job_person_applied_all(request, id):
     job_id = get_object_or_404(Job_work, id=id)
     applied_job_all = Applied_job.objects.filter(job=job_id)
@@ -132,6 +137,7 @@ def job_person_applied_all(request, id):
     return render(request, 'job_person_applied_all.html', context)
 
 
+@login_required(login_url='login')
 def job_applied_admin(request):
     job_apply = Applied_job.objects.filter(job__job_owner=request.user).order_by('-applied_date')
     context = {
@@ -140,6 +146,7 @@ def job_applied_admin(request):
     return render(request, 'job_applied_admin.html', context)
 
 
+@login_required(login_url='login')
 def applied_profile(request, id):
     profile_detail = get_object_or_404(Applied_job, id=id)
     context = {
@@ -148,6 +155,7 @@ def applied_profile(request, id):
     return render(request, 'applied_profile.html', context)
 
 
+@login_required(login_url='login')
 def invitation_applied(request, id):
     applied_person = get_object_or_404(Applied_job, id=id)
     form = InterviewAppliedForm()
@@ -185,6 +193,7 @@ def invitation_applied(request, id):
     return render(request, 'invitation_applied.html', context)
 
 
+@login_required(login_url='login')
 def hire_person_admin(request, id):
     profile_detail = get_object_or_404(Applied_job, id=id)
     Applied_job.objects.filter(id=id).update(hired_apply=True)
@@ -223,3 +232,29 @@ def hire_person_admin(request, id):
         return redirect('applied_profile', id=profile_detail.id)
     else:
         return redirect('user_home')
+
+
+@login_required(login_url='login')
+def question_admin(request):
+    all_question = Questions_stuff.objects.filter(owner=request.user)
+    context = {
+        'all_question': all_question
+    }
+    return render(request, 'question_admin.html', context)
+
+
+@login_required(login_url='login')
+def edit_question_admin(request, id):
+    question_detail = get_object_or_404(Questions_stuff, id=id)
+    form = QuestionsForm(request.POST or None, instance=question_detail)
+    if request.method == 'POST':
+        form = QuestionsForm(request.POST or None, instance=question_detail)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Edit question done successfully")
+            return redirect('question_admin')
+    context = {
+        'form': form,
+        'question_detail': question_detail
+    }
+    return render(request, 'edit_question.html', context)

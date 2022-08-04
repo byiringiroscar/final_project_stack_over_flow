@@ -123,9 +123,7 @@
                     <ul class="generic-list-item generic-list-item-highlight fs-15">
                         <li class="lh-26"><a href="{% url 'home' %}"><i class="la la-home mr-1 text-black"></i> Home</a></li>
                         <li class="lh-26 active"><a href="{% url 'question' %}"><i class="la la-globe mr-1 text-black"></i> Questions</a></li>
-                        <li class="lh-26"><a href="badges-list.html"><i class="la la-id-badge mr-1 text-black"></i> Unanswered</a></li>
-                        <li class="lh-26"><a href="user-list.html"><i class="la la-user mr-1 text-black"></i> Newest</a></li>
-                        <li class="lh-26"><a href="job-list.html"><i class="la la-mouse mr-1 text-black"></i> Jobs</a></li>
+                        <li class="lh-26"><a href="{% url 'job_list' %}"><i class="la la-mouse mr-1 text-black"></i> Jobs</a></li>
                     </ul>
                 </div><!-- end sidebar -->
             </div><!-- end col-lg-2 -->
@@ -166,14 +164,14 @@
                                 <div class="media media-card user-media align-items-center px-0 border-bottom-0 pb-0">
                                     {% for profile in profile_detail %}
                                         {% if question.owner_id == profile.user_id %}
-                                    <a href="user-profile.html" class="media-img d-block">
+                                    <a href="{% url 'view_profile_outside' question.id %}" class="media-img d-block">
                                         <img src="{{ profile.user_image.url }}" alt="avatar">
                                     </a>
                                         {% endif %}
                                         {% endfor %}
                                     <div class="media-body d-flex flex-wrap align-items-center justify-content-between">
                                         <div>
-                                            <h5 class="pb-1"><a href="user-profile.html">{{ question.owner.full_name }}</a></h5>
+                                            <h5 class="pb-1"><a href="{% url 'view_profile_outside' question.id %}">{{ question.owner.full_name }}</a></h5>
                                         </div>
                                         <small class="meta d-block text-right">
                                             <span class="text-black d-block lh-18">asked</span>

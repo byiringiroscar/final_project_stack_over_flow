@@ -16,6 +16,9 @@ from django.core.mail import EmailMessage
 import threading
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
+from django.template.loader import get_template
+from django.utils import timezone
+now_time_sent = timezone.now()
 
 User = get_user_model()
 
@@ -88,15 +91,14 @@ def register_user(request):
             link = reverse('activate',
                            kwargs={'uidb64': uidb64, 'token': account_activation_token.make_token(user)})
             activate_url = 'http://' + domain + link
-            print("activation url =======================", activate_url)
             email_subject = "Activate your account"
-            email_body = f"Hi {user.full_name} please use this link to verify your account\n {activate_url}"
-            email = EmailMessage(
-                email_subject,
-                email_body,
-                'from@example.com',
-                [email],
+            email_body = f"Hi {user.full_name} please use this link to verify your account"
+            from_email = 'koracodeafrica@gmail.com'
+            html_content = get_template('email_verification.html').render(
+                {'person': user.full_name, 'message': email_body, 'now': now_time_sent, 'link_verify': activate_url})
+            email = EmailMessage(email_subject, html_content, from_email, [email],
             )
+            email.content_subtype = "html"
             EmailThread(email).start()
             messages.success(request, "account created successfully please verify it")
             return redirect('page_link_sent')

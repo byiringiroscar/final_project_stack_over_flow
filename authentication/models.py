@@ -123,6 +123,7 @@ class Profile(models.Model):
     hardware = models.PositiveIntegerField(null=True, blank=True)
     uiandux = models.PositiveIntegerField(null=True, blank=True)
     artificial_intelligence = models.PositiveIntegerField(null=True, blank=True)
+    badge = models.BooleanField(default=False)
     date_created = models.DateField(default=now)
 
     def __str__(self):
