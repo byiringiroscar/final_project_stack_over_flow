@@ -233,7 +233,6 @@ def view_profile_outside(request, id):
     count_view = 0
     for quest in Questions_stuff.objects.filter(owner_id=profile_id):
         count_view += quest.viewed
-    print("count ---------------", count_view)
     context = {
         'user_question': user_question,
         'profile_user': profile_user,
@@ -243,6 +242,8 @@ def view_profile_outside(request, id):
     }
 
     return render(request, 'view_profile_outside.html', context)
+
+
 
 
 def notifications(request):

@@ -1,5 +1,6 @@
 from django import forms
-from questions.models import Questions_stuff, Answer_stuff, Job_work, Applied_job, InterviewApplied
+from questions.models import Questions_stuff, Answer_stuff, Job_work, Applied_job, InterviewApplied, Badge, \
+    InterviewBadge
 from django.utils import timezone
 
 now = timezone.now().date()
@@ -59,3 +60,21 @@ class InterviewAppliedForm(forms.ModelForm):
         if interview_date <= now_interview:
             raise forms.ValidationError("please date must be greater than today's date")
         return interview_date
+
+
+class InterviewBadgeForm(forms.ModelForm):
+    class Meta:
+        model = InterviewBadge
+        fields = ['interview_link', 'interview_date', ]
+
+    def clean_interview_date(self):
+        interview_date = self.cleaned_data['interview_date']
+        if interview_date <= now_interview:
+            raise forms.ValidationError("please date must be greater than today's date")
+        return interview_date
+
+
+class BadgeForm(forms.ModelForm):
+    class Meta:
+        model = Badge
+        fields = ['company_name', 'position_name', 'supporting_document', ]

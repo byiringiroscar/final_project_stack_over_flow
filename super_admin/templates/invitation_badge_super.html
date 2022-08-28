@@ -1,0 +1,75 @@
+{% include 'super_admin/base.html' %}
+
+{% load static %}
+
+
+
+
+{% block content %}
+
+    <div class="content-body">
+            <div class="container-fluid">
+				<div class="row page-titles">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="javascript:void(0)">Schedule Interview for Badge</a></li>
+					</ol>
+                </div>
+                <!-- row -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Fill Form</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="basic-form">
+                                    <form method="POST" action="">
+                                        {% csrf_token %}
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-3 col-form-label">Interview Link</label>
+                                            <div class="col-sm-9">
+                                                <input type="url" class="form-control" name="interview_link" value="{{ fieldValues.interview_link }}" placeholder="Enter interview link maybe zoom, skype, etc">
+                                            </div>
+                                            {% for err in form.interview_link.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
+
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-3 col-form-label">Date</label>
+                                            <div class="col-sm-9">
+										<div class="input-group">
+											 <div class="input-group-text"><i class="far fa-clock"></i></div>
+											<input size="16" type="datetime-local" name="interview_date" value="{{ fieldValues.interview_date }}" class="form-control form_datetime solid">
+										</div>
+                                                {% for err in form.interview_date.errors %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+									<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="me-2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+									<strong>Error!</strong> {{ err }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                    </button>
+								</div>
+                                        {% endfor %}
+									</div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <div class="col-sm-10">
+                                                <button type="submit" class="btn btn-primary">Send Invite</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}

@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from questions.models import Questions_stuff, Answer_stuff, Job_work, Applied_job, InterviewApplied
+from questions.models import Questions_stuff, Answer_stuff, Job_work, Applied_job, InterviewApplied, Badge
 from authentication.models import Profile
-from questions.forms import JobForm, InterviewAppliedForm, QuestionsForm
+from questions.forms import JobForm, InterviewAppliedForm, QuestionsForm, BadgeForm
 import json
 from django.http import JsonResponse, HttpResponse
 import os
@@ -258,3 +258,28 @@ def edit_question_admin(request, id):
         'question_detail': question_detail
     }
     return render(request, 'edit_question.html', context)
+
+
+@login_required(login_url='login')
+def request_badger_user(request):
+    badge = Badge.objects.all()
+    all_badger_user = [user_b.user for user_b in badge]
+    form = BadgeForm()
+    if request.method == 'POST':
+        form = BadgeForm(request.POST, request.FILES)
+        if form.is_valid():
+            if request.user in all_badger_user:
+                messages.error(request, "Badge request already sent")
+                return redirect('request_badger_user')
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            messages.success(request, "Badge request sent successfully")
+            return redirect('request_badger_user')
+    else:
+        form = BadgeForm()
+    context = {
+        'form': form,
+        'fieldValues': request.POST
+    }
+    return render(request, 'request_badger_user.html', context)

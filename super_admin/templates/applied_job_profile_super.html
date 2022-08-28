@@ -1,0 +1,97 @@
+{% include 'super_admin/base.html' %}
+
+{% load static %}
+
+
+
+
+{% block content %}
+
+
+
+<div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+				<div class="d-flex align-items-center mb-4">
+					<h4 class="fs-20 font-w600 mb-0 me-auto">User Profile</h4>
+
+				</div>
+                {% include 'partial/dashboard_message.html' %}
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="card">
+							<div class="card-header border-0 flex-wrap align-items-start">
+								<div class="col-md-8">
+									<div class="user d-sm-flex d-block pe-md-5 pe-0">
+										<img src="{% static 'profile.png' %}" alt="">
+										<div class="ms-sm-3 ms-0 me-md-5 md-0">
+											<h5 class="mb-1 font-w600"><a href="javascript:void(0);">{{ profile_detail.full_name }}</a></h5>
+											<div class="listline-wrapper mb-2">
+												<span class="item"><i class="far fa-envelope"></i>{{ profile_detail.email }}</span>
+												<span class="item"><i class="far fa-id-badge"></i>IT Field</span>
+												<span class="item"><i class="fas fa-map-marker-alt"></i>{{ profile_detail.residence }}</span>
+											</div>
+											<p>{{ profile_detail.biography }}</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4 col-12 text-end">
+                                    {% if profile_detail.hired_apply %}
+									<a href="javascript:void(0);" class="btn btn-sm btn-primary me-2">Already Hired</a>
+                                        {% elif profile_detail.rejected_apply%}
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-primary me-2">Not selected</a>
+                                        {% else %}
+                                        <a href="{% url 'hire_person_admin' profile_detail.id %}" class="btn btn-sm btn-primary me-2">Hire</a>
+                                {% endif %}
+                                    {% if profile_detail.interview == True %}
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-info" >Interview Pending</a>
+                                        {% elif profile_detail.rejected_apply %}
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-info" >No Interview</a>
+                                        {% elif profile_detail.hired_apply %}
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-info" >No Interview</a>
+                                        {% else %}
+									<a href="{% url 'invitation_applied' profile_detail.id %}" class="btn btn-sm btn-info" >Interview</a>
+                                    {% endif %}
+									<div class="mt-3">
+										<h6 class="text-start">Progress
+											<span class="float-end">{{ profile_detail.get_progress_percent }}%</span>
+										</h6>
+										<div class="progress ">
+											<div class="progress-bar bg-danger progress-animated" style="width: {{ profile_detail.get_progress_percent }}%; height:6px;" role="progressbar">
+												<span class="sr-only">60% Complete</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-body pt-0">
+								<h4 class="fs-20">Description</h4>
+								<div class="row">
+									<div class="col-xl-6 col-md-6">
+										<p class="font-w600 mb-2 d-flex"><span class="custom-label-2">Full Name : </span><span class="font-w400">{{ profile_detail.full_name }}</span></p>
+										<p class="font-w600 mb-2 d-flex"><span class="custom-label-2">Resume Title : </span><span class="font-w400">{{ profile_detail.job.title_developer }}</span></p>
+										<p class="font-w600 mb-2 d-flex"><span class="custom-label-2">Experience : </span><span class="font-w400">{{ profile_detail.job.experience }}</span></p>
+										<p class="font-w600 mb-2 d-flex"><span class="custom-label-2">Location :</span> <span class="font-w400">{{ profile_detail.residence }}</span></p>
+									</div>
+									<div class="col-xl-6 col-md-6">
+										<p class="font-w600 mb-2 d-flex"><span class="custom-label-2">Email :</span> <span class="font-w400">{{ profile_detail.email }}</span></p>
+										<p class="font-w600 mb-2 d-flex"><span class="custom-label-2">Phone : </span><span class="font-w400">{{ profile_detail.phone_number }}</span></p>
+										<p class="font-w600 mb-2 d-flex"><span class="custom-label-2">Industry :</span> <span class="font-w400">IT Industry</span></p>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer d-flex flex-wrap justify-content-between">
+								<div class="mb-md-2 mb-3">
+									<a href="{{ profile_detail.resume.url }}" class="btn btn-primary btn-md me-2  mb-2"><i class="fas fa-download me-2"></i>Download Resume</a>
+									<a href="{{ profile_detail.linkedin_url }}" target="_blank" rel="noopener" class="btn btn-warning btn-md me-2 mb-2"><i class="fa fa-user me-2"></i>Open Linkedin Profile</a>
+									<a href="mailto:{{ profile_detail.email }}" class="btn btn-info btn-md me-2 mb-2"><i class="fas fa-phone-alt me-2"></i>Contact</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+
+
+{% endblock %}

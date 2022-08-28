@@ -1,0 +1,104 @@
+{% include 'user_admin/base.html' %}
+
+{% load static %}
+
+
+
+
+{% block content %}
+
+    <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+				<div class="d-flex align-items-center mb-4 flex-wrap">
+					<h4 class="fs-20 font-w600  me-auto">Job View</h4>
+					<div>
+
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xl-3 col-xxl-4">
+						<div class="row">
+							<div class="col-xl-12">
+								<div class="card">
+									<div class="card-header border-0 pb-0">
+										<h4 class="fs-20 mb-0">Overview</h4>
+									</div>
+									<div class="card-body pt-4">
+										<div class="mb-3 d-flex">
+											<h5 class="mb-1 fs-14 custom-label">Job Title:</h5>
+											<span>{{ job.title_developer }}</span>
+										</div>
+										<div class="mb-3 d-flex">
+											<h5 class="mb-1 fs-14 custom-label">Experience:</h5>
+											<span>{{ job.experience }}</span>
+										</div>
+										<div class="mb-3 d-flex">
+											<h5 class="mb-1 fs-14 custom-label">Job Type:</h5>
+											<span>Full-Type</span>
+										</div>
+										<div class="mb-3 d-flex">
+											<h5 class="mb-1 fs-14 custom-label">Posted Date:</h5>
+											<span>{{ job.published_date }}</span>
+										</div>
+										<div class="mb-3 d-flex">
+											<h5 class="mb-1 fs-14 custom-label">Last Apply Date:</h5>
+											<span>{{ job.expire_date }}</span>
+										</div>
+									</div>
+									<div class="card-footer border-0 pt-0 ">
+										<div class="d-flex justify-content-between flex-wrap">
+											<a href="{% url 'job_delete_super' job.id %}" class="btn btn-primary btn-sm mb-3"><i class="fas fa-check me-2 "></i>Delete</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-9 col-xxl-8">
+						<div class="row">
+							<div class="col-xl-12">
+								<div class="card">
+									<div class="card-header d-block">
+										<h4 class="fs-20 d-block"><a href="javascript:void(0);">{{ job.title_developer }}</a></h4>
+										<div class="d-block">
+                                            {% if now > job.expire_date or job.job_hired == True  %}
+											<span class="me-2"><a href="javascript:void(0);"><span class="badge badge-danger badge-lg light">Not Active</span></a></span>
+                                                {% else %}
+                                                <span class="me-2"><a href="javascript:void(0);"><span class="badge badge-success badge-lg light">Active</span></a></span>
+                                            {% endif %}
+											<span class="me-2"><a href="javascript:void(0);"><i class="fas fa-map-marker-alt me-2"></i>{{ job.country_location }}</a></span>
+
+										</div>
+									</div>
+									<div class="card-body">
+                                        <h4 class="fs-20 mb-3">Description</h4>
+										<div class="ms-4">
+											<p>{{ job.job_description }}</p>
+
+										</div>
+                                        <hr>
+										<h4 class="fs-20 mb-3">Task detail</h4>
+										<div class="ms-4">
+											<p>{{ job.title_task }}</p>
+
+										</div>
+										<hr>
+										<h4 class="fs-20 mb-3">Tags</h4>
+										<div class="ms-4">
+                                            {% for tag in job.tags_as_list %}
+											<p><i class="fas fa-dot-circle me-2"> {{ tag.upper }}</i></p>
+                                            {% endfor %}
+
+										</div>
+										<hr>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+
+{% endblock %}

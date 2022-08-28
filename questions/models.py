@@ -134,3 +134,29 @@ class InterviewApplied(models.Model):
 
     def __str__(self):
         return f'{self.applied_person.full_name} --- {self.interview_date}'
+
+
+class Badge(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    company_name = models.CharField(max_length=100)
+    position_name = models.CharField(max_length=100)
+    supporting_document = models.FileField()
+    badge_approved = models.BooleanField(default=False)
+    published_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user.full_name}'
+    @property
+    def get_interview_status(self):
+        interview_status = self.interviewbadge_set.all()
+        return interview_status
+
+
+class InterviewBadge(models.Model):
+    badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
+    interview_link = models.URLField()
+    interview_date = models.DateTimeField()
+    published_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.badge.user.full_name}'

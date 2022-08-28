@@ -1,11 +1,12 @@
 from django.shortcuts import get_object_or_404
 from authentication.models import Profile
-from questions.models import Questions_stuff
+from questions.models import *
 
 
 def extras(request):
     user = request.user
     all_question = Questions_stuff.objects.filter().all().order_by('-publish_date')
+    all_badge_request = Badge.objects.filter(badge_approved=False).order_by('-published_date')
     final_tag = []
     tag_count = []
     final_tag_count = []
@@ -40,6 +41,8 @@ def extras(request):
         'user': user,
         'all_tag': zip(final_tag[:6], final_tag_count[:6]),
         'all_tag_more': zip(final_tag[6:], final_tag_count[6:]),
+        'all_badge_request': all_badge_request,
+        'all_badge_request_count': all_badge_request.count()
 
 
     }

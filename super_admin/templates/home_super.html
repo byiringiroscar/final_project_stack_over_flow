@@ -1,13 +1,151 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% include 'super_admin/base.html' %}
+
+{% load static %}
 
 
-        <h1>  you reached there boss</h1>
 
-</body>
-</html>
+
+{% block content %}
+
+    <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+				<div class="row">
+                    <div class="col-xl-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="row shapreter-row">
+											<div class="col-xl-2 col-lg-2 col-sm-4 col-6">
+												<div class="static-icon">
+													<span>
+														<i class="fas fa-eye"></i>
+													</span>
+													<h3 class="count">{{ all_question }}</h3>
+													<span class="fs-14">Question</span>
+												</div>
+											</div>
+											<div class="col-xl-2 col-lg-2 col-sm-4 col-6">
+												<div class="static-icon">
+													<span>
+														<i class="far fa-comments"></i>
+													</span>
+													<h3 class="count">{{ all_answer }}</h3>
+													<span class="fs-14">Answer</span>
+												</div>
+											</div>
+											<div class="col-xl-2 col-lg-2 col-sm-4 col-6">
+												<div class="static-icon">
+													<span>
+														<i class="fas fa-suitcase"></i>
+													</span>
+													<h3 class="count">{{ all_application }}</h3>
+													<span class="fs-14">Application Sent</span>
+												</div>
+											</div>
+											<div class="col-xl-2 col-lg-2 col-sm-4 col-6">
+												<div class="static-icon">
+													<span>
+														<i class="fas fa-suitcase"></i>
+													</span>
+													<h3 class="count">{{ all_job }}</h3>
+													<span class="fs-14">Job</span>
+												</div>
+											</div>
+											<div class="col-xl-2 col-lg-2 col-sm-4 col-6">
+												<div class="static-icon">
+													<span>
+														<i class="fas fa-calendar"></i>
+													</span>
+													<h3 class="count">{{ all_interviewed }}</h3>
+													<span class="fs-14">Interviewed</span>
+												</div>
+											</div>
+											<div class="col-xl-2 col-lg-2 col-sm-4 col-6">
+												<div class="static-icon">
+													<span>
+														<i class="fas fa-phone-alt"></i>
+													</span>
+													<h3 class="count">{{ all_hired }}</h3>
+													<span class="fs-14">Hired</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+                    <div class="col-xl-12">
+								<div class="card">
+									<div class="card-header border-0 pb-0">
+										<h4 class="fs-20 font-w600">Rating</h4>
+									</div>
+									<div class="card-body">
+										<div class="row align-items-center">
+											<div class="col-xl-6 col-sm-6">
+												<div class="progress default-progress">
+													<div class="progress-bar bg-vigit progress-animated" style="width: 90%; height:13px;" role="progressbar">
+														<span class="sr-only">90% Complete</span>
+													</div>
+												</div>
+												<div class="d-flex align-items-end mt-2 pb-4 justify-content-between">
+													<span class="fs-14 font-w500">Visitor</span>
+													<span class="fs-16"><span class="text-black pe-2"></span>90%</span>
+												</div>
+												<div class="progress default-progress">
+													<div class="progress-bar bg-contact progress-animated" style="width: 68%; height:13px;" role="progressbar">
+														<span class="sr-only">45% Complete</span>
+													</div>
+												</div>
+												<div class="d-flex align-items-end mt-2 pb-4 justify-content-between">
+													<span class="fs-14 font-w500">Contact</span>
+													<span class="fs-16"><span class="text-black pe-2"></span>68%</span>
+												</div>
+												<div class="progress default-progress">
+													<div class="progress-bar bg-follow progress-animated" style="width: 85%; height:13px;" role="progressbar">
+														<span class="sr-only">85% Complete</span>
+													</div>
+												</div>
+												<div class="d-flex align-items-end mt-2 pb-4 justify-content-between">
+													<span class="fs-14 font-w500">Follow</span>
+													<span class="fs-16"><span class="text-black pe-2"></span>85%</span>
+												</div>
+											</div>
+											<div class="col-xl-6 col-sm-6">
+												<div id="AdminChart"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+				</div>
+            </div>
+        </div>
+    <script>
+		$(document).ready(function() {
+
+		  var counters = $(".count");
+		  var countersQuantity = counters.length;
+		  var counter = [];
+
+		  for (i = 0; i < countersQuantity; i++) {
+			counter[i] = parseInt(counters[i].innerHTML);
+		  }
+
+		  var count = function(start, value, id) {
+			var localStart = start;
+			setInterval(function() {
+			  if (localStart < value) {
+				localStart++;
+				counters[id].innerHTML = localStart;
+			  }
+			}, 40);
+		  }
+
+		  for (j = 0; j < countersQuantity; j++) {
+			count(0, counter[j], j);
+		  }
+		});
+	</script>
+
+
+{% endblock %}

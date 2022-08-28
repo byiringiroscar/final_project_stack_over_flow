@@ -25,7 +25,8 @@ urlpatterns = [
     path('', include('home_view.urls')),
     path('authentication/', include('authentication.urls')),
     path('user_admin/', include('user_dashboard.urls')),
-    path('super_admin/', include('super_admin.urls'))
+    path('super_admin/', include('super_admin.urls')),
+    path("unicorn/", include("django_unicorn.urls")),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -15,5 +15,6 @@ urlpatterns = [
     path('invitation_applied/<int:id>/', views.invitation_applied, name="invitation_applied"),
     path('hire_person_admin/<int:id>/', views.hire_person_admin, name="hire_person_admin"),
     path('question_admin/', views.question_admin, name="question_admin"),
-    path('edit_question_admin/<int:id>/', views.edit_question_admin, name="edit_question_admin")
+    path('edit_question_admin/<int:id>/', views.edit_question_admin, name="edit_question_admin"),
+    path('request_badger_user/', views.request_badger_user, name="request_badger_user"),
 ]

@@ -1,0 +1,89 @@
+{% include 'super_admin/base.html' %}
+
+{% load static %}
+
+
+
+
+{% block content %}
+
+        <div class="content-body">
+            <div class="container-fluid">
+
+                <!-- row -->
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">All User</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example3" class="display" style="min-width: 845px">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Names</th>
+                                                <th>Mobile</th>
+                                                <th>Email</th>
+                                                <th>Location</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for all_user in all_user %}
+                                            {% if not all_user.admin %}
+                                            <tr>
+                                                <td><img class="rounded-circle" width="35" src="{{ all_user.get_profile_image }}" alt=""></td>
+                                                <td>{{ all_user.full_name }}</td>
+                                                <td><a href="javascript:void(0);"><strong>{{ all_user.phone_number }}</strong></a></td>
+                                                <td><a href="javascript:void(0);"><strong>{{ all_user.email }}</strong></a></td>
+                                                <td>{{ all_user.get_profile_location }}</td>
+                                                <td>
+                                                    {% if all_user.is_verified %}
+                                                        <span class="badge light badge-success">
+														<i class="fa fa-circle text-success me-1"></i>
+														activated
+													</span>
+                                                        {% else %}
+                                                        <span class="badge light badge-danger">
+														<i class="fa fa-circle text-danger me-1"></i>
+														not activated
+													</span>
+                                                    {% endif %}
+												</td>
+
+                                                <td>
+													<div class="action-buttons d-flex justify-content-end">
+												<a href="" class="btn btn-danger light">
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="svg-main-icon">
+														<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+															<rect x="0" y="0" width="24" height="24"></rect>
+															<path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero"></path>
+															<path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3"></path>
+														</g>
+													</svg>
+												</a>
+											</div>
+												</td>
+                                            </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+        </div>
+
+
+<!-- Datatable -->
+    <script src="{% static 'dashboard/vendor/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/plugins-init/datatables.init.js' %}"></script>
+{% endblock %}

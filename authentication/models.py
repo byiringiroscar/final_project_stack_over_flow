@@ -2,8 +2,10 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from phonenumber_field.modelfields import PhoneNumberField
+from questions.models import Badge
 
 from django.utils import timezone
+
 now = timezone.now()
 
 
@@ -71,7 +73,6 @@ class User(AbstractBaseUser):
     is_verified = models.BooleanField(default=False)
     is_two_f_enable = models.BooleanField(default=False)
 
-
     # username = None
 
     is_active = models.BooleanField(default=True)
@@ -109,6 +110,25 @@ class User(AbstractBaseUser):
     def is_admin(self):
         "Is the user a admin member?"
         return self.admin
+
+    @property
+    def get_profile_image(self):
+        image = self.profile.user_image.url
+        return image
+
+    @property
+    def get_profile_location(self):
+        location = self.profile.location
+        return location
+
+    @property
+    def get_badge_status(self):
+        all_badge = Badge.objects.all()
+        list_all_badge = [all_badge.user.email for all_badge in all_badge]
+        if self.email in list_all_badge:
+            return True
+        else:
+            return False
 
 
 class Profile(models.Model):

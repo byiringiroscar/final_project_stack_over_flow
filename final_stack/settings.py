@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'questions.apps.QuestionsConfig',
     'user_dashboard.apps.UserDashboardConfig',
-    'super_admin.apps.SuperAdminConfig'
+    'super_admin.apps.SuperAdminConfig',
+    "django_unicorn"
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,87 @@
+{% include 'super_admin/base.html' %}
+
+{% load static %}
+
+
+
+
+{% block content %}
+
+        <div class="content-body">
+            <div class="container-fluid">
+
+                <!-- row -->
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                        {% include 'partial/dashboard_message.html' %}
+                            <div class="card-header">
+                                <h4 class="card-title">All Badge Request</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example3" class="display" style="min-width: 845px">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Names</th>
+                                                <th>company name</th>
+                                                <th>position name</th>
+                                                <th>Supporting Doc</th>
+                                                <th>Status</th>
+                                                <th>Schedule Interview</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for all_badge in all_badge %}
+                                            <tr>
+                                                <td><img class="rounded-circle" width="35" src="{{ all_badge.user.get_profile_image }}" alt=""></td>
+                                                <td><b><strong>{{ all_badge.user.full_name }}</strong></b></td>
+                                                <td><a href="javascript:void(0);"><strong>{{ all_badge.company_name }}</strong></a></td>
+                                                <td><a href="javascript:void(0);"><strong>{{ all_badge.position_name }}</strong></a></td>
+                                                <td><a href="{{ all_badge.supporting_document.url }}" class="badge badge-secondary"><strong>Download</strong></a></td>
+                                                <td>
+                                                    {% if all_badge.badge_approved %}
+                                                        <span class="badge light badge-success">
+														<i class="fa fa-circle text-success me-1"></i>
+														awarded
+													</span>
+                                                        {% else %}
+                                                        <span class="badge light badge-danger">
+														<i class="fa fa-circle text-danger me-1"></i>
+														not awarded
+													</span>
+                                                    {% endif %}
+												</td>
+                                                <td>
+
+                                                    {% if not all_badge.get_interview_status %}
+                                                    <a href="{% url 'invitation_badge_super' all_badge.id %}" class="badge badge-primary"><strong>Interview</strong></a>
+                                                        {% else %}
+                                                        <a href="javascript:void(0);" class="badge badge-success"><strong>Link sent</strong></a>
+                                                    {% endif %}
+												</td>
+
+                                                <td>
+                                                    <a href="{% url 'approve_badge' all_badge.id %}" class="badge badge-success"><strong>Approve</strong></a>
+												</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+        </div>
+
+
+<!-- Datatable -->
+    <script src="{% static 'dashboard/vendor/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/plugins-init/datatables.init.js' %}"></script>
+{% endblock %}
