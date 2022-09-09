@@ -1,0 +1,73 @@
+{% extends 'base_white.html' %}
+
+{% load static %}
+
+{% block title %} view {% endblock %}
+
+{% block content %}
+
+
+    <section class="question-area pt-40px pb-40px">
+    <div class="container">
+        <div class="filters pb-40px d-flex flex-wrap align-items-center justify-content-between">
+            <h3 class="fs-22 fw-medium mr-0">Connect with Me</h3>
+            {% include 'partial/_messages.html' %}
+
+            <ul class="breadcrumb-list">
+                <li><a href="{% url 'home' %}">Home</a><span><svg xmlns="http://www.w3.org/2000/svg" height="19px" viewBox="0 0 24 24" width="19px" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"></path></svg></span></li>
+                <li>Connect with Me</li>
+            </ul>
+        </div><!-- end filters -->
+        <form method="POST" action="#" class="row">
+            {% csrf_token %}
+            <div class="col-lg-12">
+                <div class="card card-item">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="fs-14 text-black fw-medium lh-20">Your Name</label>
+                            <input type="text" name="name" class="form-control form--control fs-14" placeholder="e.g. Oscar zera" value="{{ fieldValues.name }}">
+                            {% for err in form.name.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                  {{ err }}
+                                </div>
+                            {% endfor %}
+                        </div><!-- end form-group -->
+                        <div class="form-group">
+                            <label class="fs-14 text-black fw-medium lh-20">Email <span class="text-gray">(Address never made public)</span></label>
+                            <input type="email" name="email" class="form-control form--control fs-14" placeholder="e.g. byiringiro@gmail.com" value="{{ fieldValues.email }}">
+                            {% for err in form.email.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                  {{ err }}
+                                </div>
+                            {% endfor %}
+                        </div><!-- end form-group -->
+                        <div class="form-group">
+                            <label class="fs-14 text-black fw-medium lh-20">Subject</label>
+                            <input type="text" name="subject" class="form-control form--control fs-14" placeholder="Your Subject ..." value="{{ fieldValues.subject }}">
+                            {% for err in form.subject.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                  {{ err }}
+                                </div>
+                            {% endfor %}
+                        </div><!-- end form-group -->
+                        <div class="form-group">
+                            <label class="fs-14 text-black fw-medium lh-20">Body</label>
+                            <textarea name="body" class="form-control form--control user-text-editor" rows="6">{{ fieldValues.body }}</textarea>
+                            {% for err in form.body.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                  {{ err }}
+                                </div>
+                            {% endfor %}
+                        </div><!-- end form-group -->
+                        <div class="form-group mb-0">
+                            <button class="btn theme-btn" type="submit">Send</button>
+                        </div><!-- end form-group -->
+                    </div><!-- end card-body -->
+                </div>
+            </div><!-- end col-lg-8 -->
+        </form>
+    </div><!-- end container -->
+</section><!-- end question-area -->
+
+
+{% endblock %}

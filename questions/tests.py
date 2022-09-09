@@ -2,14 +2,11 @@
 
 # Create your tests here.
 
-class Math:
-    @staticmethod
-    def add5(x):
-        return x + 5
-
-
-print(Math.add5(8))
-
+import requests
+session = requests.Session()
+print(session.cookies.get_dict())
+response = session.get('sessionid')
+print(session.cookies.get_dict())
 
 
 

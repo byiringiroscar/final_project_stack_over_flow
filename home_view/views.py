@@ -3,8 +3,8 @@ from authentication.forms import UserForm, UpdateProfileForm, SkillsForm
 from authentication.models import Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from questions.forms import QuestionsForm, AnswerForm, ApplyJobForm
-from questions.models import Questions_stuff, Answer_stuff, Applied_job
+from questions.forms import QuestionsForm, AnswerForm, ApplyJobForm, Connect_userForm
+from questions.models import Questions_stuff, Answer_stuff, Applied_job, ConnectWith
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from questions.models import Job_work
@@ -12,6 +12,14 @@ from django.utils import timezone
 from django.conf import settings
 from django.db.models import Q
 from django.contrib.auth import get_user_model
+from django.contrib.sessions.models import Session
+import json
+
+from django.core import serializers
+from django.http import JsonResponse
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
 User = get_user_model()
 
 now = timezone.now()
@@ -27,7 +35,9 @@ def question(request):
     all_questions = Questions_stuff.objects.filter().order_by('-publish_date')
     search_question = request.GET.get('search_question')
     if search_question != '' and search_question is not None:
-        all_questions = Questions_stuff.objects.filter(Q(title__icontains=search_question) | Q(tag__icontains=search_question) | Q(body__in=search_question) | Q(detail__icontains=search_question)).distinct()
+        all_questions = Questions_stuff.objects.filter(
+            Q(title__icontains=search_question) | Q(tag__icontains=search_question) | Q(body__in=search_question) | Q(
+                detail__icontains=search_question)).distinct()
     all_answer = Answer_stuff.objects.all()
     profile_detail = Profile.objects.all()
     paginator = Paginator(all_questions, 8)
@@ -123,7 +133,8 @@ def job_list(request):
     if job_search != '' and job_search is not None:
         all_job = all_job.filter(Q(title_task__contains=job_search) | Q(title_developer__icontains=job_search))
     elif job_langauge != '' and job_langauge is not None:
-        all_job = all_job.filter(Q(country_location__icontains=job_langauge) | Q(job_type__icontains=job_langauge)).distinct()
+        all_job = all_job.filter(
+            Q(country_location__icontains=job_langauge) | Q(job_type__icontains=job_langauge)).distinct()
     elif job_price != '' and job_price is not None:
         all_job = all_job.filter(amount_range_end__gte=job_price)
     paginator = Paginator(all_job, 8)
@@ -244,9 +255,82 @@ def view_profile_outside(request, id):
     return render(request, 'view_profile_outside.html', context)
 
 
+def connect_with_me(request, id):
+    user_connect = get_object_or_404(User, id=id)
+    form = Connect_userForm()
+    if request.method == 'POST':
+        form = Connect_userForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = user_connect
+            instance.save()
+            messages.success(request, "Thanks for your enquiry I will reach to you soon as possible")
+            return redirect('connect_with_me', id=user_connect.id)
+    else:
+        form = Connect_userForm()
+    context = {
+        'form': form,
+        'fieldValues': request.POST
+    }
+    return render(request, 'connect_with_me.html', context)
 
 
+def get_notification(request):
+    data = ConnectWith.objects.all().order_by('-published_date')
+    jsonData = serializers.serialize('json', data)
+    return JsonResponse({'data': jsonData})
+
+
+# notification1.html is for testing the notificatio by using ajax with reloading in 5 seconds we created the endpoint
+# for looping into the notification and checking according to the published date so we passed to that template with
+# ajax call to make it then we take their div class in the template then we started to loop it on it by using foreach
+# in js then able to get response in template through the ajax
+
+
+# ===== here we are going to use django channels and the new asgi to make request and receice the answer from the
+# server to be able to see the notification in realtime without reloading the page
+# @login_required(login_url='login')
+# def notifications(request):
+#     all_notification = ConnectWith.objects.filter(user=request.user).order_by('-id')
+#     async_to_sync(channel_layer.group_send)(
+#         'noti_group_name', {
+#             'type': 'send_notification',
+#             'total_notification': json.dumps({'total': all_notification.count()})
+#         }
+#     )
+#     context = {
+#         'all_notification': all_notification
+#     }
+#     return render(request, 'notifications.html', context)
+
+
+def get_all_Notification_count(request):
+    data = json.loads(request.body)
+    logged_user = request.user
+    user_id = data['userId_Not']
+    if logged_user.is_authenticated:
+        user_on_log = logged_user.id
+        if user_on_log == user_id:
+            all_noti = ConnectWith.objects.filter(user_id=user_id).count()
+        else:
+            all_noti = None
+    else:
+        all_noti = ConnectWith.objects.filter(user_id=user_id).count()
+    return JsonResponse({'all_notification': all_noti}, safe=False)
+
+
+@login_required(login_url='login')
 def notifications(request):
-    return render(request, 'notifications.html')
-
-# profile =========================== update
+    all_notification = ConnectWith.objects.filter(user=request.user).order_by('-id')
+    paginator = Paginator(all_notification, 5)
+    page_number = request.GET.get('page')
+    try:
+        posts = paginator.page(page_number)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    context = {
+        'all_notification': posts
+    }
+    return render(request, 'notifications.html', context)

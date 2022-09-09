@@ -54,7 +54,8 @@
                     <div class="nav-right-button">
                         <ul class="user-action-wrap d-flex align-items-center">
                             <li class="dropdown">
-                                <span class="ball red ball-lg noti-dot"></span>
+                                <span class="ball red ball-lg noti-dot">1</span>
+                                <span class="ajaxRes"></span>
                                 <a class="nav-link dropdown-toggle dropdown--toggle" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="la la-bell"></i>
                                 </a>
@@ -62,7 +63,7 @@
                                     <h6 class="dropdown-header"><i class="la la-bell pr-1 fs-16"></i>Notifications</h6>
                                     <div class="dropdown-divider border-top-gray mb-0"></div>
                                     <div class="dropdown-item-list">
-                                        <a class="dropdown-item" href="notifications.html">
+                                        <a class="dropdown-item" href="#">
                                             <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
                                                 <div class="media-img media-img-sm flex-shrink-0">
                                                     <img src="{% static 'home/images/img3.jpg' %}" alt="avatar">
@@ -75,21 +76,8 @@
                                                 </div>
                                             </div>
                                         </a>
-                                        <a class="dropdown-item" href="notifications.html">
-                                            <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
-                                                <div class="media-img media-img-sm flex-shrink-0">
-                                                    <img src="{% static 'home/images/img4.jpg' %}" alt="avatar">
-                                                </div>
-                                                <div class="media-body p-0 border-left-0">
-                                                    <h5 class="fs-14 fw-regular">Arnold Smith answered on your post</h5>
-                                                    <small class="meta d-block lh-24">
-                                                        <span>5 mins ago</span>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </a>
                                     </div>
-                                    <a class="dropdown-item pb-1 border-bottom-0 text-center btn-text fw-regular" href="notifications.html">View All Notifications <i class="la la-arrow-right icon ml-1"></i></a>
+                                    <a class="dropdown-item pb-1 border-bottom-0 text-center btn-text fw-regular" href="{% url 'notifications' %}">View All Notifications <i class="la la-arrow-right icon ml-1"></i></a>
                                 </div>
                             </li>
                             <li class="dropdown user-dropdown">

@@ -31,14 +31,17 @@ def extras(request):
     if user.is_authenticated:
         user = request.user
         profile_user = get_object_or_404(Profile, user=user)
+        user_id_logged = user.id
         # to address notification from police request
     else:
         profile_user = None
         user = None
+        user_id_logged = None
 
     return {
         'profile': profile_user,
         'user': user,
+        'user_id_logged': user_id_logged,
         'all_tag': zip(final_tag[:6], final_tag_count[:6]),
         'all_tag_more': zip(final_tag[6:], final_tag_count[6:]),
         'all_badge_request': all_badge_request,

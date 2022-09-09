@@ -1,6 +1,6 @@
 from django import forms
 from questions.models import Questions_stuff, Answer_stuff, Job_work, Applied_job, InterviewApplied, Badge, \
-    InterviewBadge
+    InterviewBadge, ConnectWith
 from django.utils import timezone
 
 now = timezone.now().date()
@@ -78,3 +78,10 @@ class BadgeForm(forms.ModelForm):
     class Meta:
         model = Badge
         fields = ['company_name', 'position_name', 'supporting_document', ]
+
+
+class Connect_userForm(forms.ModelForm):
+    class Meta:
+        model = ConnectWith
+        fields = ['name', 'email', 'subject', 'body']
+

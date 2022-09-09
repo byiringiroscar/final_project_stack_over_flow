@@ -2,6 +2,11 @@ from django.db import models
 from django.conf import settings
 from tinymce.models import HTMLField
 from phonenumber_field.modelfields import PhoneNumberField
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.contrib.sessions.models import Session
+
+import json
 
 User = settings.AUTH_USER_MODEL
 
@@ -146,6 +151,7 @@ class Badge(models.Model):
 
     def __str__(self):
         return f'{self.user.full_name}'
+
     @property
     def get_interview_status(self):
         interview_status = self.interviewbadge_set.all()
@@ -160,3 +166,36 @@ class InterviewBadge(models.Model):
 
     def __str__(self):
         return f'{self.badge.user.full_name}'
+
+
+class ConnectWith(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=250)
+    email = models.EmailField(max_length=250)
+    subject = models.CharField(max_length=250)
+    body = models.TextField()
+    published_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.name} ----- {self.subject}'
+
+    def save(self, *args, **kwargs):
+        super(ConnectWith, self).save(*args, **kwargs)
+        channel_layer = get_channel_layer()
+        # check logged_in user by taking the session
+
+        notif = self.body
+        user_id_server = self.user.id
+        total = ConnectWith.objects.all().count()
+        async_to_sync(channel_layer.group_send)(
+            'noti_group_name', {
+                'type': 'send_notification',
+                'value': json.dumps({'notif': notif, 'user_id_server': user_id_server, 'total': total})
+            }
+        )
+
+
+class ConnectStatus(models.Model):
+    connect_with = models.ForeignKey(ConnectWith, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.BooleanField(default=False)

@@ -14,9 +14,9 @@ from pathlib import Path
 import os
 from decouple import config
 from django.contrib import messages
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -29,7 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,13 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tinymce',
-    'home_view',
     'authentication.apps.AuthenticationConfig',
+    'home_view',
     'phonenumber_field',
     'questions.apps.QuestionsConfig',
     'user_dashboard.apps.UserDashboardConfig',
     'super_admin.apps.SuperAdminConfig',
-    "django_unicorn"
+    "django_unicorn",
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -77,8 +77,9 @@ TEMPLATES = [
         },
     },
 ]
+ASGI_APPLICATION = 'final_stack.asgi.application'
+# WSGI_APPLICATION = 'final_stack.wsgi.application'
 
-WSGI_APPLICATION = 'final_stack.wsgi.application'
 
 AUTH_USER_MODEL = 'authentication.User'
 
@@ -91,7 +92,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -111,7 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -122,7 +121,6 @@ TIME_ZONE = 'Africa/Kigali'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -149,6 +147,14 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

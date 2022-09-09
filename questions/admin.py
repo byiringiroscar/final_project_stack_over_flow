@@ -1,5 +1,5 @@
 from django.contrib import admin
-from questions.models import Questions_stuff, Answer_stuff, Job_work, Applied_job, InterviewApplied, Badge, InterviewBadge
+from questions.models import Questions_stuff, Answer_stuff, Job_work, Applied_job, InterviewApplied, Badge, InterviewBadge, ConnectWith
 
 # Register your models here.
 
@@ -10,4 +10,5 @@ admin.site.register(Applied_job)
 admin.site.register(InterviewApplied)
 admin.site.register(Badge)
 admin.site.register(InterviewBadge)
+admin.site.register(ConnectWith)
 

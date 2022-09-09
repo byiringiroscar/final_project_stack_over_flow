@@ -1,5 +1,4 @@
 from django.db import models
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from phonenumber_field.modelfields import PhoneNumberField
 from questions.models import Badge
@@ -81,6 +80,9 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name', 'phone_number']
     objects = UserManager()
+
+    class Meta:
+        app_label = 'authentication'
 
     def get_full_name(self):
         return self.full_name
