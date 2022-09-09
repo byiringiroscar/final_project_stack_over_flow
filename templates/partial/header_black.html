@@ -59,33 +59,23 @@
                                 <div class="dropdown-menu dropdown--menu dropdown-menu-right mt-3 keep-open" aria-labelledby="notificationDropdown">
                                     <h6 class="dropdown-header"><i class="la la-bell pr-1 fs-16"></i>Notifications</h6>
                                     <div class="dropdown-divider border-top-gray mb-0"></div>
-                                    <div class="dropdown-item-list">
-                                        <a class="dropdown-item" href="notifications.html">
+                                    <div class="dropdown-item-list header-list-notification">
+                                        {% for notification_header in notification_header %}
+                                        <a class="dropdown-item header-notification-all" href="#">
                                             <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
                                                 <div class="media-img media-img-sm flex-shrink-0">
                                                     <img src="{% static 'home/images/img3.jpg' %}" alt="avatar">
                                                 </div>
                                                 <div class="media-body p-0 border-left-0">
-                                                    <h5 class="fs-14 fw-regular">John Doe following your post</h5>
+                                                    <h4 class="fs-14 fw-regular">John Doe following your post</h4>
+                                                    <h6 class="fs-14 fw-regular">{{ notification_header.body }}</h6>
                                                     <small class="meta d-block lh-24">
                                                         <span>45 secs ago</span>
                                                     </small>
                                                 </div>
                                             </div>
                                         </a>
-                                        <a class="dropdown-item" href="notifications.html">
-                                            <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
-                                                <div class="media-img media-img-sm flex-shrink-0">
-                                                    <img src="{% static 'home/images/img4.jpg' %}" alt="avatar">
-                                                </div>
-                                                <div class="media-body p-0 border-left-0">
-                                                    <h5 class="fs-14 fw-regular">Arnold Smith answered on your post</h5>
-                                                    <small class="meta d-block lh-24">
-                                                        <span>5 mins ago</span>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </a>
+                                        {% endfor %}
                                     </div>
                                     <a class="dropdown-item pb-1 border-bottom-0 text-center btn-text fw-regular" href="{% url 'notifications' %}">View All Notifications <i class="la la-arrow-right icon ml-1"></i></a>
                                 </div>

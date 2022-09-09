@@ -32,11 +32,13 @@ def extras(request):
         user = request.user
         profile_user = get_object_or_404(Profile, user=user)
         user_id_logged = user.id
+        all_notification = ConnectWith.objects.filter(user=user).order_by('-id')
         # to address notification from police request
     else:
         profile_user = None
         user = None
         user_id_logged = None
+        all_notification = None
 
     return {
         'profile': profile_user,
@@ -45,7 +47,9 @@ def extras(request):
         'all_tag': zip(final_tag[:6], final_tag_count[:6]),
         'all_tag_more': zip(final_tag[6:], final_tag_count[6:]),
         'all_badge_request': all_badge_request,
-        'all_badge_request_count': all_badge_request.count()
+        'all_badge_request_count': all_badge_request.count(),
+        'notification_header': all_notification,
+        'notification_header_count': ConnectWith.objects.filter(user=user).order_by('-id').count()
 
 
     }

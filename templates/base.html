@@ -412,11 +412,95 @@
 
 <!-- Modal -->
 <!-- template js files -->
+
+
+
+
 <script src="{% static 'home/js/jquery-3.4.1.min.js' %}"></script>
 <script src="{% static 'home/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'home/js/owl.carousel.min.js' %}"></script>
 <script src="{% static 'home/js/jquery.lazy.min.js' %}"></script>
 <script src="{% static 'home/js/main.js' %}"></script>
+
+
+<script>
+        var user_logged_In = {{ user_id_logged }};
+        const webSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/notifications/'
+        );
+
+        webSocket.onopen=function (event) {
+            webSocket.send(JSON.stringify({
+                'message': "from Client"
+            }));
+        }
+        webSocket.onmessage=function (event) {
+            {#console.log("received");  // receive the data#}
+            var _data = JSON.parse(event.data);
+            get_notification(_data.user_id_server);
+            for(let i=0; i<=_data.length; i++){
+                console.log(i)
+            }
+            if(_data.user_id_server === user_logged_In){
+                $(".header-list-notification").prepend('<div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">\
+                        <div class="media-img media-img-sm flex-shrink-0">\
+                            <img src="{% static 'home/images/img3.jpg' %}" alt="avatar">\
+                        </div>\
+                        <div class="media-body p-0 border-left-0">\
+                            <h5 class="fs-14 fw-regular">Oscar Doe following your post</h5>\
+                            <h6 class="fs-14 fw-regular">'+_data.notif+'</h6>\
+                            <small class="meta d-block lh-24">\
+                                <span>45 secs ago</span>\
+                            </small>\
+                        </div>\
+                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>\
+                    </div>');
+                $('.header-list-notification').each(function() {
+                  $(this).children().slice(2).hide();
+                });
+
+
+
+
+            }
+
+        }
+        webSocket.onclose=function (event) {
+            console.log("Closed");
+        }
+
+        function get_notification(userId){
+            var url = 'http://127.0.0.1:8000/get_all_Notification_count'
+            const data = { userId_Not: userId };
+            fetch(url, {
+              method: 'POST', // or 'PUT'
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                  {#lastResult = data.all_notification#}
+                  if(data.all_notification !== null){
+                      $('.totalunreadMain').text(data.all_notification);
+                      setTimeout(function () {
+                          document.getElementById("my_audio").play();
+                      }, 4000);
+                      {#var audio = new Audio('http://127.0.0.1:8000/static/audio_noti.mp3');#}
+                      {#audio.play();#}
+                  }
+
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+        }
+
+
+    </script>
 
 </body>
 
