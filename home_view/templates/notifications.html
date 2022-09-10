@@ -61,7 +61,7 @@
                                         <span><b>{{ all_notification.published_date }}</b></span>
                                     </small>
                                 </div>
-                                <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
+                                <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Mark as read"><i class="la la-eye"></i></button>
                             </div>
 
                             {% endfor %}
@@ -134,10 +134,27 @@
                                 <span><b>'+_data.date_published_user+'</b></span>\
                             </small>\
                         </div>\
-                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>\
+                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Mark as read"><i class="la la-eye"></i></button>\
                     </div>');
                 $('.notif-list').each(function() {
                   $(this).children().slice(5).hide();
+                });
+                $(".header-list-notification").prepend('<a class="dropdown-item header-notification-all" href="#">\
+                                            <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">\
+                                                <div class="media-img media-img-sm flex-shrink-0">\
+                                                    <img src="{% static 'profile.png' %}" alt="avatar">\
+                                                </div>\
+                                                <div class="media-body p-0 border-left-0">\
+                                                    <h4 class="fs-14 fw-regular"><b>'+_data.name_user+' following your post</b></h4>\
+                                                    <h6 class="fs-14 fw-regular">'+_data.subject_user+'</h6>\
+                                                    <small class="meta d-block lh-24">\
+                                                        <span>'+_data.date_published_user+'</span>\
+                                                    </small>\
+                                                </div>\
+                                            </div>\
+                                        </a>');
+                $('.header-list-notification').each(function() {
+                  $(this).children().slice(3).hide();
                 });
 
 
