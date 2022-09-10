@@ -186,11 +186,19 @@ class ConnectWith(models.Model):
 
         notif = self.body
         user_id_server = self.user.id
-        total = ConnectWith.objects.all().count()
+        name_user = self.name
+        subject_user = self.subject
+        date_published_user = self.published_date
         async_to_sync(channel_layer.group_send)(
-            'noti_group_name', {
-                'type': 'send_notification',
-                'value': json.dumps({'notif': notif, 'user_id_server': user_id_server, 'total': total})
+            'noti_group_name', {  # this is the group name created in consumer
+                'type': 'send_notification', # this is method we are going to create under consumer
+                'value': json.dumps({'notif': notif,
+                                     'user_id_server': user_id_server,
+                                     'name_user': name_user,
+                                     'subject_user': subject_user,
+                                     'date_published_user': str(date_published_user),
+
+                                     })
             }
         )
 

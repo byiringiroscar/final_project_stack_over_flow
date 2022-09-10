@@ -19,7 +19,6 @@ class NotificationConsumer(WebsocketConsumer):
 
     def send_notification(self, event):
         self.send(event.get(
-            'value'))  # this the data we get from Connect model with method type send_notification and now we are going to send it
+            'value'))  # this the data we get from Connect model with method type send_notification and now we are
+        # going to send it  N:B value is the key we are getting from async_to_sync(channel_layer.group_send) in models so you can call it whatever you want
 
-    def send_total_notification(self, event):
-        self.send(event.get('total_notification'))

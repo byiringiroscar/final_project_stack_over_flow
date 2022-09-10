@@ -50,13 +50,15 @@
                         {% for all_notification in all_notification %}
                             <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent notification-all">
                                 <div class="media-img media-img-sm flex-shrink-0">
-                                    <img src="{% static 'home/images/img3.jpg' %}" alt="avatar">
+                                    <img src="{% static 'profile.png' %}" alt="avatar">
                                 </div>
                                 <div class="media-body p-0 border-left-0">
-                                    <h5 class="fs-14 fw-regular">Oscar Doe following your post</h5>
+                                    <h3 class="fs-14 fw-regular"><b>{{ all_notification.name }} following your post</b></h3>
+                                    <h5 class="fs-14 fw-regular">Re:{{ all_notification.subject }}</h5>
+                                    <hr>
                                     <h6 class="fs-14 fw-regular">{{ all_notification.body }}</h6>
                                     <small class="meta d-block lh-24">
-                                        <span>45 secs ago</span>
+                                        <span><b>{{ all_notification.published_date }}</b></span>
                                     </small>
                                 </div>
                                 <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>
@@ -121,13 +123,15 @@
             if(_data.user_id_server === user_logged_In){
                 $(".notif-list").hide().slice(0,2).show().prepend('<div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">\
                         <div class="media-img media-img-sm flex-shrink-0">\
-                            <img src="{% static 'home/images/img3.jpg' %}" alt="avatar">\
+                            <img src="{% static 'profile.png' %}" alt="avatar">\
                         </div>\
                         <div class="media-body p-0 border-left-0">\
-                            <h5 class="fs-14 fw-regular">Oscar Doe following your post</h5>\
+                            <h3 class="fs-14 fw-regular"><b>'+_data.name_user+' following your post</b></h3>\
+                            <h5 class="fs-14 fw-regular">Re:'+_data.subject_user+'</h5>\
+                            <hr>\
                             <h6 class="fs-14 fw-regular">'+_data.notif+'</h6>\
                             <small class="meta d-block lh-24">\
-                                <span>45 secs ago</span>\
+                                <span><b>'+_data.date_published_user+'</b></span>\
                             </small>\
                         </div>\
                         <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="la la-trash"></i></button>\
@@ -161,6 +165,7 @@
                   {#lastResult = data.all_notification#}
                   if(data.all_notification !== null){
                       $('.totalunread').text(data.all_notification);
+                      $('.totalunreadMain').text(data.all_notification);
                       setTimeout(function () {
                           document.getElementById("my_audio").play();
                       }, 4000);

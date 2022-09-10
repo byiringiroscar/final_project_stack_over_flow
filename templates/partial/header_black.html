@@ -51,7 +51,7 @@
                     <div class="nav-right-button">
                         <ul class="user-action-wrap d-flex align-items-center">
                             <li class="dropdown">
-                                <span class="ball red ball-lg noti-dot"></span>
+                                <span class="ball red ball-lg noti-dot totalunreadMain">{{ notification_header_count }}</span>
                                 <span class="ajaxRes"></span>
                                 <a class="nav-link dropdown-toggle dropdown--toggle" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="la la-bell"></i>
@@ -64,13 +64,13 @@
                                         <a class="dropdown-item header-notification-all" href="#">
                                             <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
                                                 <div class="media-img media-img-sm flex-shrink-0">
-                                                    <img src="{% static 'home/images/img3.jpg' %}" alt="avatar">
+                                                    <img src="{% static 'profile.png' %}" alt="avatar">
                                                 </div>
                                                 <div class="media-body p-0 border-left-0">
-                                                    <h4 class="fs-14 fw-regular">John Doe following your post</h4>
-                                                    <h6 class="fs-14 fw-regular">{{ notification_header.body }}</h6>
+                                                    <h4 class="fs-14 fw-regular"><b>{{ notification_header.name }} following your post</b></h4>
+                                                    <h6 class="fs-14 fw-regular">{{ notification_header.subject }}</h6>
                                                     <small class="meta d-block lh-24">
-                                                        <span>45 secs ago</span>
+                                                        <span>{{ notification_header.published_date }}</span>
                                                     </small>
                                                 </div>
                                             </div>

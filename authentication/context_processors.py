@@ -32,7 +32,7 @@ def extras(request):
         user = request.user
         profile_user = get_object_or_404(Profile, user=user)
         user_id_logged = user.id
-        all_notification = ConnectWith.objects.filter(user=user).order_by('-id')
+        all_notification = ConnectWith.objects.filter(user=user).order_by('-id')[:3]
         # to address notification from police request
     else:
         profile_user = None
