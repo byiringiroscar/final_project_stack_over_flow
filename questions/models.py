@@ -174,6 +174,7 @@ class ConnectWith(models.Model):
     email = models.EmailField(max_length=250)
     subject = models.CharField(max_length=250)
     body = models.TextField()
+    readed_notification = models.BooleanField(default=False)
     published_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -189,6 +190,8 @@ class ConnectWith(models.Model):
         name_user = self.name
         subject_user = self.subject
         date_published_user = self.published_date
+        notification_id = self.id
+        notification_status = self.readed_notification
         async_to_sync(channel_layer.group_send)(
             'noti_group_name', {  # this is the group name created in consumer
                 'type': 'send_notification', # this is method we are going to create under consumer
@@ -197,6 +200,8 @@ class ConnectWith(models.Model):
                                      'name_user': name_user,
                                      'subject_user': subject_user,
                                      'date_published_user': str(date_published_user),
+                                     'notification_id': notification_id,
+                                     'notification_status': notification_status
 
                                      })
             }

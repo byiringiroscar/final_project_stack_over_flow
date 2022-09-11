@@ -33,12 +33,13 @@ def extras(request):
         profile_user = get_object_or_404(Profile, user=user)
         user_id_logged = user.id
         all_notification = ConnectWith.objects.filter(user=user).order_by('-id')[:3]
-        # to address notification from police request
+        notification_header_count = ConnectWith.objects.filter(user=user, readed_notification=False).count()
     else:
         profile_user = None
         user = None
         user_id_logged = None
         all_notification = None
+        notification_header_count = 0
 
     return {
         'profile': profile_user,
@@ -49,7 +50,7 @@ def extras(request):
         'all_badge_request': all_badge_request,
         'all_badge_request_count': all_badge_request.count(),
         'notification_header': all_notification,
-        'notification_header_count': ConnectWith.objects.filter(user=user).order_by('-id').count()
+        'notification_header_count': notification_header_count
 
 
     }

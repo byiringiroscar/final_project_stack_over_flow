@@ -308,15 +308,28 @@ def get_all_Notification_count(request):
     data = json.loads(request.body)
     logged_user = request.user
     user_id = data['userId_Not']
+    notification_id = data['notification_id']
     if logged_user.is_authenticated:
         user_on_log = logged_user.id
         if user_on_log == user_id:
-            all_noti = ConnectWith.objects.filter(user_id=user_id).count()
+            all_noti = ConnectWith.objects.filter(user_id=user_id, readed_notification=False).count()
         else:
             all_noti = None
     else:
-        all_noti = ConnectWith.objects.filter(user_id=user_id).count()
+        all_noti = None
     return JsonResponse({'all_notification': all_noti}, safe=False)
+
+
+def mark_read_notif(request):
+    data = request.GET.get('notif')
+    noti_id = int(data)
+    try:
+        notification_connect = ConnectWith.objects.get(id=noti_id)
+        notification_connect.readed_notification = True
+        notification_connect.save()
+    except:
+        pass
+    return JsonResponse({'response': "done change status"}, safe=False)
 
 
 @login_required(login_url='login')

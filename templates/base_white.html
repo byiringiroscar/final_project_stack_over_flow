@@ -112,11 +112,32 @@
         webSocket.onmessage=function (event) {
             {#console.log("received");  // receive the data#}
             var _data = JSON.parse(event.data);
-            get_notification(_data.user_id_server);
-            for(let i=0; i<=_data.length; i++){
-                console.log(i)
-            }
+            get_notification(_data.user_id_server, _data.notification_status);
+            console.log("user ------from ----context", user_logged_In)
+            console.log("user ------from ----server", _data.user_id_server)
             if(_data.user_id_server === user_logged_In){
+                if(_data.notification_status === true){
+                    console.log("status ----notification -----true ------")
+                }
+                else {
+                    $(".notif-list").prepend('<div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">\
+                        <div class="media-img media-img-sm flex-shrink-0">\
+                            <img src="{% static 'profile.png' %}" alt="avatar">\
+                        </div>\
+                        <div class="media-body p-0 border-left-0">\
+                            <h3 class="fs-14 fw-regular"><b>'+_data.name_user+' following your post</b></h3>\
+                            <h5 class="fs-14 fw-regular">Re:'+_data.subject_user+'</h5>\
+                            <hr>\
+                            <h6 class="fs-14 fw-regular">'+_data.notif+'</h6>\
+                            <small class="meta d-block lh-24">\
+                                <span><b>'+_data.date_published_user+'</b></span>\
+                            </small>\
+                        </div>\
+                        <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Mark as read"><i class="la la-eye"></i></button>\
+                    </div>');
+                $('.notif-list').each(function() {
+                  $(this).children().slice(5).hide();
+                });
                 $(".header-list-notification").prepend('<a class="dropdown-item header-notification-all" href="#">\
                                             <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">\
                                                 <div class="media-img media-img-sm flex-shrink-0">\
@@ -134,9 +155,7 @@
                 $('.header-list-notification').each(function() {
                   $(this).children().slice(3).hide();
                 });
-
-
-
+                }
 
             }
 
@@ -145,9 +164,9 @@
             console.log("Closed");
         }
 
-        function get_notification(userId){
+        function get_notification(userId, notification_id){
             var url = 'http://127.0.0.1:8000/get_all_Notification_count'
-            const data = { userId_Not: userId };
+            const data = { userId_Not: userId, notification_id: notification_id};
             fetch(url, {
               method: 'POST', // or 'PUT'
               headers: {
@@ -157,14 +176,20 @@
             })
               .then((response) => response.json())
               .then((data) => {
-                  {#lastResult = data.all_notification#}
                   if(data.all_notification !== null){
-                      $('.totalunreadMain').text(data.all_notification);
-                      setTimeout(function () {
-                          document.getElementById("my_audio_white").play();
-                      }, 4000);
-                      {#var audio = new Audio('http://127.0.0.1:8000/static/audio_noti.mp3');#}
-                      {#audio.play();#}
+                      if(notification_id === true){
+                          $('.totalunread').text(data.all_notification);
+                          $('.totalunreadMain').text(data.all_notification);
+                      }else {
+                          $('.totalunread').text(data.all_notification);
+                          $('.totalunreadMain').text(data.all_notification);
+                          setTimeout(function () {
+                              document.getElementById("my_audio_white").play();
+                          }, 4000);
+                          {#var audio = new Audio('http://127.0.0.1:8000/static/audio_noti.mp3');#}
+                          {#audio.play();#}
+                      }
+
                   }
 
               })
@@ -172,6 +197,33 @@
                 console.error('Error:', error);
               });
         }
+
+        $(document).on('click', ".markreadbtn", function () {
+            var _index=$(this).attr('data-index');
+            var _notif=$(this).attr('data-notif');
+            var _vm=$(this);
+            console.log(_vm[0]);
+            $.ajax({
+                type:"GET",
+                url: "{% url 'mark_read_notif' %}",
+                data:{
+                  notif:_notif
+                },
+                dataType:'json',
+                beforeSend:function () {
+
+                },
+                success:function (res) {
+                    console.log(res)
+                    _vm.find('i').removeClass('la la-eye').addClass('la la-glasses');
+                    _vm.prop('disabled', true);
+
+                }
+            })
+            {#changeNotifictioStatus(_notif)#}
+
+        });
+
 
 
     </script>
