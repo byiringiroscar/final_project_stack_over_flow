@@ -63,7 +63,6 @@
                                 </div>
                                 {% if not all_notification.readed_notification %}
                                 <button data-index="{{ all_notification.id }}" data-notif="{{ all_notification.id }}" class="btn border border-gray fs-17 ml-2 markreadbtn" type="button" data-toggle="tooltip" data-placement="top" title="Mark as read"><i class="la la-eye"></i></button>
-                                    <button class="btn border border-gray fs-17 ml-2 alreadyreadbtn" type="button" data-toggle="tooltip" data-placement="top" title="Already Read" style="display: none"><i class="la la-glasses"></i></button>
                                {% else %}
                                 <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Already Read"><i class="la la-glasses"></i></button>
                                 {% endif %}

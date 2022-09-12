@@ -97,29 +97,49 @@
 
 
 <script>
+        {# here we get the logged user from context_precessor        #}
         var user_logged_In = {{ user_id_logged }};
+        {# here we initialize web socket by using built in functionality #}
         const webSocket = new WebSocket(
             'ws://'
-            + window.location.host
-            + '/ws/notifications/'
+            + window.location.host   // here we get url host we are running on it
+            + '/ws/notifications/'    // here we get this url from routing in home_view app
         );
+        {#here we open our server then send message to the client to check if connection done successfully #}
 
         webSocket.onopen=function (event) {
             webSocket.send(JSON.stringify({
                 'message': "from Client"
             }));
         }
+        {#here we receive message from server or models passed to consumer#}
         webSocket.onmessage=function (event) {
             {#console.log("received");  // receive the data#}
-            var _data = JSON.parse(event.data);
+            var _data = JSON.parse(event.data);   // here we get the data from consumer and these the data from consumer is comming directly from models after we overlide save method by using async_to_sync
+            // those data we convert it to json format then we sliced it by using that parameter event
             get_notification(_data.user_id_server, _data.notification_status);
-            console.log("user ------from ----context", user_logged_In)
-            console.log("user ------from ----server", _data.user_id_server)
-            if(_data.user_id_server === user_logged_In){
-                if(_data.notification_status === true){
-                    console.log("status ----notification -----true ------")
+
+                // parameter1: it's id of user where the message is going to be sent , we get it then check if that user is logged then see message live
+                // this is get_notification  function we created  to help us to show the message when specific  user where the connect send message view message when he is logged in or is_auntenticated
+                // and when that user who is going to receive message is not logged there's no message which is going to be shown
+
+                // parameter2: here we take the status of message from backend to check if the message is readed or unreaded ::: if we finsish to send message user see
+                // mark read so if we created on it we get status _data.notification_status true then we count the remaing message the mark as readed
+
+
+
+
+
+            if(_data.user_id_server === user_logged_In){   // here we are going to check if logged user match with the user where the message is going to be sent in order to be watching their update message live like facebook
+
+                if(_data.notification_status === true){  // here we are going to display this when the status of message readed it  means the user marked the message as readed
+                    console.log("status ----notification -----true ------")  // but this condition work when the user click mark as readed icon in notification then toggle ajax functionality with this url mark_read_notif
                 }
                 else {
+
+                        {#here we talk the div containing our notification then we use prepend to put our notification first of others then down we used#}
+                        {#functionality of slicing 5 og them#}
+
                     $(".notif-list").prepend('<div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent">\
                         <div class="media-img media-img-sm flex-shrink-0">\
                             <img src="{% static 'profile.png' %}" alt="avatar">\
@@ -136,7 +156,7 @@
                         <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Mark as read"><i class="la la-eye"></i></button>\
                     </div>');
                 $('.notif-list').each(function() {
-                  $(this).children().slice(5).hide();
+                  $(this).children().slice(5).hide();  // here sliced the 5 latest notification from the first
                 });
                 $(".header-list-notification").prepend('<a class="dropdown-item header-notification-all" href="#">\
                                             <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">\
@@ -153,7 +173,7 @@
                                             </div>\
                                         </a>');
                 $('.header-list-notification').each(function() {
-                  $(this).children().slice(3).hide();
+                  $(this).children().slice(3).hide(); // here we sliced 3 notifcation in the header
                 });
                 }
 
@@ -164,7 +184,7 @@
             console.log("Closed");
         }
 
-        function get_notification(userId, notification_id){
+        function get_notification(userId, notification_id){  // notification_id this conversion error it is notification_status where we receive true or false
             var url = 'http://127.0.0.1:8000/get_all_Notification_count'
             const data = { userId_Not: userId, notification_id: notification_id};
             fetch(url, {
@@ -176,11 +196,11 @@
             })
               .then((response) => response.json())
               .then((data) => {
-                  if(data.all_notification !== null){
-                      if(notification_id === true){
+                  if(data.all_notification !== null){  // here notification_id is like status check because we get true or false
+                      if(notification_id === true){   // if we receive true means that the user marked as readed then we show the remaining unreaded remeber that functionality than by onclick on button mark as read
                           $('.totalunread').text(data.all_notification);
                           $('.totalunreadMain').text(data.all_notification);
-                      }else {
+                      }else {  // means here that the notification is new and the status is false so here we send the updated notofication then play audio also
                           $('.totalunread').text(data.all_notification);
                           $('.totalunreadMain').text(data.all_notification);
                           setTimeout(function () {
@@ -197,10 +217,10 @@
                 console.error('Error:', error);
               });
         }
-
+        // here take the id of notification then in backend we add true as notification readed
         $(document).on('click', ".markreadbtn", function () {
             var _index=$(this).attr('data-index');
-            var _notif=$(this).attr('data-notif');
+            var _notif=$(this).attr('data-notif');  // here we get the id of notification
             var _vm=$(this);
             console.log(_vm[0]);
             $.ajax({
@@ -215,12 +235,11 @@
                 },
                 success:function (res) {
                     console.log(res)
-                    _vm.find('i').removeClass('la la-eye').addClass('la la-glasses');
-                    _vm.prop('disabled', true);
+                    _vm.find('i').removeClass('la la-eye').addClass('la la-glasses'); // here we change the icon of unreadead to readed
+                    _vm.prop('disabled', true); // then after we change the icon we disable the button to make sure there's no other request to be made
 
                 }
             })
-            {#changeNotifictioStatus(_notif)#}
 
         });
 
