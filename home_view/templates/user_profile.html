@@ -40,9 +40,6 @@
                 <a class="nav-link" id="edit-skills-tab" data-toggle="tab" href="#edit-skills" role="tab" aria-controls="edit-skills" aria-selected="true">Edit Skills</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="delete-account-tab" data-toggle="tab" href="#delete-account" role="tab" aria-controls="delete-account" aria-selected="false">Delete Account</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" id="two-authentication-tab" data-toggle="tab" href="#two-factor" role="tab" aria-controls="two-factor" aria-selected="false">Two factor authentication</a>
             </li>
         </ul>
@@ -58,7 +55,7 @@
 <section class="user-details-area pt-40px pb-40px">
     <div class="container">
         <div class="row">
-            <div class="col-lg-9">
+            <div class="col-lg-12">
                 <div class="tab-content mb-50px" id="myTabContent">
                     <div class="tab-pane fade show active" id="edit-profile" role="tabpanel" aria-labelledby="edit-profile-tab">
                         <div class="user-panel-main-bar">
@@ -246,28 +243,6 @@
                             </div><!-- end user-panel -->
                         </div><!-- end user-panel-main-bar -->
                     </div><!-- end tab-pane -->
-                    <div class="tab-pane fade" id="delete-account" role="tabpanel" aria-labelledby="delete-account-tab">
-                        <div class="user-panel-main-bar">
-                            <div class="user-panel">
-                                <div class="delete-account-info card card-item border border-danger">
-                                    <div class="card-body">
-                                        <h3 class="fs-22 text-danger fw-bold">Delete Account</h3>
-                                        <p class="pb-3 pt-2 lh-22 fs-15">Before confirming that you would like your profile deleted, we'd like to take a moment to explain the implications of deletion:</p>
-                                        <ul class="generic-list-item generic-list-item-bullet fs-15">
-                                            <li>Deletion is irreversible, and you will have no way to regain any of your original content, should this deletion be carried out and you change your mind later on.</li>
-                                            <li>Your questions and answers will remain on the site, but will be disassociated and anonymized .</li>
-                                        </ul>
-                                        <p class="pb-3 pt-2 lh-22 fs-15">Once you delete your account, there is no going back. Please be certain.</p>
-                                        <div class="custom-control custom-checkbox fs-15 mb-4">
-                                            <input type="checkbox" class="custom-control-input" id="delete-terms">
-                                            <label class="custom-control-label custom--control-label lh-22" for="delete-terms">I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.</label>
-                                        </div>
-                                        <button type="button" class="btn btn-danger fw-medium" data-toggle="modal" data-target="#deleteModal" id="delete-button" disabled><i class="la la-trash mr-1"></i> Delete your account</button>
-                                    </div>
-                                </div>
-                            </div><!-- end user-panel -->
-                        </div><!-- end user-panel-main-bar -->
-                    </div><!-- end tab-pane -->
                     <div class="tab-pane fade" id="two-factor" role="tabpanel" aria-labelledby="two-authentication-tab">
                         <div class="user-panel-main-bar">
                             <div class="user-panel">
@@ -284,7 +259,12 @@
                                             <input type="checkbox" class="custom-control-input" id="approve-terms">
                                             <label class="custom-control-label custom--control-label lh-22" for="approve-terms">I have read the information stated above, and I understand the reason two activate or dis-activate two-factor authentication.</label>
                                         </div>
+                                        {% if not user.is_two_f_enable %}
                                         <button type="button" class="btn btn-info fw-medium" data-toggle="modal" data-target="" id="approve-button" disabled><i class="la la-angle-double-right mr-1"></i> Enable</button>
+                                        {% else %}
+                                        <button type="button" class="btn btn-danger fw-medium" data-toggle="modal" data-target="" id="approve-button" disabled><i class="la la-angle-double-right mr-1"></i> Disable</button>
+                                        {% endif %}
+
                                     </div>
                                 </div>
                             </div><!-- end user-panel -->
@@ -292,80 +272,6 @@
                     </div><!-- end tab-pane -->
                 </div>
             </div><!-- end col-lg-9 -->
-            <div class="col-lg-3">
-                <div class="sidebar">
-                    <div class="card card-item p-4">
-                        <div class="card-body">
-                            <h3 class="fs-17 pb-3">Number Achievement</h3>
-                            <div class="divider"><span></span></div>
-                            <div class="row no-gutters text-center">
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color">980k</span>
-                                        <p class="fs-14">Questions</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-2">610k</span>
-                                        <p class="fs-14">Answers</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-3">650k</span>
-                                        <p class="fs-14">Answer accepted</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                                <div class="col-lg-6 responsive-column-half">
-                                    <div class="icon-box pt-3">
-                                        <span class="fs-20 fw-bold text-color-4">320k</span>
-                                        <p class="fs-14">Users</p>
-                                    </div><!-- end icon-box -->
-                                </div><!-- end col-lg-6 -->
-                            </div><!-- end row -->
-                        </div>
-                    </div><!-- end card -->
-                    <div class="card card-item p-4">
-                        <div class="card-body">
-                            <h3 class="fs-17 pb-3">Trending Questions</h3>
-                            <div class="divider"><span></span></div>
-                            <div class="sidebar-questions pt-3">
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">Using web3 to call precompile contract</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">2 mins ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">Sudhir Kumbhare</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">Is it true while finding Time Complexity of the algorithm [closed]</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">48 mins ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">wimax</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
-                                <div class="media media-card media--card media--card-2">
-                                    <div class="media-body">
-                                        <h5><a href="question-details.html">image picker and store them into firebase with flutter</a></h5>
-                                        <small class="meta">
-                                            <span class="pr-1">1 hour ago</span>
-                                            <span class="pr-1">. by</span>
-                                            <a href="#" class="author">Antonin gavrel</a>
-                                        </small>
-                                    </div>
-                                </div><!-- end media -->
-                            </div><!-- end sidebar-questions -->
-                        </div>
-                    </div><!-- end card -->
-                </div><!-- end sidebar -->
-            </div><!-- end col-lg-3 -->
         </div><!-- end row -->
     </div><!-- end container -->
 </section><!-- end user-details-area -->
@@ -374,5 +280,6 @@
 ================================= -->
 
     <script src="{% static 'home/js/button_disable.js' %}"></script>
+
 
 {% endblock %}
