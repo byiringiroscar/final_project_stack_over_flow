@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from authentication.views import login_user, register_user
+from authentication.views import login_user, register_user, verify_pin_login
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import views as auth_views
 
@@ -12,6 +12,7 @@ urlpatterns = [
     path('job_list/', views.job_list, name="job_list"),
     path('job_detail/<int:id>/', views.job_detail, name="job_detail"),
     path('login/', login_user, name="login"),
+    path('verify_pin_login/', verify_pin_login, name='verify_pin_login'),
     path('register/', register_user, name="register"),
     path('setting/', views.user_profile, name="user_profile"),
     path('skills/', views.skills_update, name="skills_update"),

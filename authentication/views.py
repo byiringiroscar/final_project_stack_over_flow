@@ -18,7 +18,10 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.template.loader import get_template
 from django.utils import timezone
+
 now_time_sent = timezone.now()
+from codes.forms import CodeForm
+from codes.models import Code
 
 User = get_user_model()
 
@@ -45,9 +48,12 @@ def login_user(request):
         if username and password:
             user = authenticate(request, username=username, password=password)
             if user:
-                if user.is_verified:
+                if user.is_verified and not user.is_two_f_enable:
                     login(request, user)
                     return redirect('home')
+                elif user.is_verified and user.is_two_f_enable:
+                    request.session['pk'] = user.pk
+                    return redirect('verify_pin_login')
                 elif not user.is_verified:
                     messages.info(request, "your account is not verified please check inbox link to verify it")
                     return redirect('login')
@@ -58,6 +64,39 @@ def login_user(request):
             messages.error(request, "all fields are required")
             return redirect('login')
     return render(request, 'login_user.html')
+
+
+# this will be applied when 2fa is enabled on
+def verify_pin_login(request):
+    form = CodeForm(request.POST or None)
+    pk = request.session.get('pk')
+    if pk:
+        user = User.objects.get(pk=pk)
+        code = Code.objects.get_or_create(user=user)
+        code = user.code
+        code_user = f"{user.full_name}: {user.code}"
+        if not request.POST:
+            print("code is ", code_user)
+
+            # send code through intouch sms
+
+            # send_sms(code_user, user.phone_number)
+        if form.is_valid():
+            num = form.cleaned_data.get('number')
+            print("num -------------", num)
+            print("code ----------------", code)
+            if str(code.number) == num:
+                code.save()
+                login(request, user)
+                del request.session['pk']
+                return redirect('home')
+            else:
+                messages.error(request, "code pin not match")
+    else:
+        messages.error(request, "session ended or wrong url !!!")
+        return redirect('login')
+
+    return render(request, 'verify_pin_login.html')
 
 
 def logout_user(request):
@@ -97,7 +136,7 @@ def register_user(request):
             html_content = get_template('email_verification.html').render(
                 {'person': user.full_name, 'message': email_body, 'now': now_time_sent, 'link_verify': activate_url})
             email = EmailMessage(email_subject, html_content, from_email, [email],
-            )
+                                 )
             email.content_subtype = "html"
             EmailThread(email).start()
             messages.success(request, "account created successfully please verify it")

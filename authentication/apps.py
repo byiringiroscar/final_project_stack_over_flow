@@ -7,3 +7,4 @@ class AuthenticationConfig(AppConfig):
 
     def ready(self):
         import authentication.signals
+        import codes.signals

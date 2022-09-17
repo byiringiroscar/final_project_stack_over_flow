@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'super_admin.apps.SuperAdminConfig',
     "django_unicorn",
     'channels',
+    'codes.apps.CodesConfig'
 ]
 
 MIDDLEWARE = [
