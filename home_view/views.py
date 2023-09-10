@@ -19,6 +19,7 @@ from django.core import serializers
 from django.http import JsonResponse
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+import html
 
 User = get_user_model()
 
@@ -113,7 +114,7 @@ def ask_question(request):
             title = form.cleaned_data.get('title')
             body = form.cleaned_data.get('body')
             # body = BeautifulSoup(body, 'html.parser')
-            print(body)
+            body = html.escape(body)
             tag = form.cleaned_data.get('tag')
             detail = form.cleaned_data.get('detail')
             Questions_stuff.objects.create(title=title, detail=detail, body=body, owner=user, viewed=0, tag=tag,

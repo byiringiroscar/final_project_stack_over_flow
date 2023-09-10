@@ -98,7 +98,7 @@
 
                                 <!--Add Your Parse HTML code Here-->
                                 <div id='code1'>
-                                  <pre>{{ question.body }}</pre>
+                                   <pre>{{ question.body|safe }}</pre>
                                 </div>
                               </div>
                             </div><!-- end question-post-body -->
@@ -115,7 +115,7 @@
                                                 {% endfor %}
                                             {% endif %}
                                 <div class="media media-card user-media owner align-items-center">
-                                    <a href="user-profile.html" class="media-img d-block">
+                                    <a href="#!" class="media-img d-block">
                                         <img src="{% static 'home/images/img3.jpg' %}" alt="avatar">
                                     </a>
                                     <div class="media-body d-flex flex-wrap align-items-center justify-content-between">
