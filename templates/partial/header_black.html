@@ -21,20 +21,20 @@
                     <nav class="menu-bar mr-auto menu-bar-white">
                         <ul>
                             <li>
-                                <a href="{% url 'home' %}">Home <i class="la la-angle-down fs-11"></i></a>
+                                <a href="{% url 'home' %}">Home </a>
                             </li>
                             <li class="is-mega-menu">
-                                <a href="{% url 'question' %}">Question <i class="la la-angle-down fs-11"></i></a>
+                                <a href="{% url 'question' %}">Quest</i></a>
                             </li>
                             <li>
-                                <a href="{% url 'ask_question' %}">Ask Question <i class="la la-angle-down fs-11"></i></a>
+                                <a href="{% url 'ask_question' %}">Ask Quest</i></a>
                             </li>
                             <li>
-                                <a href="{% url 'job_list' %}">Job <i class="la la-angle-down fs-11"></i></a>
+                                <a href="{% url 'job_list' %}">Job </a>
                             </li>
                             {% if user.is_authenticated %}
                             <li>
-                                <a href="{% url 'user_home' %}">Main <i class="la la-angle-down fs-11"></i></a>
+                                <a href="{% url 'user_home' %}">Main </a>
                             </li>
                             {% endif %}
 
@@ -122,20 +122,20 @@
         </div><!-- end off-canvas-menu-close -->
         <ul class="generic-list-item off-canvas-menu-list pt-90px">
                     <li>
-                    <a href="{% url 'home' %}">Home <i class="la la-angle-down fs-11"></i></a>
+                    <a href="{% url 'home' %}">Home </a>
                 </li>
                 <li class="is-mega-menu">
-                    <a href="{% url 'question' %}">Question <i class="la la-angle-down fs-11"></i></a>
+                    <a href="{% url 'question' %}">Question </a>
                 </li>
                 <li>
-                    <a href="{% url 'ask_question' %}">Ask Question <i class="la la-angle-down fs-11"></i></a>
+                    <a href="{% url 'ask_question' %}">Ask Question </a>
                 </li>
                 <li>
-                    <a href="{% url 'job_list' %}">Job <i class="la la-angle-down fs-11"></i></a>
+                    <a href="{% url 'job_list' %}">Job </a>
                 </li>
                 {% if user.is_authenticated %}
                 <li>
-                    <a href="{% url 'user_home' %}">Main <i class="la la-angle-down fs-11"></i></a>
+                    <a href="{% url 'user_home' %}">Main </a>
                 </li>
                 {% endif %}
         </ul>
