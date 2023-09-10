@@ -113,11 +113,9 @@ def ask_question(request):
         if form.is_valid():
             title = form.cleaned_data.get('title')
             body = form.cleaned_data.get('body')
-            # body = BeautifulSoup(body, 'html.parser')
-            body = html.escape(body)
             tag = form.cleaned_data.get('tag')
             detail = form.cleaned_data.get('detail')
-            Questions_stuff.objects.create(title=title, detail=detail, body=body, owner=user, viewed=0, tag=tag,
+            Questions_stuff.objects.create(title=title, detail=detail, body=str(body), owner=user, viewed=0, tag=tag,
                                            email_notify=notified_email, whatsapp_notify=notified_whatsapp)
             messages.success(request, "Question published successfully")
             return redirect('ask_question')
