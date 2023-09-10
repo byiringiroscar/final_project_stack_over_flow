@@ -87,10 +87,20 @@
                         <div class="question-post-body-wrap flex-grow-1">
                             <div class="question-post-body">
                                 <p>{{ question.detail }}</p>
-                                <pre class="">
-                                    <code>{{ question.body }}
-                                    </code>
-                                </pre>
+                                <!--[ Code Box 1 ]-->
+                              <div class='K2_CBox'>
+                                <div class='CB_Heading'>
+                                  <span>CODES</span>
+                                  <button id='copy1' class='C_box_main' onclick="copyC('copy1','code1')">
+                                    <i class='CBox_icn'></i>
+                                  </button>
+                                </div>
+
+                                <!--Add Your Parse HTML code Here-->
+                                <div id='code1'>
+                                  <pre>{{ question.body }}</pre>
+                                </div>
+                              </div>
                             </div><!-- end question-post-body -->
                             <div class="question-post-user-action">
                                 <div class="post-menu">

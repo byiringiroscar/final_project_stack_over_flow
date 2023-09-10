@@ -16,7 +16,7 @@ User = settings.AUTH_USER_MODEL
 class Questions_stuff(models.Model):
     title = models.CharField(max_length=100)
     detail = models.TextField(default='')
-    body = HTMLField()
+    body = models.TextField(default='')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     viewed = models.PositiveIntegerField()
     tag = models.CharField(max_length=200)

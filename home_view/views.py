@@ -13,8 +13,8 @@ from django.conf import settings
 from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.contrib.sessions.models import Session
+from bs4 import BeautifulSoup
 import json
-
 from django.core import serializers
 from django.http import JsonResponse
 from asgiref.sync import async_to_sync
@@ -112,6 +112,8 @@ def ask_question(request):
         if form.is_valid():
             title = form.cleaned_data.get('title')
             body = form.cleaned_data.get('body')
+            # body = BeautifulSoup(body, 'html.parser')
+            print(body)
             tag = form.cleaned_data.get('tag')
             detail = form.cleaned_data.get('detail')
             Questions_stuff.objects.create(title=title, detail=detail, body=body, owner=user, viewed=0, tag=tag,
