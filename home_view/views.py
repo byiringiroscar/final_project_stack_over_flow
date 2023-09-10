@@ -61,7 +61,7 @@ def question(request):
 
 def question_detail(request, id):
     question_det = get_object_or_404(Questions_stuff, id=id)
-    question_det.viewed += 1
+    question_det.viewed = question_det.viewed + 1
     question_det.save()
     profile_user = Profile.objects.all()
     all_answer = Answer_stuff.objects.filter(question=question_det).order_by('-published_time')
