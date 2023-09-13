@@ -21,7 +21,7 @@
 	<title>admin login</title>
 
 	<!-- FAVICONS ICON -->
-	<link rel="shortcut icon" type="image/png" href="images/favicon.png" />
+	<link rel="shortcut icon" type="image/png" href="{% static 'home/images/logo-black.png' %}" />
     <link href="{% static 'dashboard/css/style.css' %}" rel="stylesheet">
 
 </head>
@@ -36,7 +36,7 @@
                             <div class="col-xl-12">
                                 <div class="auth-form">
 									<div class="text-center mb-3">
-										<a href=""><img src="{% static 'dashboard/images/logo-full.png' %}" alt=""></a>
+										<a href=""><img src="{% static 'home/images/logo-black.png' %}" alt=""></a>
 									</div>
                                     <h4 class="text-center mb-4">Admin Login</h4>
                                     {% include 'partial/dashboard_message.html' %}
