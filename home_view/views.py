@@ -12,21 +12,34 @@ from django.utils import timezone
 from django.conf import settings
 from django.db.models import Q
 from django.contrib.auth import get_user_model
-from django.contrib.sessions.models import Session
-from bs4 import BeautifulSoup
+import openai
 import json
 from django.core import serializers
 from django.http import JsonResponse
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
-import html
+from decouple import config
+from .models import Chat
 
 User = get_user_model()
 
 now = timezone.now()
+openai_api_key = config('openai_api_key')
+openai.api_key = openai_api_key
 
 
 # Create your views here.
+
+def ask_openai(message):
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=message,
+        max_tokens=150,
+        n=1,
+        stop=None,
+        temperature=0.7
+    )
+    answer = response.choices[0].text.strip()
+    return answer
+
 
 def home(request):
     return render(request, 'home.html')
@@ -373,11 +386,11 @@ def notifications(request):
 
 
 def chatbot(request):
-    # chats = Chat.objects.filter(user=request.user)
-    # if request.method == 'POST':
-    #     message = request.POST.get('message')
-    #     response = ask_openai(message)
-    #     chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
-    #     chat.save()
-    #     return JsonResponse({'message': message, 'response': response})
-    return render(request, 'chatbot.html')
+    chats = Chat.objects.filter(user=request.user)
+    if request.method == 'POST':
+        message = request.POST.get('message')
+        response = ask_openai(message)
+        chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
+        chat.save()
+        return JsonResponse({'message': message, 'response': response})
+    return render(request, 'chatbot.html', {'chats': chats})

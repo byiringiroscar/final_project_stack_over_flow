@@ -5,6 +5,12 @@
 {% block title %} chat {% endblock %}
 {% block styles %}
 <style>
+    body, html {
+      height: 100%;
+    }
+    section.footer-area.pt-80px.bg-dark.position-relative {
+    display: none;
+}
 
     .messages-box {
       flex: 1;
@@ -37,20 +43,13 @@
 
     .message-form {
       display: flex;
-      {#position: fixed;#}
+      position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       padding: 10px;
       background-color: #f8f9fa;
     }
-    section.question-area {
-    position: absolute;
-    left: 0;
-    bottom: 161px;
-    right: 0;
-    top: 70px;
-}
 
     .message-input {
       flex: 1;
@@ -67,20 +66,6 @@
       display: flex;
       flex-direction: column;
     }
-    section.footer-area.pt-80px.bg-dark.position-relative {
-    position: absolute !important;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    height: 160px;
-    }
-    @media (max-width: 1199px) {
-    .header-area {
-        padding-top:14px;
-        padding-bottom: 14px;
-        height: 70px;
-    }
-}
   </style>
 {% endblock %}
 {% block content %}
