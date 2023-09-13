@@ -370,3 +370,14 @@ def notifications(request):
         'all_notification': posts
     }
     return render(request, 'notifications.html', context)
+
+
+def chatbot(request):
+    # chats = Chat.objects.filter(user=request.user)
+    # if request.method == 'POST':
+    #     message = request.POST.get('message')
+    #     response = ask_openai(message)
+    #     chat = Chat(user=request.user, message=message, response=response, created_at=timezone.now())
+    #     chat.save()
+    #     return JsonResponse({'message': message, 'response': response})
+    return render(request, 'chatbot.html')
