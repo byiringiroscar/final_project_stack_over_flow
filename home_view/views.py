@@ -384,7 +384,7 @@ def notifications(request):
     }
     return render(request, 'notifications.html', context)
 
-
+@login_required(login_url='login')
 def chatbot(request):
     chats = Chat.objects.filter(user=request.user)
     if request.method == 'POST':
