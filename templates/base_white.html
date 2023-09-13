@@ -27,7 +27,8 @@
     <link rel="stylesheet" href="{% static 'home/css/selectize.css' %}">
     <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'home/css/code.css' %}">
-
+    {% block styles %}
+    {% endblock %}
     <div id='toastNotif' class='tNtf'></div>
     <script>/*<![CDATA[*/ function copyC(e,t){var o=document.getElementById(e),n=document.getElementById(t),e=getSelection(),t=document.createRange();e.removeAllRanges(),t.selectNodeContents(n),e.addRange(t),document.execCommand("copy"),e.removeAllRanges(),o.classList.add("copied"),document.getElementById("toastNotif").innerHTML="<span>Copied to Clipboard!</span>",setTimeout(()=>{o.classList.remove("copied")},3e3)} /*]]>*/</script>
 
