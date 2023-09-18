@@ -26,17 +26,14 @@
                             <li>
                                 <a href="{% url 'home' %}">Home </a>
                             </li>
-                            <li class="is-mega-menu">
-                                <a href="{% url 'question' %}">Question </a>
-                            </li>
                             <li>
-                                <a href="{% url 'ask_question' %}">Ask Question </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'chatbot' %}">Chat </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'job_list' %}">Job </a>
+                                <a href="#!">Pages <i class="la la-angle-down fs-11"></i></a>
+                                <ul class="dropdown-menu-item">
+                                    <li><a href="{% url 'question' %}">Question </a></li>
+                                    <li><a href="{% url 'chatbot' %}">Chat </a></li>
+                                    <li><a href="{% url 'ask_question' %}">Ask Question </a></li>
+                                    <li><a href="{% url 'job_list' %}">Job </a></li>
+                                </ul>
                             </li>
                             {% if user.is_authenticated %}
                             <li>
