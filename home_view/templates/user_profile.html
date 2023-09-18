@@ -183,7 +183,7 @@
                                         <div class="input-box">
                                             <label class="fs-13 text-black lh-20 fw-medium">Backend Development</label>
                                             <div class="form-group">
-                                                <input class="form-control form--control" type="number" name="backend_development" placeholder="please number only" value="{{ user_profile.backend_development }}">
+                                                <input class="form-control form--control" type="number" min="0" max="100" name="backend_development" placeholder="please number only from 0 ~ 100" value="{{ user_profile.backend_development }}">
                                             </div>
                                             {% for err in form.backend_development.errors %}
                                                 <div class="alert alert-danger" role="alert">
@@ -194,7 +194,7 @@
                                         <div class="input-box">
                                             <label class="fs-13 text-black lh-20 fw-medium">Frontend Development</label>
                                             <div class="form-group">
-                                                <input class="form-control form--control" type="number" name="frontend_development" placeholder="please number only" value="{{ user_profile.frontend_development }}">
+                                                <input class="form-control form--control" type="number" min="0" max="100" name="frontend_development" placeholder="please number only from 0 ~ 100" value="{{ user_profile.frontend_development }}">
                                             </div>
                                             {% for err in form.frontend_development.errors %}
                                                 <div class="alert alert-danger" role="alert">
@@ -205,7 +205,7 @@
                                         <div class="input-box">
                                             <label class="fs-13 text-black lh-20 fw-medium">Hardware</label>
                                             <div class="form-group">
-                                                <input class="form-control form--control" type="number" name="hardware" placeholder="please number only" value="{{ user_profile.hardware }}">
+                                                <input class="form-control form--control" type="number" min="0" max="100" name="hardware" placeholder="please number only from 0 ~ 100" value="{{ user_profile.hardware }}">
                                             </div>
                                             {% for err in form.hardware.errors %}
                                                 <div class="alert alert-danger" role="alert">
@@ -216,7 +216,7 @@
                                         <div class="input-box">
                                             <label class="fs-13 text-black lh-20 fw-medium">UI/UX</label>
                                             <div class="form-group">
-                                                <input class="form-control form--control" type="number" name="uiandux" placeholder="please number only" value="{{ user_profile.uiandux }}">
+                                                <input class="form-control form--control" type="number" name="uiandux" min="0" max="100" placeholder="please number only from 0 ~ 100" value="{{ user_profile.uiandux }}">
                                             </div>
                                             {% for err in form.uiandux.errors %}
                                                 <div class="alert alert-danger" role="alert">
@@ -227,7 +227,7 @@
                                         <div class="input-box">
                                             <label class="fs-13 text-black lh-20 fw-medium">Artificial Intelligence</label>
                                             <div class="form-group">
-                                                <input class="form-control form--control" type="number" name="artificial_intelligence" placeholder="please number only" value="{{ user_profile.artificial_intelligence }}">
+                                                <input class="form-control form--control" type="number" min="0" max="100" name="artificial_intelligence" placeholder="please number only from 0 ~ 100" value="{{ user_profile.artificial_intelligence }}">
                                             </div>
                                             {% for err in form.artificial_intelligence.errors %}
                                                 <div class="alert alert-danger" role="alert">
