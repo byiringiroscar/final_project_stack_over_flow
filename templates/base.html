@@ -69,7 +69,6 @@
                     <p class="lh-26 text-white">This is just a simple text made for this unique and awesome template, you can replace it with any text.</p>
                     <div class="hero-btn-box pt-30px">
                         <a href="#for-developers" class="btn theme-btn mr-2 page-scroll">For developers <i class="la la-angle-down icon ml-1"></i></a>
-                        <a href="#for-businesses" class="btn theme-btn bg-3 page-scroll">For businesses <i class="la la-angle-down icon ml-1"></i></a>
                     </div>
                 </div><!-- end hero-content -->
             </div><!-- end col-lg-6 -->
@@ -427,6 +426,12 @@
 
 
 <script>
+        var currentDomain = window.location.hostname;
+        var currentPort = window.location.port;
+        var currentProtocol = window.location.protocol;
+
+        var url_notification = currentProtocol + '//' + (currentPort ? currentDomain + ":" + currentPort : currentDomain);
+
         var user_logged_In = {{ user_id_logged }};
         const webSocket = new WebSocket(
             'ws://'
@@ -442,6 +447,7 @@
         webSocket.onmessage=function (event) {
             {#console.log("received");  // receive the data#}
             var _data = JSON.parse(event.data);
+            console.log("------------------------", _data)
             get_notification(_data.user_id_server, _data.notification_status);
             if(_data.user_id_server === user_logged_In){
                 if(_data.notification_status === true){
@@ -493,7 +499,9 @@
         }
 
         function get_notification(userId, notification_id){
-            var url = 'http://127.0.0.1:8000/get_all_Notification_count'
+            console.log("-------not------", notification_id)
+            console.log("-------user------", userId)
+            var url = url_notification + '/get_all_Notification_count'
             const data = { userId_Not: userId, notification_id: notification_id};
             fetch(url, {
               method: 'POST', // or 'PUT'
@@ -530,7 +538,7 @@
             var _index=$(this).attr('data-index');
             var _notif=$(this).attr('data-notif');
             var _vm=$(this);
-            console.log(_vm[0]);
+            {#console.log(_vm[0]);#}
             $.ajax({
                 type:"GET",
                 url: "{% url 'mark_read_notif' %}",
@@ -542,7 +550,6 @@
 
                 },
                 success:function (res) {
-                    console.log(res)
                     _vm.find('i').removeClass('la la-eye').addClass('la la-glasses');
                     _vm.prop('disabled', true);
 
