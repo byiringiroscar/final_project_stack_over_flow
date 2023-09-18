@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-$c2v2cfswn#5fx_1yos@7am8rv!1=k%r3=y2s7b!q1_fp8fhwz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'super_admin.apps.SuperAdminConfig',
     "django_unicorn",
     'channels',
-    'codes.apps.CodesConfig'
+    'codes.apps.CodesConfig',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -157,8 +158,15 @@ CHANNEL_LAYERS = {
     },
 }
 
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:8000',
+]
+
+
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
