@@ -30,7 +30,7 @@
                             <div class="form-group">
                                 <label class="fs-14 text-black fw-medium lh-18">Display name</label>
                                 <input type="text" id="username" name="full_name" class="form-control form--control" placeholder="Enter name" value="{{ fieldValues.full_name }}">
-                                <div class="invalid-feedback invalid-feedback" style="display: none">
+                                <div class="invalid-feedback" style="display: none">
                                 </div>
                                 <p class="text-sm text-success usernameSuccessOutput"></p>
                                 {% for err in form.full_name.errors %}
