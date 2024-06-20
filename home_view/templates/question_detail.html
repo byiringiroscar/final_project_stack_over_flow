@@ -87,6 +87,8 @@
                         <div class="question-post-body-wrap flex-grow-1">
                             <div class="question-post-body">
                                 <p>{{ question.detail }}</p>
+                                <!-- check if question.body is empty or none -->
+                                {% if question.body %}
                                 <!--[ Code Box 1 ]-->
                               <div class='K2_CBox'>
                                 <div class='CB_Heading'>
@@ -101,6 +103,8 @@
                                    <pre>{{ question.body }}</pre>
                                 </div>
                               </div>
+                                <!--[ Code Box 1 ]-->
+                                {% endif %}
                             </div><!-- end question-post-body -->
                             <div class="question-post-user-action">
                                 <div class="post-menu">
