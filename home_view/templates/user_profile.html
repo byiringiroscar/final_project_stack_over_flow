@@ -71,10 +71,10 @@
                                         <div class="row pt-4 align-items-center">
                                             <div class="col-lg-6">
                                                 <div class="edit-profile-photo d-flex flex-wrap align-items-center">
-                                                    <img src="{{ user_profile.user_image.url }}" alt="user avatar" class="profile-img mr-4">
+                                                    <img src="{{ user_profile.user_image.url }}" alt="user avatar" id="avatar-profile" class="profile-img mr-4">
                                                     <div>
                                                         <div class="file-upload-wrap file--upload-wrap">
-                                                            <input type="file" name="user_image" class="multi file-upload-input" multiple>
+                                                            <input type="file" name="user_image" class="file-upload-input" id="upload-profile-input">
                                                             <span class="file-upload-text"><i class="la la-photo mr-2"></i>Upload Photo</span>
                                                         </div>
                                                         <p class="fs-14">Maximum file size: 10 MB.</p>
@@ -278,6 +278,18 @@
 <!-- ================================
          END USER DETAILS AREA
 ================================= -->
+<script>
+    const fileInput = document.querySelector('#upload-profile-input');
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        const image = document.querySelector('#avatar-profile');
+
+        if (file && file.type.includes('image')) {
+            const url = URL.createObjectURL(file);
+            image.src = url;
+        }
+    });
+</script>
 
     <script src="{% static 'home/js/button_disable.js' %}"></script>
 
