@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'channels',
     'codes.apps.CodesConfig',
     "corsheaders",
+    "django_htmx",
 ]
 
 MIDDLEWARE = [
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = 'final_stack.urls'
