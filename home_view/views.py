@@ -384,3 +384,4 @@ def chatbot(request):
         chat.save()
         return JsonResponse({'message': message, 'response': response})
     return render(request, 'chatbot.html', {'chats': chats})
+

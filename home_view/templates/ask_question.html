@@ -103,14 +103,7 @@
                             <p class="fs-13 pb-3 lh-20">Include all the information and code someone would need to answer your question</p>
                             <div class="form-group">
                                 <textarea class="form-control" rows="10" cols="40" name="body">{{ fieldValues.body }}</textarea>
-                                <div class="d-flex align-items-center pt-2">
-                                    <div class="mr-3">
-                                        ``` <code class="badge bg-gray border border-gray text-gray">code</code> ```
-                                    </div>
-                                    <div class="mr-3 fw-bold">**bold**</div>
-                                    <div class="mr-3 font-italic">*italic*</div>
-                                    <div>&gt;quote</div>
-                                </div>
+                                
                                 {% for err in form.body.errors %}
                                 <div class="alert alert-danger pt-1" role="alert">
                                   {{ err }}
