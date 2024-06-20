@@ -21,7 +21,6 @@ class Questions_stuff(models.Model):
     viewed = models.PositiveIntegerField()
     tag = models.CharField(max_length=200)
     email_notify = models.BooleanField(default=False)
-    whatsapp_notify = models.BooleanField(default=False)
     publish_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
