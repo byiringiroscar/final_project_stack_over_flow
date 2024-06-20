@@ -1,8 +1,0 @@
-.invalid-feedback, .text-success {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.invalid-feedback.show, .text-success.show {
-    opacity: 1;
-}

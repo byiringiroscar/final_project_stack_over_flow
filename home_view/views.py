@@ -319,25 +319,15 @@ def get_notification(request):
 
 def enable_two_factor(request):
     user = request.user
-    if user.is_authenticated:
-        try:
-            id_user = user.id
-            user_log = User.objects.get(id=id_user)
-            if user_log.is_two_f_enable:
-                user_log.is_two_f_enable = False
-                user_log_status = False
-                user_log.save()
-            else:
-                user_log.is_two_f_enable = True
-                user_log_status = True
-                user_log.save()
-
-
-        except:
-            user_log_status = False
+    id_user = user.id
+    user_log = User.objects.get(id=id_user)
+    if user_log.is_two_f_enable:
+        user_log.is_two_f_enable = False
+        user_log.save()
     else:
-        user_log_status = False
-    return JsonResponse({"status": user_log_status})
+        user_log.is_two_f_enable = True
+        user_log.save()
+    return JsonResponse({"status": user_log.is_two_f_enable})
 
 
 def get_all_Notification_count(request):
