@@ -129,9 +129,9 @@ def ask_question(request):
             tag = form.cleaned_data.get('tag')
             detail = form.cleaned_data.get('detail')
             Questions_stuff.objects.create(title=title, detail=detail, body=str(body), owner=user, viewed=0, tag=tag,
-                                           email_notify=notified_email, whatsapp_notify=notified_whatsapp)
+                                           email_notify=notified_email)
             messages.success(request, "Question published successfully")
-            return redirect('ask_question')
+            return redirect('question')
     context = {
         'form': form,
         'fieldValues': request.POST

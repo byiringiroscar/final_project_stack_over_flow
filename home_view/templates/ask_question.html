@@ -47,7 +47,7 @@
                     <form method="post" class="card-body">
                         {% csrf_token %}
                         <div class="input-box">
-                            <label class="fs-14 text-black fw-medium mb-0">Question Title</label>
+                            <label class="fs-14 text-black fw-medium mb-0">Question Title <span class="required-asterisk">&#9733;</span></label>
                             <p class="fs-13 pb-3 lh-20">Be specific and imagine you’re asking a question to another person</p>
                             <div class="form-group">
                                 <input class="form-control form--control" type="text" name="title" placeholder="e.g. Is there an R function for finding the index of an element in a vector?" value="{{ fieldValues.title }}">
@@ -59,7 +59,7 @@
                             {% endfor %}
                         </div><!-- end input-box -->
                         <div class="input-box">
-                            <label class="fs-14 text-black fw-medium mb-0">Question Explanation</label>
+                            <label class="fs-14 text-black fw-medium mb-0">Question Explanation <span class="required-asterisk">&#9733;</span></label>
                             <p class="fs-13 pb-3 lh-20">Try to explain a little what you were trying to do and where you are stacking</p>
                             <div class="form-group">
                                 <input class="form-control form--control" type="text" name="detail" placeholder="e.g. I was building authentication for rest framework and I am getting this error?" value="{{ fieldValues.detail }}">
@@ -73,7 +73,7 @@
                         <div class="input-box">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <label class="fs-14 text-black fw-medium mb-0">Tags</label>
+                                    <label class="fs-14 text-black fw-medium mb-0">Tags <span class="required-asterisk">&#9733;</span></label>
                                     <p class="fs-13 pb-3 lh-20">Add up to 5 tags to describe what your question is about:</p>
                                 </div>
                                 <button type="button" class="popover-trigger btn border border-gray py-1 lh-18 px-2" data-container="body" data-toggle="popover" data-placement="top">
