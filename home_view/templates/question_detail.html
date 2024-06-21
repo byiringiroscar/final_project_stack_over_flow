@@ -119,7 +119,7 @@
                                             {% endif %}
                                 <div class="media media-card user-media owner align-items-center">
                                     <a href="{% url 'view_profile_outside' question.id %}" class="media-img d-block">
-                                        <img src="{% static 'home/images/img3.jpg' %}" alt="avatar">
+                                        <img src="{{ question.owner.user_profile.user_image.url }}" alt="avatar">
                                     </a>
                                     <div class="media-body d-flex flex-wrap align-items-center justify-content-between">
                                         <div>
