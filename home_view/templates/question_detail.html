@@ -118,7 +118,7 @@
                                                 {% endfor %}
                                             {% endif %}
                                 <div class="media media-card user-media owner align-items-center">
-                                    <a href="#!" class="media-img d-block">
+                                    <a href="{% url 'view_profile_outside' question.id %}" class="media-img d-block">
                                         <img src="{% static 'home/images/img3.jpg' %}" alt="avatar">
                                     </a>
                                     <div class="media-body d-flex flex-wrap align-items-center justify-content-between">
@@ -143,7 +143,7 @@
                                         <div class="comment-body">
                                             <span class="comment-copy">{{ answer.message }}</span>
                                             <span class="comment-separated">-</span>
-                                            <a href="user-profile.html" class="comment-user owner" title="224,110 reputation">{{ answer.name }}</a>
+                                            <a href="#!" class="comment-user owner" title="224,110 reputation">{{ answer.name }}</a>
                                             <span class="comment-separated">-</span>
                                             <a href="#" class="comment-date">{{ answer.published_time }}</a>
                                         </div>
