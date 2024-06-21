@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="tags">
                                     {% for tag in question.tags_as_list %}
-                                    <a href="#" class="tag-link">{{ tag }}</a>
+                                    <a href="#!" class="tag-link">{{ tag }}</a>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
                             </div><!-- end question-post-body -->
                             <div class="question-post-user-action">
                                 <div class="post-menu">
-                                    <a href="#" class="btn"></a>
+                                    <a href="#!" class="btn"></a>
                                     <button class="btn"></button>
                                 </div><!-- end post-menu -->
                                 {% if messages %}
@@ -145,7 +145,7 @@
                                             <span class="comment-separated">-</span>
                                             <a href="#!" class="comment-user owner" title="224,110 reputation">{{ answer.name }}</a>
                                             <span class="comment-separated">-</span>
-                                            <a href="#" class="comment-date">{{ answer.published_time }}</a>
+                                            <a href="#!" class="comment-date">{{ answer.published_time }}</a>
                                         </div>
                                     </li>
                                         {% endfor %}
@@ -222,7 +222,7 @@
                                         <small class="meta">
                                             <span class="pr-1">{{ related_question.publish_date }} ago</span>
                                             <span class="pr-1">. by</span>
-                                            <a href="#" class="author">{{ related_question.owner.full_name }}</a>
+                                            <a href="#!" class="author">{{ related_question.owner.full_name }}</a>
                                         </small>
                                     </div>
                                 </div><!-- end media -->
@@ -238,7 +238,7 @@
                             <div class="tags pt-4">
                                 {% for tag, tag_count in all_tag %}
                                 <div class="tag-item">
-                                    <a href="#" class="tag-link tag-link-md">{{ tag }}</a>
+                                    <a href="#!" class="tag-link tag-link-md">{{ tag }}</a>
                                     <span class="item-multiplier fs-13">
                                     <span>×</span>
                                     <span>{{ tag_count }}</span>
