@@ -272,6 +272,7 @@ def view_profile_outside(request, id):
 
 
 def connect_with_me(request, id):
+    channel_layer = get_channel_layer()
     user_connect = get_object_or_404(User, id=id)
     form = Connect_userForm()
     if request.method == 'POST':
@@ -281,6 +282,7 @@ def connect_with_me(request, id):
             instance.user = user_connect
             instance.save()
             messages.success(request, "Thanks for your enquiry I will reach to you soon as possible")
+            async_to_sync(channel_layer.group_send)()
             return redirect('connect_with_me', id=user_connect.id)
     else:
         form = Connect_userForm()
