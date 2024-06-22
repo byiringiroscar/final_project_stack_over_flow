@@ -41,7 +41,6 @@
                         </ul><!-- end ul -->
                     </nav><!-- end main-menu -->
                     <form method="GET" action="{% url 'question' %}" class="mr-1">
-                        {% csrf_token %}
                         <div class="form-group mb-0">
                             <input class="form-control form--control form--control-bg-gray text-white" type="text" name="search_question" placeholder="Search your question ...">
                             <button class="form-btn text-white-50" type="submit"><i class="la la-search"></i></button>
@@ -151,7 +150,6 @@
     <div class="mobile-search-form">
         <div class="d-flex align-items-center">
             <form method="GET" action="{% url 'question' %}" class="flex-grow-1 mr-3">
-                {% csrf_token %}
                 <div class="form-group mb-0">
                     <input class="form-control form--control pl-40px" type="text" name="search_question" placeholder="Type your search words...">
                     <span class="la la-search input-icon"></span>
