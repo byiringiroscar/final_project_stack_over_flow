@@ -18,6 +18,8 @@ from django.core import serializers
 from django.http import JsonResponse
 from decouple import config
 from .models import Chat
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 User = get_user_model()
 
