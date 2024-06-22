@@ -6,16 +6,22 @@ from asgiref.sync import async_to_sync
 class ConnectPeopleConsumer(WebsocketConsumer):
     def connect(self):
         self.user = self.scope['user']
-
-        print('------user---connected----', self.user)
-
+        self.chatroom_name = f'connect-people-{self.user.id}'
+        async_to_sync(self.channel_layer.group_add)(
+            self.chatroom_name,
+            self.channel_name
+        )
         self.accept()
     
     def receive(self, text_data=None, bytes_data=None):
         pass
 
-    def disconnect(self, code):
-        pass
+    def disconnect(self, close_code):
+        async_to_sync(self.channel_layer.group_discard)(
+            self.chatroom_name,
+            self.channel_name
+        )
+
 
 
 
