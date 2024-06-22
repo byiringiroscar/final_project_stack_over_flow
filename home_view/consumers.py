@@ -3,6 +3,22 @@ from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
 
 
+class ConnectPeopleConsumer(WebsocketConsumer):
+    def connect(self):
+        self.user = self.scope['user']
+
+        print('------user---connected----', self.user)
+
+        self.accept()
+    
+    def receive(self, text_data=None, bytes_data=None):
+        pass
+
+    def disconnect(self, code):
+        pass
+
+
+
 class NotificationConsumer(WebsocketConsumer):
     def connect(self):
         self.group_name = 'noti_group_name'   # here we created this group name
