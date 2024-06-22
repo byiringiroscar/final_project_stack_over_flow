@@ -1,7 +1,10 @@
 {% load static %}
 {% load tz %}
 
-<section class="footer-area pt-80px bg-dark position-relative">
+<section class="footer-area pt-80px bg-dark position-relative"
+hx-ext="ws"
+ws-connect="/ws/connect-people"
+>
     <span class="vertical-bar-shape vertical-bar-shape-1"></span>
     <span class="vertical-bar-shape vertical-bar-shape-2"></span>
     <span class="vertical-bar-shape vertical-bar-shape-3"></span>
