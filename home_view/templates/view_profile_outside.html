@@ -56,7 +56,10 @@
                     <div class="tab-pane fade show active" id="user-profile" role="tabpanel" aria-labelledby="user-profile-tab">
                         <div class="user-panel-main-bar">
                             <div class="user-panel mb-30px">
-                                <p class="pb-2">{{ profile_user.about_me }}</p>
+                                {% if profile_user.about_me %}
+                                    <p class="pb-2">{{ profile_user.about_me }}</p>
+                                {% endif %}
+
                             </div><!-- end user-panel -->
                             <div class="user-panel mb-30px">
                                 <div class="row">
