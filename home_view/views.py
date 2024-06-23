@@ -301,7 +301,7 @@ def connect_with_me(request, id):
             async_to_sync(channel_layer.group_send)(user_channel_name, event)
             return redirect('connect_with_me', id=user_connect.id)
     else:
-        form = Connect_userForm()
+        form = SendRequestForm()
     context = {
         'form': form,
         'fieldValues': request.POST
