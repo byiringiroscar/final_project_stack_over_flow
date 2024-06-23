@@ -1,6 +1,6 @@
 from django import forms
 from questions.models import Questions_stuff, Answer_stuff, Job_work, Applied_job, InterviewApplied, Badge, \
-    InterviewBadge, ConnectWith
+    InterviewBadge, ConnectWith, FriendRequest
 from django.utils import timezone
 
 now = timezone.now().date()
@@ -84,4 +84,11 @@ class Connect_userForm(forms.ModelForm):
     class Meta:
         model = ConnectWith
         fields = ['name', 'email', 'subject', 'body']
+
+
+
+class SendRequestForm(forms.ModelForm):
+    class Meta:
+        model = FriendRequest
+        fields = ['subject', 'body', 'from_user', 'to_user',]
 
