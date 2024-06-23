@@ -4,7 +4,7 @@ from authentication.models import Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from questions.forms import QuestionsForm, AnswerForm, ApplyJobForm, Connect_userForm, SendRequestForm
-from questions.models import Questions_stuff, Answer_stuff, Applied_job, ConnectWith, FriendRequest
+from questions.models import Questions_stuff, Answer_stuff, Applied_job, ConnectWith, FriendRequest, ChatGroup
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from questions.models import Job_work
@@ -311,11 +311,32 @@ def connect_with_me(request, id):
 
 @login_required(login_url='login')
 def approve_friend_request(request, id):
-    user = request.user
     friend_request = get_object_or_404(FriendRequest, id=id)
-    friend_request.approved = True
-    friend_request.save()
-    return redirect('notifications')
+
+    if friend_request.to_user != request.user:
+        messages.error(request, "You are not authorized to approve this friend request.")
+        return redirect('notifications')
+    
+    from_user = friend_request.from_user
+    to_user = friend_request.to_user
+
+    # Check if there is any existing group with both users as members
+    existing_groups = ChatGroup.objects.filter(members=from_user).filter(members=to_user)
+    if existing_groups.exists():
+        messages.info(request, "You are already friends.")
+        return redirect('notifications')
+    else:
+        # Create a new chat group
+        new_group = ChatGroup.objects.create()
+        new_group.members.add(from_user, to_user)
+        new_group.save()
+
+        # Update the friend request status
+        friend_request.status = 'accepted'
+        friend_request.save()
+
+        messages.success(request, "Friend request approved and now you can chat.")
+        return redirect('notifications')
 
 def get_notification(request):
     data = ConnectWith.objects.all().order_by('-published_date')

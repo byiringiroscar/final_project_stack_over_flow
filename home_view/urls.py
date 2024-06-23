@@ -20,6 +20,7 @@ urlpatterns = [
     path('view_profile_outside/<int:id>/', views.view_profile_outside, name="view_profile_outside"),
     path('notifications/', views.notifications, name="notifications"),
     path('connect_with_me/<int:id>/', views.connect_with_me, name="connect_with_me"),
+    path('accept_request/<int:id>/', views.approve_friend_request, name="approve_friend_request"),
     # get the notification data
     path('get_notification', views.get_notification, name="get_notification"),
     path('mark_read_notif', csrf_exempt(views.mark_read_notif), name="mark_read_notif"),
