@@ -2,6 +2,10 @@ import json
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
 from django.template.loader import render_to_string
+from questions.models import *
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+User = get_user_model()
 
 
 class ConnectPeopleConsumer(WebsocketConsumer):
@@ -23,6 +27,11 @@ class ConnectPeopleConsumer(WebsocketConsumer):
         from_user = event['from_user']
         subject = event['subject']
         body = event['body']
+
+        user_to_notification = get_object_or_404(User, id=to_user)
+
+        all_notification = FriendRequest.objects.filter(to_user=user_to_notification).order_by('-id')[:3]
+        notification_header_count = FriendRequest.objects.filter(to_user=user_to_notification, readed_request=False).count()
         context = {
             'notification_header_count': 22
         }
