@@ -1,6 +1,7 @@
 import json
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
+from django.template.loader import render_to_string
 
 
 class ConnectPeopleConsumer(WebsocketConsumer):
@@ -23,7 +24,11 @@ class ConnectPeopleConsumer(WebsocketConsumer):
         body = event['body']
 
         print('body---', body)
-        pass
+        context = {
+            'notification_count': 22
+        }
+        html = render_to_string('partials/notification_update.html', context=context)
+        self.send(text_data=html)
 
 
 
