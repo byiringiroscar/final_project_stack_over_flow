@@ -1,3 +1,4 @@
+{% load static %}
 <span class="ball red ball-lg noti-dot totalunreadMain" id="notification-main-count">{{ notification_header_count }}</span>
 
 
@@ -19,3 +20,23 @@
     </a>
     {% endfor %}
 </div>
+
+
+<div  id="main-notification-section-list" hx-swap-oob="afterbegin">
+    <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent notification-all">
+        <div class="media-img media-img-sm flex-shrink-0">
+            <img src="{{ all_notification.from_user.user_profile.user_image.url }}" alt="avatar">
+        </div>
+        <div class="media-body p-0 border-left-0">
+            <h3 class="fs-14 fw-regular"><b> Connect request from {{ all_notification.from_user|capfirst }}</b></h3>
+            <h5 class="fs-14 fw-regular">{{all_notification.subject}}</h5>
+            <p class="fs-12 fw-regular">{{all_notification.body}}</p>
+            <small class="meta d-block lh-24">
+                <span><b>{{all_notification.created}}</b></span>
+            </small>
+            <hr>
+        </div>
+    </div>
+
+</div>
+

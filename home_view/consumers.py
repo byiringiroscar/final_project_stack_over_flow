@@ -27,6 +27,10 @@ class ConnectPeopleConsumer(WebsocketConsumer):
         from_user = event['from_user']
         subject = event['subject']
         body = event['body']
+        friend_request_id = event['friend_request_id']
+
+        friend_req = get_object_or_404(FriendRequest, id=friend_request_id)
+        
 
         user_to_notification = get_object_or_404(User, id=to_user)
 
@@ -35,6 +39,7 @@ class ConnectPeopleConsumer(WebsocketConsumer):
         context = {
             'notification_header_count': notification_header_count,
             'notification_header': all_notification,
+            'all_notification': friend_req,
         }
         html = render_to_string('partials/notification_update.html', context=context)
         self.send(text_data=html)

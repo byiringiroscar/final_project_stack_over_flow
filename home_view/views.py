@@ -291,6 +291,7 @@ def connect_with_me(request, id):
                 'to_user': user_connect.id,
                 'subject': instance.subject,
                 'body': instance.body,
+                'friend_request_id': instance.id
             }
             event = {
                 'type': 'send_request_friend',

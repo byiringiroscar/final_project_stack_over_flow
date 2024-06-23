@@ -45,7 +45,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-9">
-                <div class="notification-content-wrap notif-list">
+                <div class="notification-content-wrap notif-list" id="main-notification-section-list">
                         {% for all_notification in all_notification %}
                             <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent notification-all">
                                 <div class="media-img media-img-sm flex-shrink-0">
@@ -60,15 +60,15 @@
                                     </small>
                                     <hr>
                                 </div>
-                                {% if not all_notification.readed_request %}
+                                <!-- {% if not all_notification.readed_request %}
                                 <button data-index="{{ all_notification.id }}" data-notif="{{ all_notification.id }}" class="btn border border-gray fs-17 ml-2 markreadbtn" type="button" data-toggle="tooltip" data-placement="top" title="Mark as read"><i class="la la-eye"></i></button>
                                {% else %}
                                 <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Already Read"><i class="la la-glasses"></i></button>
-                                {% endif %}
+                                {% endif %} -->
                             </div>
 
                             {% endfor %}
-                </div><!-- end notification-content-wrap -->
+                </div>
                 <div class="pager pt-30px mb-50px">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination generic-pagination pr-1">
