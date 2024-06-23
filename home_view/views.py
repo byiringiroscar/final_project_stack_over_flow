@@ -285,6 +285,7 @@ def connect_with_me(request, id):
 
 
             # send the request for connecting
+            user_channel_name = f"user_sendfriend_request{user_connect.id}"
             async_to_sync(channel_layer.group_send)()
             return redirect('connect_with_me', id=user_connect.id)
     else:
