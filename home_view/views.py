@@ -381,8 +381,9 @@ def mark_read_notif(request):
 @login_required(login_url='login')
 def notifications(request):
     for notification in FriendRequest.objects.filter(to_user=request.user).all():
-        notification.readed_request = True
-        notification.save()
+        if notification.readed_request == False:
+            notification.readed_request = True
+            notification.save()
     all_notification = FriendRequest.objects.filter(to_user=request.user).order_by('-id')
     paginator = Paginator(all_notification, 5)
     page_number = request.GET.get('page')
