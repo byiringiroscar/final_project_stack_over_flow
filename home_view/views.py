@@ -282,6 +282,9 @@ def connect_with_me(request, id):
             instance.user = user_connect
             instance.save()
             messages.success(request, "Thanks for your enquiry I will reach to you soon as possible")
+
+
+            # send the request for connecting
             async_to_sync(channel_layer.group_send)()
             return redirect('connect_with_me', id=user_connect.id)
     else:
