@@ -5,6 +5,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib.sessions.models import Session
+import shortuuid
 
 import json
 
@@ -197,3 +198,11 @@ class FriendRequest(models.Model):
 
     def __str__(self):
         return f'{self.from_user.username} to {self.to_user.username}'
+    
+
+class ChatGroup(models.Model):
+    group_name = models.CharField(max_length=100, unique=True, default=shortuuid.uuid)
+    members = models.ManyToManyField(User, related_name='chat_groups', blank=True)
+
+    def __str__(self):
+        return self.group_name

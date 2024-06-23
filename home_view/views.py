@@ -309,6 +309,14 @@ def connect_with_me(request, id):
     return render(request, 'connect_with_me.html', context)
 
 
+@login_required(login_url='login')
+def approve_friend_request(request, id):
+    user = request.user
+    friend_request = get_object_or_404(FriendRequest, id=id)
+    friend_request.approved = True
+    friend_request.save()
+    return redirect('notifications')
+
 def get_notification(request):
     data = ConnectWith.objects.all().order_by('-published_date')
     jsonData = serializers.serialize('json', data)
