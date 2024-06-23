@@ -265,7 +265,8 @@ def view_profile_outside(request, id):
         'profile_user': profile_user,
         'all_answer_count': all_answer.count(),
         'all_question_count': all_question.count(),
-        'count_view': count_view
+        'count_view': count_view,
+        'question_det': question_det
     }
 
     return render(request, 'view_profile_outside.html', context)

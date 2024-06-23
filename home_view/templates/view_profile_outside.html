@@ -33,11 +33,13 @@
                     </div><!-- end media -->
                 </div><!-- end hero-content -->
             </div><!-- end col-lg-8 -->
+            {% if request.user != question_det.owner %}
             <div class="col-lg-4">
                 <div class="hero-btn-box text-right py-3">
                     <a href="{% url 'connect_with_me' user_question.id %}" class="btn theme-btn theme-btn-outline theme-btn-outline-gray"><i class="la la-play-circle mr-1"></i> Connect With Me</a>
                 </div>
             </div><!-- end col-lg-4 -->
+            {% endif %}
         </div><!-- end row -->
     </div><!-- end container -->
 </section>
