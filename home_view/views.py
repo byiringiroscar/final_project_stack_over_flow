@@ -283,7 +283,7 @@ def connect_with_me(request, id):
             instance = form.save(commit=False)
             instance.from_user = user
             instance.to_user = user_connect
-            # instance.save()
+            instance.save()
             # send the request for connecting
             user_channel_name = f"user_sendfriend_request{user_connect.id}"
             data_sent = {

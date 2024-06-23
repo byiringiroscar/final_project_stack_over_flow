@@ -33,7 +33,8 @@ class ConnectPeopleConsumer(WebsocketConsumer):
         all_notification = FriendRequest.objects.filter(to_user=user_to_notification).order_by('-id')[:3]
         notification_header_count = FriendRequest.objects.filter(to_user=user_to_notification, readed_request=False).count()
         context = {
-            'notification_header_count': 22
+            'notification_header_count': notification_header_count,
+            'notification_header': all_notification,
         }
         html = render_to_string('partials/notification_update.html', context=context)
         self.send(text_data=html)
