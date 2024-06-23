@@ -24,24 +24,6 @@
                 <div class="card card-item">
                     <div class="card-body">
                         <div class="form-group">
-                            <label class="fs-14 text-black fw-medium lh-20">Your Name</label>
-                            <input type="text" name="name" class="form-control form--control fs-14" placeholder="e.g. Oscar zera" value="{{ fieldValues.name }}">
-                            {% for err in form.name.errors %}
-                                <div class="alert alert-danger" role="alert">
-                                  {{ err }}
-                                </div>
-                            {% endfor %}
-                        </div><!-- end form-group -->
-                        <div class="form-group">
-                            <label class="fs-14 text-black fw-medium lh-20">Email <span class="text-gray">(Address never made public)</span></label>
-                            <input type="email" name="email" class="form-control form--control fs-14" placeholder="e.g. byiringiro@gmail.com" value="{{ fieldValues.email }}">
-                            {% for err in form.email.errors %}
-                                <div class="alert alert-danger" role="alert">
-                                  {{ err }}
-                                </div>
-                            {% endfor %}
-                        </div><!-- end form-group -->
-                        <div class="form-group">
                             <label class="fs-14 text-black fw-medium lh-20">Subject</label>
                             <input type="text" name="subject" class="form-control form--control fs-14" placeholder="Your Subject ..." value="{{ fieldValues.subject }}">
                             {% for err in form.subject.errors %}

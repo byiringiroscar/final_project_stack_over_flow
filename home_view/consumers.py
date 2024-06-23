@@ -12,7 +12,7 @@ class ConnectPeopleConsumer(WebsocketConsumer):
     
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
-            self.chatroom_name,
+            self.user_channel_name,
             self.channel_name
         )
     
