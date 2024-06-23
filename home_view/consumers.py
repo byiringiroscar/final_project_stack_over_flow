@@ -23,6 +23,9 @@ class ConnectPeopleConsumer(WebsocketConsumer):
         subject = text_data_json['subject']
         body = text_data_json['body']
 
+        print('body---', body)
+        pass
+
 
 
     
