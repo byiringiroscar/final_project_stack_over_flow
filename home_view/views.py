@@ -283,9 +283,7 @@ def connect_with_me(request, id):
             instance = form.save(commit=False)
             instance.from_user = user
             instance.to_user = user_connect
-            instance.save()
-            messages.success(request, "Thanks for your enquiry I will reach to you soon as possible")
-
+            # instance.save()
             # send the request for connecting
             user_channel_name = f"user_sendfriend_request{user_connect.id}"
             data_sent = {
@@ -299,6 +297,7 @@ def connect_with_me(request, id):
                 'value': data_sent
             }
             async_to_sync(channel_layer.group_send)(user_channel_name, event)
+            messages.success(request, "Thanks for your connect wait as your request to be approved")
             return redirect('connect_with_me', id=user_connect.id)
     else:
         form = SendRequestForm()
