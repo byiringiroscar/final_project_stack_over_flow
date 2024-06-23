@@ -99,35 +99,23 @@
             <div class="card-header text-white">Chat</div>
             <div class="card-body messages-box">
 
-                <ul class="list-unstyled messages-list">
-                    <li class="message sent">
-                        <div class="message-text">
-                            <div class="message-sender">
-                                <b>You</b>
-                            </div>
-                            <div class="message-content">
-                                Hello there!
-                            </div>
-                        </div>
-                    </li>
-                    <li class="message received">
-                        <div class="message-text">
-                            <div class="message-sender">
-                                <b>AI Chatbot</b>
-                            </div>
-                            <div class="message-content">
-                                Hi! How can I assist you today?
-                            </div>
-                        </div>
-                    </li>
+                <ul class="list-unstyled messages-list" id="chat_messages">
+                    {% for message in chat_messages reversed %} 
+                        {% include 'partials/chat_message.html' with message=message user=user other_user=other_user %}
+                    {% endfor %}
                 </ul>
 
             </div>
         </div>
-        <form class="message-form">
+        <form class="message-form"
+            hx-ext="ws"
+            ws-connect="/ws/chatroom/{{ chatroom_name }}"
+            ws-send
+            _="on htmx:wsAfterSend reset() me"
+        >
             {% csrf_token %}
             <div class="input-group">
-                <input type="text" class="form-control message-input" placeholder="Type your message...">
+                <input type="text" name="body" class="form-control message-input" placeholder="Type your message...">
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary btn-send">Send</button>
                 </div>
@@ -135,4 +123,16 @@
         </form>
     </div>
 </section>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    function scrollToBottom (time=0) {
+        setTimeout(function() {
+            const container = document.getElementById('chat_container');
+            container.scrollTop = container.scrollHeight;
+        }, time)
+    }
+    scrollToBottom()
+</script>
 {% endblock %}
