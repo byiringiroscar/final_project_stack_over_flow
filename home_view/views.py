@@ -323,7 +323,7 @@ def approve_friend_request(request, id):
     # Check if there is any existing group with both users as members
     existing_groups = ChatGroup.objects.filter(members=from_user).filter(members=to_user)
     if existing_groups.exists():
-        messages.info(request, "You are already friends.")
+        messages.info(request, "You are already friends and connected.")
         return redirect('notifications')
     else:
         # Create a new chat group
