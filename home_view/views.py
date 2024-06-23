@@ -359,7 +359,7 @@ def approve_friend_request(request, id):
         messages.success(request, "Friend request approved and now you can chat.")
         return redirect('notifications')
 
-def chat_friends(request):
+def chat_friends(request, id):
     return render(request, 'mainmessage.html')
 
 

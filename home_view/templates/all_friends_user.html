@@ -20,7 +20,7 @@
                 <div class="col-lg-3 responsive-column-half">
                     <div class="media media-card p-3">
                         
-                        <a href="#!" class="media-img d-inline-block flex-shrink-0">
+                        <a href="{% url 'chat_friends' friend.group_name %}" class="media-img d-inline-block flex-shrink-0">
                             <img src="{{ user_pro.user_profile.user_image.url }}" alt="company logo">
                         </a>
                             
@@ -28,7 +28,7 @@
                             <h5 class="fs-16 fw-medium"><a href="">{{ user_pro.full_name|capfirst }}</a></h5>
                             <small class="meta d-block lh-24 pb-1"><span>{{ user_pro.email  }}</span></small>
                             <p class="fw-medium fs-15 text-black-50 lh-18">{{ user_pro.phone_number }}</p>
-                            <a href="#" class="badge badge-md badge-dark d-inline-flex align-items-center"><span class="ball bg-gray"></span> Chat</a>
+                            <a href="{% url 'chat_friends' friend.group_name %}" class="badge badge-md badge-dark d-inline-flex align-items-center"><span class="ball bg-gray"></span> Chat</a>
                         </div><!-- end media-body -->
                     </div><!-- end media -->
                 </div>
