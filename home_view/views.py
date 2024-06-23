@@ -359,6 +359,10 @@ def approve_friend_request(request, id):
         messages.success(request, "Friend request approved and now you can chat.")
         return redirect('notifications')
 
+def chat_friends(request):
+    return render(request, 'mainmessage.html')
+
+
 def get_notification(request):
     data = ConnectWith.objects.all().order_by('-published_date')
     jsonData = serializers.serialize('json', data)
