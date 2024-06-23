@@ -294,7 +294,7 @@ def connect_with_me(request, id):
             }
             event = {
                 'type': 'send_request_friend',
-                'value': data_sent
+                'data_sent': data_sent
             }
             async_to_sync(channel_layer.group_send)(user_channel_name, event)
             messages.success(request, "Thanks for your connect wait as your request to be approved")

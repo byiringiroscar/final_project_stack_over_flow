@@ -18,12 +18,13 @@ class ConnectPeopleConsumer(WebsocketConsumer):
         )
     
     def send_request_friend(self, event):
+        event = event['data_sent']
         to_user = event['to_user']
         from_user = event['from_user']
         subject = event['subject']
         body = event['body']
 
-        print('body---', body)
+        print('body---', subject)
         context = {
             'notification_count': 22
         }
