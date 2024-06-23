@@ -32,8 +32,8 @@ def extras(request):
         user = request.user
         profile_user = get_object_or_404(Profile, user=user)
         user_id_logged = user.id
-        all_notification = ConnectWith.objects.filter(user=user).order_by('-id')[:3]
-        notification_header_count = ConnectWith.objects.filter(user=user, readed_notification=False).count()
+        all_notification = FriendRequest.objects.filter(to_user=user).order_by('-id')[:3]
+        notification_header_count = FriendRequest.objects.filter(to_user=user, readed_notification=False).count()
     else:
         profile_user = None
         user = None
