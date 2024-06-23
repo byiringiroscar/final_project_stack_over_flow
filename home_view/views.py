@@ -361,13 +361,15 @@ def approve_friend_request(request, id):
         return redirect('notifications')
 
 def chat_friends(request, chatroom_name):
+    current_domain = request.get_host()
     chat_group = get_object_or_404(ChatGroup, group_name=chatroom_name)
     chat_messages = chat_group.chat_messages.all()
     other_user = get_other_user(request.user, chat_group)
     context = {
         'chat_group': chat_group,
         'chat_messages': chat_messages,
-        'other_user': other_user
+        'other_user': other_user,
+        'current_domain': current_domain
     }
     return render(request, 'mainmessage.html', context)
 

@@ -94,7 +94,7 @@
 {% block content %}
 <section class="question-area">
 
-    <div class="chat-container">
+    <div class="chat-container" id="main-chat-container">
         <div class="card flex-grow-1">
             <div class="card-header text-white">Chat</div>
             <div class="card-body messages-box">
@@ -109,7 +109,7 @@
         </div>
         <form class="message-form"
             hx-ext="ws"
-            ws-connect="/ws/chatroom/{{ chatroom_name }}"
+            ws-connect="/ws/chatroom/{{ chat_group.group_name }}"
             ws-send
             _="on htmx:wsAfterSend reset() me"
         >
@@ -129,7 +129,7 @@
 <script>
     function scrollToBottom (time=0) {
         setTimeout(function() {
-            const container = document.getElementById('chat_container');
+            const container = document.getElementById('main-chat-container');
             container.scrollTop = container.scrollHeight;
         }, time)
     }
