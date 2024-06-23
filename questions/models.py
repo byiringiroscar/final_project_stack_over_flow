@@ -216,6 +216,8 @@ class ConnectStatus(models.Model):
 class FriendRequest(models.Model):
     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_requests_from')
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_requests_to')
+    subject = models.CharField(max_length=250, default='please can you connect with me')
+    body = models.TextField(default='')
     status = models.CharField(max_length=10, default='pending') # pending, accepted, rejected
     created = models.DateTimeField(auto_now_add=True)
 

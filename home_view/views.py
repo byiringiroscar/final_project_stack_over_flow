@@ -270,7 +270,7 @@ def view_profile_outside(request, id):
 
     return render(request, 'view_profile_outside.html', context)
 
-
+@login_required(login_url='login')
 def connect_with_me(request, id):
     channel_layer = get_channel_layer()
     user_connect = get_object_or_404(User, id=id)
