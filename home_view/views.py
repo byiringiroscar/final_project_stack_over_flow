@@ -4,7 +4,7 @@ from authentication.models import Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from questions.forms import QuestionsForm, AnswerForm, ApplyJobForm, Connect_userForm, SendRequestForm
-from questions.models import Questions_stuff, Answer_stuff, Applied_job, ConnectWith
+from questions.models import Questions_stuff, Answer_stuff, Applied_job, ConnectWith, FriendRequest
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from questions.models import Job_work
@@ -379,7 +379,7 @@ def mark_read_notif(request):
 
 @login_required(login_url='login')
 def notifications(request):
-    all_notification = ConnectWith.objects.filter(user=request.user).order_by('-id')
+    all_notification = FriendRequest.objects.filter(to_user=request.user).order_by('-id')
     paginator = Paginator(all_notification, 5)
     page_number = request.GET.get('page')
     try:

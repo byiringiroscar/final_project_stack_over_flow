@@ -50,22 +50,23 @@
                         {% for all_notification in all_notification %}
                             <div class="media media-card media--card shadow-none rounded-0 align-items-center bg-transparent notification-all">
                                 <div class="media-img media-img-sm flex-shrink-0">
-                                    <img src="{% static 'profile.png' %}" alt="avatar">
+                                    <img src="{{ all_notification.from_user.user_profile.user_image.url }}" alt="avatar">
                                 </div>
                                 <div class="media-body p-0 border-left-0">
-                                    <h3 class="fs-14 fw-regular"><b>{{ all_notification.name }} following your post</b></h3>
-                                    <h5 class="fs-14 fw-regular">Re:{{ all_notification.subject }}</h5>
+                                    <h3 class="fs-14 fw-regular"><b> Connect request from {{ all_notification.from_user|capfirst }}</b></h3>
+                                    <h5 class="fs-14 fw-regular">{{all_notification.subject}}</h5>
+                                    <p class="fs-12 fw-regular">{{all_notification.body}}</p>
                                     <hr>
-                                    <h6 class="fs-14 fw-regular">{{ all_notification.body }}</h6>
+                                    <h6 class="fs-14 fw-regular">sjnsjdnjdnjd</h6>
                                     <small class="meta d-block lh-24">
-                                        <span><b>{{ all_notification.published_date }}</b></span>
+                                        <span><b>12/4/55</b></span>
                                     </small>
                                 </div>
-                                {% if not all_notification.readed_notification %}
+                                <!-- {% if not all_notification.readed_notification %}
                                 <button data-index="{{ all_notification.id }}" data-notif="{{ all_notification.id }}" class="btn border border-gray fs-17 ml-2 markreadbtn" type="button" data-toggle="tooltip" data-placement="top" title="Mark as read"><i class="la la-eye"></i></button>
                                {% else %}
                                 <button class="btn border border-gray fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="Already Read"><i class="la la-glasses"></i></button>
-                                {% endif %}
+                                {% endif %} -->
                             </div>
 
                             {% endfor %}
