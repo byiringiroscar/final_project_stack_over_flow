@@ -16,12 +16,11 @@ class ConnectPeopleConsumer(WebsocketConsumer):
             self.channel_name
         )
     
-    def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        to_user = text_data_json['to_user']
-        from_user = text_data_json['from_user']
-        subject = text_data_json['subject']
-        body = text_data_json['body']
+    def send_request_friend(self, event):
+        to_user = event['to_user']
+        from_user = event['from_user']
+        subject = event['subject']
+        body = event['body']
 
         print('body---', body)
         pass
