@@ -48,26 +48,8 @@ class ChatroomConsumer(WebsocketConsumer):
             'user': self.user
         }
         html = render_to_string('partials/chat_message_p.html', context=context)
-        self.send(text_data=html) # This will send the message to the browser client but it is not asynous
-    
-    def update_online_count(self):
-        online_count = self.chatroom.users_online.count() -1
-
-        event = {
-            'type': 'online_count_handler',
-            'online_count': online_count
-        }
-
-        async_to_sync(self.channel_layer.group_send)(self.chatroom_name, event)
-
-    
-    def online_count_handler(self, event):
-        online_count = event['online_count']
-        context = {
-            'online_count': online_count
-        }
-        html = render_to_string('partials/online_count.html', context=context)
         self.send(text_data=html)
+    
 
 
 class ConnectPeopleConsumer(WebsocketConsumer):
