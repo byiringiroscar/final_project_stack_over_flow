@@ -277,7 +277,6 @@ def connect_with_me(request, id):
     channel_layer = get_channel_layer()
     user_connect = get_object_or_404(User, id=id)
     form = SendRequestForm()
-
     from_user = user
     to_user = user_connect
     if request.method == 'POST':
@@ -286,6 +285,11 @@ def connect_with_me(request, id):
             instance = form.save(commit=False)
             instance.from_user = user
             instance.to_user = user_connect
+            # check if no other friend request sent
+            friend_request = FriendRequest.objects.filter(from_user=user).filter(to_user=user_connect)
+            if friend_request.exists():
+                messages.info(request, "You have already sent a friend request to this user.")
+                return redirect('connect_with_me', id=user_connect.id)
             # check if the user already in same chatgroup as members
             existing_groups = ChatGroup.objects.filter(members=from_user).filter(members=to_user)
             if existing_groups.exists():
