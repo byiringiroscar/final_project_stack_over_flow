@@ -18,6 +18,12 @@ class ConnectPeopleConsumer(WebsocketConsumer):
     
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
+        to_user = text_data_json['to_user']
+        from_user = text_data_json['from_user']
+        subject = text_data_json['subject']
+        body = text_data_json['body']
+
+
 
     
 
