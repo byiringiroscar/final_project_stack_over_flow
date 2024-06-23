@@ -3,7 +3,7 @@ from authentication.forms import UserForm, UpdateProfileForm, SkillsForm
 from authentication.models import Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from questions.forms import QuestionsForm, AnswerForm, ApplyJobForm, Connect_userForm
+from questions.forms import QuestionsForm, AnswerForm, ApplyJobForm, Connect_userForm, SendRequestForm
 from questions.models import Questions_stuff, Answer_stuff, Applied_job, ConnectWith
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
