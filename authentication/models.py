@@ -5,8 +5,6 @@ from questions.models import Badge
 
 from django.utils import timezone
 
-now = timezone.now()
-
 
 # Create your models here.
 
@@ -146,7 +144,7 @@ class Profile(models.Model):
     uiandux = models.PositiveIntegerField(null=True, blank=True, default=0)
     artificial_intelligence = models.PositiveIntegerField(null=True, blank=True, default=0)
     badge = models.BooleanField(default=False)
-    date_created = models.DateField(default=now)
+    date_created = models.DateField(default=timezone.now)  # Change this line
 
     def __str__(self):
         return f'{self.user.full_name} -- {self.user.phone_number}'
