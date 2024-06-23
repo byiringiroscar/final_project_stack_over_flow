@@ -16,8 +16,8 @@ class ConnectPeopleConsumer(WebsocketConsumer):
             self.channel_name
         )
     
-    def receive(self, text_data=None, bytes_data=None):
-        pass
+    def receive(self, text_data):
+        text_data_json = json.loads(text_data)
 
     
 
