@@ -277,12 +277,20 @@ def connect_with_me(request, id):
     channel_layer = get_channel_layer()
     user_connect = get_object_or_404(User, id=id)
     form = SendRequestForm()
+
+    from_user = user
+    to_user = user_connect
     if request.method == 'POST':
         form = SendRequestForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.from_user = user
             instance.to_user = user_connect
+            # check if the user already in same chatgroup as members
+            existing_groups = ChatGroup.objects.filter(members=from_user).filter(members=to_user)
+            if existing_groups.exists():
+                messages.info(request, "You are already friends and connected.")
+                return redirect('connect_with_me', id=user_connect.id)
             instance.save()
             # send the request for connecting
             user_channel_name = f"user_sendfriend_request{user_connect.id}"
