@@ -22,11 +22,8 @@ urlpatterns = [
     path('connect_with_me/<int:id>/', views.connect_with_me, name="connect_with_me"),
     path('accept_request/<int:id>/', views.approve_friend_request, name="approve_friend_request"),
     path('all_friends_user/', views.all_friends_user, name="all_friends_user"),
-    path('chat_friends/<str:id>/', views.chat_friends, name="chat_friends"),
-    # get the notification data
-    path('get_notification', views.get_notification, name="get_notification"),
-    path('mark_read_notif', csrf_exempt(views.mark_read_notif), name="mark_read_notif"),
-    path('get_all_Notification_count', csrf_exempt(views.get_all_Notification_count), name="get_all_Notification_count"),
+    path('chat_friends/<chatroom_name>/', views.chat_friends, name="chat_friends"),
+
     # api for change to enable two-factor authentication
     path('enable-2-authentication', csrf_exempt(views.enable_two_factor), name="enable_two_factor"),
     path('chatbot', views.chatbot, name='chatbot'),

@@ -372,12 +372,11 @@ def chat_friends(request, chatroom_name):
     return render(request, 'mainmessage.html', context)
 
 def get_other_user(user, chat_group):
-    if chat_group.is_private:
-        if user not in chat_group.members.all():
-            raise Http404()
-        for member in chat_group.members.all():
-            if member != user:
-                return member
+    if user not in chat_group.members.all():
+        raise Http404()
+    for member in chat_group.members.all():
+        if member != user:
+            return member
     return None
 
 
