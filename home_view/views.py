@@ -322,6 +322,16 @@ def connect_with_me(request, id):
 
 
 @login_required(login_url='login')
+def all_friends_user(request):
+    # filter all chatgroup where request.user is member
+    all_chat_groups = ChatGroup.objects.filter(members=request.user)
+    context = {
+        'all_chat_groups': all_chat_groups
+    }
+    return render(request, 'all_friends_user.html', context)
+
+
+@login_required(login_url='login')
 def approve_friend_request(request, id):
     friend_request = get_object_or_404(FriendRequest, id=id)
 
