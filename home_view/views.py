@@ -294,7 +294,11 @@ def connect_with_me(request, id):
                 'subject': instance.subject,
                 'body': instance.body,
             }
-            async_to_sync(channel_layer.group_send)()
+            event = {
+                'type': 'send_request_friend',
+                'value': data_sent
+            }
+            async_to_sync(channel_layer.group_send)(user_channel_name, event)
             return redirect('connect_with_me', id=user_connect.id)
     else:
         form = Connect_userForm()
