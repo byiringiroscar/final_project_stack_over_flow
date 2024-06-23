@@ -4,7 +4,7 @@ from authentication.models import Profile
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from questions.forms import QuestionsForm, AnswerForm, ApplyJobForm, Connect_userForm, SendRequestForm
-from questions.models import Questions_stuff, Answer_stuff, Applied_job, ConnectWith, FriendRequest, ChatGroup
+from questions.models import Questions_stuff, Answer_stuff, Applied_job, ConnectWith, FriendRequest, ChatGroup, GroupMessage
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from questions.models import Job_work
@@ -19,6 +19,7 @@ from django.http import JsonResponse
 from decouple import config
 from .models import Chat
 from asgiref.sync import async_to_sync
+from django.http import Http404
 from channels.layers import get_channel_layer
 
 User = get_user_model()
@@ -359,37 +360,26 @@ def approve_friend_request(request, id):
         messages.success(request, "Friend request approved and now you can chat.")
         return redirect('notifications')
 
-def chat_friends(request, id):
-    return render(request, 'mainmessage.html')
+def chat_friends(request, chatroom_name):
+    chat_group = get_object_or_404(ChatGroup, group_name=chatroom_name)
+    chat_messages = chat_group.chat_messages.all()
+    other_user = get_other_user(request.user, chat_group)
+    context = {
+        'chat_group': chat_group,
+        'chat_messages': chat_messages,
+        'other_user': other_user
+    }
+    return render(request, 'mainmessage.html', context)
 
+def get_other_user(user, chat_group):
+    if chat_group.is_private:
+        if user not in chat_group.members.all():
+            raise Http404()
+        for member in chat_group.members.all():
+            if member != user:
+                return member
+    return None
 
-def get_notification(request):
-    data = ConnectWith.objects.all().order_by('-published_date')
-    jsonData = serializers.serialize('json', data)
-    return JsonResponse({'data': jsonData})
-
-
-# notification1.html is for testing the notificatio by using ajax with reloading in 5 seconds we created the endpoint
-# for looping into the notification and checking according to the published date so we passed to that template with
-# ajax call to make it then we take their div class in the template then we started to loop it on it by using foreach
-# in js then able to get response in template through the ajax
-
-
-# ===== here we are going to use django channels and the new asgi to make request and receice the answer from the
-# server to be able to see the notification in realtime without reloading the page
-# @login_required(login_url='login')
-# def notifications(request):
-#     all_notification = ConnectWith.objects.filter(user=request.user).order_by('-id')
-#     async_to_sync(channel_layer.group_send)(
-#         'noti_group_name', {
-#             'type': 'send_notification',
-#             'total_notification': json.dumps({'total': all_notification.count()})
-#         }
-#     )
-#     context = {
-#         'all_notification': all_notification
-#     }
-#     return render(request, 'notifications.html', context)
 
 def enable_two_factor(request):
     user = request.user
@@ -402,35 +392,6 @@ def enable_two_factor(request):
         user_log.is_two_f_enable = True
         user_log.save()
     return JsonResponse({"status": user_log.is_two_f_enable})
-
-
-def get_all_Notification_count(request):
-    data = json.loads(request.body)
-    logged_user = request.user
-    user_id = data['userId_Not']
-    notification_id = data['notification_id']
-    if logged_user.is_authenticated:
-        user_on_log = logged_user.id
-        if user_on_log == user_id:
-            all_noti = ConnectWith.objects.filter(user_id=user_id, readed_notification=False).count()
-        else:
-            all_noti = None
-    else:
-        all_noti = None
-    return JsonResponse({'all_notification': all_noti}, safe=False)
-
-
-def mark_read_notif(request):
-    data = request.GET.get('notif')
-    noti_id = int(data)
-    try:
-        notification_connect = ConnectWith.objects.get(id=noti_id)
-        notification_connect.readed_notification = True
-        notification_connect.save()
-    except:
-        pass
-    return JsonResponse({'response': "done change status"}, safe=False)
-
 
 @login_required(login_url='login')
 def notifications(request):
