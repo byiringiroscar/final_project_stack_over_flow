@@ -26,10 +26,7 @@
                             <li>
                                 <a href="#!">Pages <i class="la la-angle-down fs-11"></i></a>
                                 <ul class="dropdown-menu-item">
-                                    <li><a href="{% url 'question' %}">Question </a></li>
-                                    <li><a href="{% url 'chatbot' %}">Chat </a></li>
-                                    <li><a href="{% url 'ask_question' %}">Ask Question </a></li>
-                                    <li><a href="{% url 'job_list' %}">Job </a></li>
+                                    {% include 'partial/drop_downmenu.html' %}
                                 </ul>
                             </li>
                             {% if user.is_authenticated %}
@@ -66,32 +63,20 @@
             <i class="la la-times"></i>
         </div><!-- end off-canvas-menu-close -->
         <ul class="generic-list-item off-canvas-menu-list pt-90px">
-                    <li>
-                    <a href="{% url 'home' %}">Home </a>
-                </li>
-                <li class="is-mega-menu">
-                    <a href="{% url 'question' %}">Question </a>
-                </li>
-                <li>
-                    <a href="{% url 'ask_question' %}">Ask Question </a>
-                </li>
-                <li>
-                    <a href="{% url 'chatbot' %}">Chat </a>
-                </li>
-                <li>
-                    <a href="{% url 'job_list' %}">Job </a>
-                </li>
+                {% include 'partial/drop_downmenu_mobile.html' %}
                 {% if user.is_authenticated %}
                 <li>
                     <a href="{% url 'user_home' %}">Main </a>
                 </li>
                 {% endif %}
         </ul>
+        {% if not user.is_authenticated %}
         <div class="off-canvas-btn-box px-4 pt-5 text-center">
             <a href="{% url 'login' %}" class="btn theme-btn theme-btn-sm theme-btn-outline" data-target="{% url 'login' %}"><i class="la la-sign-in mr-1"></i> Login</a>
             <span class="fs-15 fw-medium d-inline-block mx-2">Or</span>
             <a href="{% url 'register' %}" class="btn theme-btn theme-btn-sm" data-target="{% url 'register' %}"><i class="la la-plus mr-1"></i> Sign up</a>
         </div>
+        {% endif %}
     </div><!-- end off-canvas-menu -->
     <div class="mobile-search-form">
         <div class="d-flex align-items-center">
