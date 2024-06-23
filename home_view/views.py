@@ -273,6 +273,7 @@ def view_profile_outside(request, id):
 
 @login_required(login_url='login')
 def connect_with_me(request, id):
+    user = request.user
     channel_layer = get_channel_layer()
     user_connect = get_object_or_404(User, id=id)
     form = SendRequestForm()
@@ -280,13 +281,19 @@ def connect_with_me(request, id):
         form = SendRequestForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
-            instance.user = user_connect
+            instance.from_user = user
+            instance.to_user = user_connect
             instance.save()
             messages.success(request, "Thanks for your enquiry I will reach to you soon as possible")
 
-
             # send the request for connecting
             user_channel_name = f"user_sendfriend_request{user_connect.id}"
+            data_sent = {
+                'from_user': user.id,
+                'to_user': user_connect.id,
+                'subject': instance.subject,
+                'body': instance.body,
+            }
             async_to_sync(channel_layer.group_send)()
             return redirect('connect_with_me', id=user_connect.id)
     else:
