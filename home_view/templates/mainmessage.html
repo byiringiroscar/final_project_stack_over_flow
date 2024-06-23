@@ -127,12 +127,12 @@
 
 {% block javascript %}
 <script>
-    function scrollToBottom (time=0) {
-        setTimeout(function() {
-            const container = document.getElementById('main-chat-container');
-            container.scrollTop = container.scrollHeight;
-        }, time)
-    }
-    scrollToBottom()
+    function scrollToBottom(time = 0) {
+    setTimeout(function() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }, time);
+}
+
+scrollToBottom();
 </script>
 {% endblock %}
