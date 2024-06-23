@@ -275,9 +275,9 @@ def view_profile_outside(request, id):
 def connect_with_me(request, id):
     channel_layer = get_channel_layer()
     user_connect = get_object_or_404(User, id=id)
-    form = Connect_userForm()
+    form = SendRequestForm()
     if request.method == 'POST':
-        form = Connect_userForm(request.POST)
+        form = SendRequestForm(request.POST)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = user_connect

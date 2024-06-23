@@ -90,5 +90,5 @@ class Connect_userForm(forms.ModelForm):
 class SendRequestForm(forms.ModelForm):
     class Meta:
         model = FriendRequest
-        fields = ['subject', 'body', 'from_user', 'to_user',]
+        fields = ['subject', 'body']
 
