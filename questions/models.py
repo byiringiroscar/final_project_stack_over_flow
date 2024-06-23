@@ -199,6 +199,13 @@ class FriendRequest(models.Model):
     def __str__(self):
         return f'{self.from_user.username} to {self.to_user.username}'
     
+    @property
+    def check_group(self):
+        group = ChatGroup.objects.filter(members=self.from_user).filter(members=self.to_user)
+        if group.exists():
+            return True
+        return False
+    
 
 class ChatGroup(models.Model):
     group_name = models.CharField(max_length=100, unique=True, default=shortuuid.uuid)

@@ -62,7 +62,9 @@
                                     </small>
                                     <hr>
                                 </div>
+                                {% if not all_notification.check_group %}
                                 <a href="{% url 'approve_friend_request' all_notification.id  %}" class="btn theme-btn fs-17 ml-2" type="button" data-toggle="tooltip" data-placement="top" title="approve request">Approve<i class="la la-eye"></i></a>
+                                {% endif %}
                                
                             </div>
 
