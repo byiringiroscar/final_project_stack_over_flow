@@ -323,7 +323,6 @@ def connect_with_me(request, id):
 
 @login_required(login_url='login')
 def all_friends_user(request):
-    # filter all chatgroup where request.user is member
     all_chat_groups = ChatGroup.objects.filter(members=request.user)
     context = {
         'all_chat_groups': all_chat_groups
