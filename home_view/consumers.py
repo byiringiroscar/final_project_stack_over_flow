@@ -23,10 +23,8 @@ class ConnectPeopleConsumer(WebsocketConsumer):
         from_user = event['from_user']
         subject = event['subject']
         body = event['body']
-
-        print('body---', subject)
         context = {
-            'notification_count': 22
+            'notification_header_count': 22
         }
         html = render_to_string('partials/notification_update.html', context=context)
         self.send(text_data=html)
