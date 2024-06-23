@@ -16,10 +16,10 @@
                     <a class="dropdown-item header-notification-all" href="#">
                         <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
                             <div class="media-img media-img-sm flex-shrink-0">
-                                <img src="{% static 'profile.png' %}" alt="avatar">
+                                <img src="{{ notification_header.from_user.user_profile.user_image.url }}" alt="avatar">
                             </div>
                             <div class="media-body p-0 border-left-0">
-                                <h4 class="fs-14 fw-regular"><b>{{ notification_header.name }} following your post</b></h4>
+                                <h4 class="fs-14 fw-regular"><b>Connect request</b></h4>
                                 <h6 class="fs-14 fw-regular">{{ notification_header.subject }}</h6>
                                 <small class="meta d-block lh-24">
                                     <span>{{ notification_header.published_date }}</span>
