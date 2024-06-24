@@ -22,6 +22,9 @@ from asgiref.sync import async_to_sync
 from django.http import Http404
 from channels.layers import get_channel_layer
 import google.generativeai as genai
+from django.core.mail import EmailMessage
+from django.template.loader import get_template
+import threading
 
 User = get_user_model()
 
@@ -31,6 +34,15 @@ genai.configure(api_key=config('GOOGLE_API_KEY'))
 
 
 # Create your views here.
+
+class EmailThread(threading.Thread):
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.email.send(fail_silently=False)
+
 
 def ask_openai(question):
     model=genai.GenerativeModel("gemini-pro")
@@ -105,6 +117,13 @@ def question_detail(request, id):
                           f"Please visit the website to see the answer.\n\n" \
                           f"Thanks,\n" \
                           f"Q&A Team"
+                time_exact = question_det.publish_date
+                html_content = get_template('notify_email.html').render(
+                {'message': message,'time_exact': time_exact,'now': now.date()})
+                from_email = 'koracodeafrica@gmail.com'
+                msg = EmailMessage(subject, html_content, from_email, to=[email, ])
+                msg.content_subtype = "html"
+                EmailThread(msg).start()
                 
             messages.success(request, "answer submitted successfully")
     context = {
