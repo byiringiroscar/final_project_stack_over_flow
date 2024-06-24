@@ -119,6 +119,13 @@ def job_user_admin(request):
     }
     return render(request, 'job_user_admin.html', context)
 
+@login_required(login_url='login')
+def delete_job_user_admin(request, id):
+    job_posted = get_object_or_404(Job_work, id=id)
+    job_posted.delete()
+    messages.success(request, "Job deleted successfully")
+    return redirect('job_user_admin')
+
 
 @login_required(login_url='login')
 def job_user_view_admin(request, id):
