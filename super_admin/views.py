@@ -12,6 +12,11 @@ from django.core.mail import EmailMessage
 from django.template.loader import get_template
 import threading
 from django.contrib import messages
+import datetime
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from reportlab.lib import pagesizes
+from reportlab.lib.pagesizes import letter
 
 User = get_user_model()
 
@@ -215,6 +220,61 @@ def job_delete_super(request, id):
     job_detail = get_object_or_404(Job_work, id=id)
     job_detail.delete()
     return redirect('all_job_super')
+
+
+@is_admin_user
+def export_pdf_user_super(request):
+    # Create a file-like buffer to receive PDF data
+    buffer = BytesIO()
+
+    # Create the PDF object, using the buffer as its "file"
+    p = canvas.Canvas(buffer)
+
+    # Set the response headers for file download
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="user_{str(datetime.datetime.now())}.pdf"'
+
+    # generate pdf content
+    all_user = User.objects.all()
+    y = 800  # Starting y-coordinate for content
+
+    # Set font styles
+    p.setFont("Helvetica-Bold", 16)  # Set main title font
+    title = "Report for All User"
+    title_width = p.stringWidth(title, "Helvetica-Bold", 16)
+    title_x = (p._pagesize[0] - title_width) / 2
+    p.drawString(title_x, y, title)
+    y -= 30  # Move to the next row
+
+    p.setFont("Helvetica-Bold", 12)  # Set title font
+    p.drawString(2, y, "Names")
+    p.drawString(100, y, "Phone Number")
+    p.drawString(350, y, "Email")
+    p.drawString(500, y, "Verified")
+    y -= 20  # Move to the next row
+
+    # Set font styles for content
+    p.setFont("Helvetica", 10)
+
+    # Write data to PDF
+    for user_i in all_user:
+        p.drawString(2, y, user_i.full_name)
+        p.drawString(100, y, str(user_i.phone_number))
+        p.drawString(300, y, user_i.email)
+        p.drawString(500, y, str(user_i.is_verified))
+        y -= 20  # Move to the next row
+    
+    # Save the PDF file
+    p.showPage()
+    p.save()
+
+    # Get the value of the buffer and write it to the response
+    pdf_buffer = buffer.getvalue()
+    buffer.close()
+    response.write(pdf_buffer)
+
+    return response
+
 
 
 def logout_super(request):
