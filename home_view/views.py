@@ -21,29 +21,26 @@ from .models import Chat
 from asgiref.sync import async_to_sync
 from django.http import Http404
 from channels.layers import get_channel_layer
+import google.generativeai as genai
 
 User = get_user_model()
 
 now = timezone.now()
-openai_api_key = config('openai_api_key')
-openai.api_key = openai_api_key
+genai.configure(api_key=config('GOOGLE_API_KEY'))
+
 
 
 # Create your views here.
 
-def ask_openai(message):
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=message,
-        max_tokens=150,
-        n=1,
-        stop=None,
-        temperature=0.7
-    )
-    answer = response.choices[0].text.strip()
-    return answer
-
-
+def ask_openai(question):
+    model=genai.GenerativeModel("gemini-pro")
+    chat=model.start_chat(history=[])
+    instruction = "In this chat, Please respond with brief summaries. "
+    response = chat.send_message(instruction + question)
+    response = chat.send_message(question)
+    result = response.text
+    return result
+    
 def home(request):
     return render(request, 'home.html')
 
