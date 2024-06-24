@@ -14,6 +14,7 @@ urlpatterns = [
     path('applied_job_super/', views.applied_job_super, name='applied_job_super'),
     path('applied_job_profile_super/<int:id>/', views.applied_job_profile_super, name='applied_job_profile_super'),
     path('question_super/', views.question_super, name='question_super'),
+    path('delete_question_super/<int:id>/', views.delete_question_super, name='delete_question_super'),
     path('all_user_super/', views.all_user_super, name='all_user_super'),
     path('all_badge_super/', views.all_badge_super, name='all_badge_super'),
     path('invitation_badge_super/<int:id>/', views.invitation_badge_super, name='invitation_badge_super'),

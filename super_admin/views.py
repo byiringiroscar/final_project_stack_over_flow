@@ -11,6 +11,7 @@ from questions.forms import InterviewBadgeForm
 from django.core.mail import EmailMessage
 from django.template.loader import get_template
 import threading
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -124,6 +125,15 @@ def question_super(request):
         'all_question': all_question
     }
     return render(request, 'question_super.html', context)
+
+
+@is_admin_user
+def delete_question_super(request, id):
+    question = get_object_or_404(Questions_stuff, id=id)
+    question.delete()
+    messages.success(request, 'Question deleted successfully')
+    return redirect('question_super')
+
 
 
 @is_admin_user
