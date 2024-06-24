@@ -113,12 +113,12 @@ class User(AbstractBaseUser):
 
     @property
     def get_profile_image(self):
-        image = self.profile.user_image.url
+        image = self.user_profile.user_image.url
         return image
 
     @property
     def get_profile_location(self):
-        location = self.profile.location
+        location = self.user_profile.location
         return location
 
     @property
