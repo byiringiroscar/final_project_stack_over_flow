@@ -13,6 +13,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import get_template
 from django_pandas.io import read_frame
 import threading
+from django.contrib import messages
 
 now = timezone.now()
 
@@ -89,7 +90,8 @@ def user_create_job(request):
             instance.enable_remote = enable_remote
             instance.job_owner = request.user
             instance.save()
-            return redirect('user_home')
+            messages.success(request, "Job created successfully")
+            return redirect('job_user_admin')
     else:
         form = JobForm()
 

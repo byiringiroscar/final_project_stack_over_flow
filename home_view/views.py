@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from authentication.forms import UserForm, UpdateProfileForm, SkillsForm
 from authentication.models import Profile
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from questions.forms import QuestionsForm, AnswerForm, ApplyJobForm, Connect_userForm, SendRequestForm
 from questions.models import Questions_stuff, Answer_stuff, Applied_job, ConnectWith, FriendRequest, ChatGroup, GroupMessage
