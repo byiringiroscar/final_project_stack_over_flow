@@ -96,6 +96,16 @@ def question_detail(request, id):
             instance.question = question_det
             instance.save()
             form = AnswerForm()
+            # send message to email if question_det.email_notify to notify that someone add answer
+            if question_det.email_notify:
+                email = question_det.owner.email
+                subject = f"Answer added to your question {question_det.title}"
+                message = f"Hello {question_det.owner.full_name},\n\n" \
+                          f"Someone has added an answer to your question '{question_det.title}'.\n\n" \
+                          f"Please visit the website to see the answer.\n\n" \
+                          f"Thanks,\n" \
+                          f"Q&A Team"
+                
             messages.success(request, "answer submitted successfully")
     context = {
         'question': question_det,
