@@ -4,8 +4,7 @@ import datetime
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-from django.utils.timezone import utc
-
+from datetime import timezone
 
 class Migration(migrations.Migration):
 
@@ -17,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='date_created',
-            field=models.DateField(default=datetime.datetime(2024, 6, 21, 7, 52, 5, 369480, tzinfo=utc)),
+            field=models.DateField(default=datetime.datetime(2024, 6, 21, 7, 52, 5, 369480, tzinfo=timezone.utc)),
         ),
         migrations.AlterField(
             model_name='profile',

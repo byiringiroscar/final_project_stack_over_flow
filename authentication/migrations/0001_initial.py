@@ -4,7 +4,7 @@ import datetime
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-from django.utils.timezone import utc
+from datetime import timezone
 import phonenumber_field.modelfields
 
 
@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
                 ('hardware', models.PositiveIntegerField(blank=True, null=True)),
                 ('uiandux', models.PositiveIntegerField(blank=True, null=True)),
                 ('artificial_intelligence', models.PositiveIntegerField(blank=True, null=True)),
-                ('date_created', models.DateField(default=datetime.datetime(2022, 7, 27, 10, 20, 10, 680989, tzinfo=utc))),
+                ('date_created', models.DateField(default=datetime.datetime(2022, 7, 27, 10, 20, 10, 680989, tzinfo=timezone.utc))),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
