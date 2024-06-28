@@ -14,6 +14,7 @@ def send_sms(user_code, phone_number):
                       auth=('byiringoroscar@gmail.com', 'oscarlewis.O1'))
     # print(r.json(), r.status_code)
 
+
 class AppTokenGenerator(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, timestamp):
         return (text_type(user.is_verified) + text_type(user.pk) + text_type(timestamp))

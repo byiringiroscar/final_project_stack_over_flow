@@ -12,7 +12,8 @@ from django.utils.encoding import force_str, DjangoUnicodeDecodeError, force_byt
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-from authentication.utils import account_activation_token, send_sms
+from authentication.utils import account_activation_token
+from authentication.utils import send_sms
 from django.core.mail import EmailMessage
 import threading
 from django.contrib.auth.forms import AuthenticationForm
@@ -81,7 +82,7 @@ def verify_pin_login(request):
 
             # send code through intouch sms
 
-            # send_sms(code_user, user.phone_number)
+            send_sms(code_user, user.phone_number)
         if form.is_valid():
             num = form.cleaned_data.get('number')
             print("num -------------", num)
