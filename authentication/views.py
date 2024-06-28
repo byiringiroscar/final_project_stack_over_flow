@@ -5,13 +5,14 @@ import json
 from validate_email import validate_email
 from django.contrib.auth import get_user_model
 import phonenumbers
+
 from authentication.forms import UserForm
 from django.contrib import messages
 from django.utils.encoding import force_str, DjangoUnicodeDecodeError, force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-from authentication.utils import account_activation_token
+from authentication.utils import account_activation_token, send_sms
 from django.core.mail import EmailMessage
 import threading
 from django.contrib.auth.forms import AuthenticationForm

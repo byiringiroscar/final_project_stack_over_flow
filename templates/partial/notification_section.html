@@ -49,9 +49,16 @@
                 <div class="dropdown-item-list">
                     <a class="dropdown-item" href="{% url 'user_profile' %}"><i class="la la-user mr-2"></i>Profile</a>
                     <a class="dropdown-item" href="{% url 'notifications' %}"><i class="la la-bell mr-2"></i>Notifications</a>
-                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="la la-power-off mr-2"></i>Log out</a>
+                    <!-- Logout link -->
+                    <a class="dropdown-item" href="#" onclick="document.getElementById('logout-form').submit();"><i class="la la-power-off mr-2"></i>Log out</a>
                 </div>
             </div>
+            
+            <!-- Hidden logout form -->
+            <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                {% csrf_token %}
+            </form>
+            
         </li>
     </ul>
 </div><!-- end nav-right-button -->
