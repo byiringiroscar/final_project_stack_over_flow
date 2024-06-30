@@ -25,6 +25,7 @@
                     </div>
                     <h2 class="section-title fs-30">Settings</h2>
                 </div><!-- end hero-content -->
+                {% include 'partial/_messages.html' %}
             </div><!-- end col-lg-8 -->
             <div class="col-lg-4">
                 <div class="hero-btn-box text-right py-3">
@@ -62,6 +63,7 @@
                             <div class="user-panel">
                                 <div class="bg-gray p-3 rounded-rounded">
                                     <h3 class="fs-17">Edit your profile</h3>
+                                    
                                 </div>
                                 <form method="POST" action="{% url 'user_profile' %}" class="pt-35px" enctype="multipart/form-data">
                                     {% csrf_token %}
@@ -92,13 +94,13 @@
                                                     <div class="form-group">
                                                         <input class="form-control form--control" type="text" name="full_name" value="{{ user.get_full_name }}">
                                                     </div>
-                                                    {% if messages %}
+                                                    <!-- {% if messages %}
                                                     {% for message in messages %}
                                                         <div class="alert alert-danger" role="alert">
                                                           {{ message }}
                                                         </div>
                                                             {% endfor %}
-                                                        {% endif %}
+                                                        {% endif %} -->
                                                 </div>
                                                 <div class="input-box">
                                                     <label class="fs-13 text-black lh-20 fw-medium">Location</label>

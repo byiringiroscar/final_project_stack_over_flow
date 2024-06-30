@@ -244,6 +244,7 @@ def user_profile(request):
         form = UpdateProfileForm(request.POST or None, request.FILES or None, instance=user_pro)
         if form.is_valid():
             form.save('user_profile')
+            messages.success(request, "profile updated successfully")
     context = {
         'form': form,
         'user': user,
