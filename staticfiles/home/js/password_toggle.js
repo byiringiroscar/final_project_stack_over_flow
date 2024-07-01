@@ -181,7 +181,3 @@ password2Toggle.addEventListener('keyup', (e)=>{
 
 
 })
-
-
-
-

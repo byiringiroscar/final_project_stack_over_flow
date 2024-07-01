@@ -1,23 +1,41 @@
 import { Component } from "./component.js";
 import { isEmpty, hasValue } from "./utils.js";
 import { components, lifecycleEvents } from "./store.js";
+import { getMorpher } from "./morpher.js";
 
 let messageUrl = "";
 let csrfTokenHeaderName = "X-CSRFToken";
+let csrfTokenCookieName = "csrftoken";
+let morpher;
 
 /**
  * Initializes the Unicorn object.
+ *
+ * @typedef
  */
-export function init(_messageUrl, _csrfTokenHeaderName) {
+export function init(
+  _messageUrl,
+  _csrfTokenHeaderName,
+  _csrfTokenCookieName,
+  _morpherSettings
+) {
   messageUrl = _messageUrl;
+
+  morpher = getMorpher(_morpherSettings);
 
   if (hasValue(_csrfTokenHeaderName)) {
     csrfTokenHeaderName = _csrfTokenHeaderName;
   }
 
+  if (hasValue(_csrfTokenCookieName)) {
+    csrfTokenCookieName = _csrfTokenCookieName;
+  }
+
   return {
     messageUrl,
     csrfTokenHeaderName,
+    csrfTokenCookieName,
+    morpher,
   };
 }
 
@@ -27,11 +45,37 @@ export function init(_messageUrl, _csrfTokenHeaderName) {
 export function componentInit(args) {
   args.messageUrl = messageUrl;
   args.csrfTokenHeaderName = csrfTokenHeaderName;
+  args.csrfTokenCookieName = csrfTokenCookieName;
+  args.morpher = morpher;
 
   const component = new Component(args);
   components[component.id] = component;
 
   component.setModelValues();
+}
+
+/**
+ * Initialize the component from the DOM element if it hasn't been initialized yet.
+ *
+ * Used to populate the components object with fresh components, created by the server.
+ *
+ * @param {Object} node The node to check for initialization.
+ */
+export function insertComponentFromDom(node) {
+  const nodeId = node.getAttribute("unicorn:id");
+
+  if (!components[nodeId]) {
+    const args = {
+      id: nodeId,
+      name: node.getAttribute("unicorn:name"),
+      key: node.getAttribute("unicorn:key"),
+      checksum: node.getAttribute("unicorn:checksum"),
+      data: JSON.parse(node.getAttribute("unicorn:data")),
+      calls: JSON.parse(node.getAttribute("unicorn:calls")),
+    };
+
+    componentInit(args);
+  }
 }
 
 /**
@@ -70,6 +114,14 @@ export function getComponent(componentNameOrKey) {
   }
 
   return component;
+}
+
+/**
+ * Deletes the component from the component store.
+ * @param {String} componentId.
+ */
+export function deleteComponent(componentId) {
+  delete components[componentId];
 }
 
 /**

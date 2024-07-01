@@ -6,7 +6,6 @@ import {
 } from "./eventListeners.js";
 import { components, lifecycleEvents } from "./store.js";
 import { send } from "./messageSender.js";
-import morphdom from "./morphdom/2.6.1/morphdom.js";
 import {
   $,
   hasValue,
@@ -26,6 +25,7 @@ export class Component {
     this.key = args.key;
     this.messageUrl = args.messageUrl;
     this.csrfTokenHeaderName = args.csrfTokenHeaderName;
+    this.csrfTokenCookieName = args.csrfTokenCookieName;
     this.hash = args.hash;
     this.data = args.data || {};
     this.syncUrl = `${this.messageUrl}/${this.name}`;
@@ -33,7 +33,7 @@ export class Component {
     this.document = args.document || document;
     this.walker = args.walker || walk;
     this.window = args.window || window;
-    this.morphdom = args.morphdom || morphdom;
+    this.morpher = args.morpher;
 
     this.root = undefined;
     this.modelEls = [];
@@ -84,6 +84,7 @@ export class Component {
         // Skip the component root element
         return;
       }
+
       const componentId = el.getAttribute("unicorn:id");
 
       if (componentId) {
@@ -258,7 +259,7 @@ export class Component {
       } else {
         // Can hard-code `forceModelUpdate` to `true` since it is always required for
         // `callMethod` actions
-        this.setModelValues(triggeringElements, true);
+        this.setModelValues(triggeringElements, true, true);
       }
     });
   }
@@ -322,6 +323,8 @@ export class Component {
           this.poll.disableData = this.poll.disableData.slice(1);
 
           if (this.data[this.poll.disableData]) {
+            this.poll.disableData = `!${this.poll.disableData}`;
+
             return true;
           }
 
@@ -447,9 +450,10 @@ export class Component {
    * Sets all model values.
    * @param {[Element]} triggeringElements The elements that triggered the event.
    */
-  setModelValues(triggeringElements, forceModelUpdates) {
+  setModelValues(triggeringElements, forceModelUpdates, updateParents) {
     triggeringElements = triggeringElements || [];
     forceModelUpdates = forceModelUpdates || false;
+    updateParents = updateParents || false;
 
     let lastTriggeringElement = null;
 
@@ -489,6 +493,27 @@ export class Component {
         this.setValue(element);
       }
     });
+
+    // Re-set model values for all children
+    this.getChildrenComponents().forEach((childComponent) => {
+      childComponent.setModelValues(
+        triggeringElements,
+        forceModelUpdates,
+        false
+      );
+    });
+
+    if (updateParents) {
+      const parent = this.getParentComponent();
+
+      if (parent) {
+        parent.setModelValues(
+          triggeringElements,
+          forceModelUpdates,
+          updateParents
+        );
+      }
+    }
   }
 
   /**
@@ -525,5 +550,52 @@ export class Component {
         element.el.dispatchEvent(new Event(eventType));
       }
     });
+  }
+
+  /**
+   * Replace the target DOM with the rerendered component.
+   *
+   * The function updates the DOM, and updates the Unicorn component store by deleting
+   * components that were removed, and adding new components.
+   */
+  morph(targetDom, rerenderedComponent) {
+    if (!rerenderedComponent) {
+      return;
+    }
+
+    // Helper function that returns an array of nodes with an attribute unicorn:id
+    const findUnicorns = () => [
+      ...targetDom.querySelectorAll("[unicorn\\:id]"),
+    ];
+
+    // Find component IDs before morphing
+    const componentIdsBeforeMorph = new Set(
+      findUnicorns().map((el) => el.getAttribute("unicorn:id"))
+    );
+
+    // Morph
+    this.morpher.morph(targetDom, rerenderedComponent);
+
+    // Find all component IDs after morphing
+    const componentIdsAfterMorph = new Set(
+      findUnicorns().map((el) => el.getAttribute("unicorn:id"))
+    );
+
+    // Delete components that were removed
+    const removedComponentIds = [...componentIdsBeforeMorph].filter(
+      (id) => !componentIdsAfterMorph.has(id)
+    );
+    removedComponentIds.forEach((id) => {
+      Unicorn.deleteComponent(id);
+    });
+
+    // Populate Unicorn with new components
+    findUnicorns().forEach((el) => {
+      Unicorn.insertComponentFromDom(el);
+    });
+  }
+
+  morphRoot(rerenderedComponent) {
+    this.morph(this.root, rerenderedComponent);
   }
 }

@@ -1,5 +1,4 @@
 import { $, getCsrfToken, hasValue, isFunction } from "./utils.js";
-import { MORPHDOM_OPTIONS } from "./morphdom/2.6.1/options.js";
 
 /**
  * Calls the message endpoint and merges the results into the document.
@@ -135,8 +134,8 @@ export function send(component, callback) {
       component.return = responseJson.return || {};
       component.hash = responseJson.hash;
 
-      const parent = responseJson.parent || {};
-      const rerenderedComponent = responseJson.dom || {};
+      let parent = responseJson.parent || {};
+      const rerenderedComponent = responseJson.dom || "";
       const partials = responseJson.partials || [];
       const { checksum } = responseJson;
 
@@ -160,7 +159,7 @@ export function send(component, callback) {
       }
 
       // Refresh the parent component if there is one
-      if (hasValue(parent) && hasValue(parent.id)) {
+      while (hasValue(parent) && hasValue(parent.id)) {
         const parentComponent = component.getParentComponent(parent.id);
 
         if (parentComponent && parentComponent.id === parent.id) {
@@ -171,11 +170,18 @@ export function send(component, callback) {
           }
 
           if (parent.dom) {
-            component.morphdom(
-              parentComponent.root,
-              parent.dom,
-              MORPHDOM_OPTIONS
-            );
+            parentComponent.morphRoot(parent.dom);
+
+            parentComponent.loadingEls.forEach((loadingElement) => {
+              if (loadingElement.loading.hide) {
+                loadingElement.show();
+              } else if (loadingElement.loading.show) {
+                loadingElement.hide();
+              }
+
+              loadingElement.handleLoading(true);
+              loadingElement.handleDirty(true);
+            });
           }
 
           if (parent.checksum) {
@@ -183,16 +189,21 @@ export function send(component, callback) {
               "unicorn:checksum",
               parent.checksum
             );
+
             parentComponent.refreshChecksum();
           }
 
+          // Set parent component hash
+          parentComponent.hash = parent.hash;
+
           parentComponent.refreshEventListeners();
 
-          parentComponent.getChildrenComponents().forEach((child) => {
-            child.init();
-            child.refreshEventListeners();
-          });
+          // parentComponent.getChildrenComponents().forEach((child) => {
+          //   child.init();
+          //   child.refreshEventListeners();
+          // });
         }
+        parent = parent.parent || {};
       }
 
       if (partials.length > 0) {
@@ -215,7 +226,7 @@ export function send(component, callback) {
           }
 
           if (targetDom) {
-            component.morphdom(targetDom, partial.dom, MORPHDOM_OPTIONS);
+            component.morph(targetDom, partial.dom);
           }
         }
 
@@ -223,18 +234,19 @@ export function send(component, callback) {
           component.root.setAttribute("unicorn:checksum", checksum);
           component.refreshChecksum();
         }
-      } else {
-        component.morphdom(
-          component.root,
-          rerenderedComponent,
-          MORPHDOM_OPTIONS
-        );
+      } else if (rerenderedComponent) {
+        component.morphRoot(rerenderedComponent);
       }
 
       component.triggerLifecycleEvent("updated");
 
-      // Re-init to refresh the root and checksum based on the new data
-      component.init();
+      try {
+        // Re-init to refresh the root and checksum based on the new data
+        component.init();
+      } catch (err) {
+        // No id found error will be thrown here for child components.
+        return;
+      }
 
       // Reset all event listeners
       component.refreshEventListeners();
