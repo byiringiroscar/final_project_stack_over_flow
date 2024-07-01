@@ -316,7 +316,7 @@ def export_pdf_job_super(request):
 
     p.setFont("Helvetica-Bold", 12)  # Set title font
     p.drawString(2, y, "title")
-    p.drawString(100, y, "type")
+    p.drawString(200, y, "type")
     p.drawString(350, y, "posted")
     p.drawString(500, y, "lastdate")
     y -= 20  # Move to the next row
@@ -327,8 +327,8 @@ def export_pdf_job_super(request):
     # Write data to PDF
     for job_i in all_job:
         p.drawString(2, y, job_i.title_developer)
-        p.drawString(100, y, str(job_i.job_type))
-        p.drawString(300, y, str(job_i.published_date))
+        p.drawString(200, y, str(job_i.job_type))
+        p.drawString(350, y, str(job_i.published_date))
         p.drawString(500, y, str(job_i.expire_date))
         y -= 20
     
