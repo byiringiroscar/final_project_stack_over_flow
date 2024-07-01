@@ -41,7 +41,7 @@
                                         {% elif profile_detail.rejected_apply%}
                                         <a href="javascript:void(0);" class="btn btn-sm btn-primary me-2">Not selected</a>
                                         {% else %}
-                                        <a href="{% url 'hire_person_admin' profile_detail.id %}" class="btn btn-sm btn-primary me-2">Hire</a>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-primary me-2">Waiting Decision</a>
                                 {% endif %}
                                     {% if profile_detail.interview == True %}
                                         <a href="javascript:void(0);" class="btn btn-sm btn-info" >Interview Pending</a>
