@@ -114,6 +114,14 @@ def user_applied_job_super(request, id):
 
 
 @is_admin_user
+def full_profile_job_applied_super(request, id):
+    profile_detail = get_object_or_404(Applied_job, id=id)
+    context = {
+        'profile_detail': profile_detail
+    }
+    return render(request, 'full_profile_job_applied_super.html', context)
+
+@is_admin_user
 def all_job_view_super(request, id):
     job_detail = get_object_or_404(Job_work, id=id)
     context = {

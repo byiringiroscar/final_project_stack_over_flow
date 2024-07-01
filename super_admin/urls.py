@@ -14,6 +14,7 @@ urlpatterns = [
     path('applied_job_super/', views.applied_job_super, name='applied_job_super'),
     path('applied_job_profile_super/<int:id>/', views.applied_job_profile_super, name='applied_job_profile_super'),
     path('user_applied_job_super/<int:id>/', views.user_applied_job_super, name='user_applied_job_super'),
+    path('full_profile_job_applied_super/<int:id>/', views.full_profile_job_applied_super, name='full_profile_job_applied_super'),
     path('question_super/', views.question_super, name='question_super'),
     path('delete_question_super/<int:id>/', views.delete_question_super, name='delete_question_super'),
     path('all_user_super/', views.all_user_super, name='all_user_super'),
