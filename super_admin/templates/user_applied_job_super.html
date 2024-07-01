@@ -1,0 +1,95 @@
+{% include 'super_admin/base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <div class="content-body">
+            <div class="container-fluid">
+
+				<div class="row page-titles">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item active"><a href="javascript:void(0)">Table</a></li>
+					</ol>
+                </div>
+                <!-- row -->
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Profile Datatable</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example3" class="display" style="min-width: 845px">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Name</th>
+                                                <th>Mobile</th>
+                                                <th>Email</th>
+                                                <th>Job title</th>
+                                                <th>Status</th>
+                                                <th>Applied Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for person in person_job %}
+                                            <tr>
+                                                <td><img class="rounded-circle" width="35" src="{% static 'profile.png' %}" alt=""></td>
+                                                <td>{{ person.full_name }}</td>
+                                                <td><a href="javascript:void(0);"><strong>{{ person.phone_number }}</strong></a></td>
+                                                <td><a href="javascript:void(0);"><strong>{{ person.email }}</strong></a></td>
+                                                <td>{{ person.job.title_developer }}</td>
+                                                <td>
+                                                    {% if person.hired_apply %}
+                                                        <span class="badge light badge-success">
+														<i class="fa fa-circle text-success me-1"></i>
+														selected
+													</span>
+                                                        {% elif not person.hired_apply and person.job.job_hired %}
+                                                        <span class="badge light badge-danger">
+														<i class="fa fa-circle text-danger me-1"></i>
+														failed
+													</span>
+                                                    {% elif not person.rejected_apply or not person.job.job_hired %}
+													<span class="badge light badge-success">
+														<i class="fa fa-circle text-success me-1"></i>
+														pending
+													</span>
+                                                        {% else %}
+                                                        <span class="badge light badge-success">
+														<i class="fa fa-circle text-danger me-1"></i>
+														failed
+													</span>
+                                                    {% endif %}
+												</td>
+
+                                                <td>{{ person.applied_date }}</td>
+                                                <td>
+													<div class="d-flex">
+                                                        <a href="{% url 'applied_profile' person.id %}" class="btn btn-success shadow btn-xs sharp me-1"><i class="fa fa-eye me-2"></i></a>
+													</div>
+												</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+            </div>
+        </div>
+
+
+
+ <!-- Datatable -->
+    <script src="{% static 'dashboard/vendor/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'dashboard/js/plugins-init/datatables.init.js' %}"></script>
+{% endblock %}

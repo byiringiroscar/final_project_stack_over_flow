@@ -105,11 +105,10 @@ def all_job_super(request):
 
 @is_admin_user
 def user_applied_job_super(request, id):
-    job_detail = get_object_or_404(Job_work, id=id)
-    job_apply = Applied_job.objects.filter(job=job_detail).order_by('-applied_date')
+    job_id = get_object_or_404(Job_work, id=id)
+    applied_job_all = Applied_job.objects.filter(job=job_id)
     context = {
-        'job': job_detail,
-        'job_apply': job_apply
+        'person_job': applied_job_all
     }
     return render(request, 'user_applied_job_super.html', context)
 
