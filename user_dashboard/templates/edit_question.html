@@ -102,7 +102,7 @@
                             <label class="fs-14 text-black fw-medium mb-0">Details</label>
                             <p class="fs-13 pb-3 lh-20">Include all the information and code someone would need to answer your question</p>
                             <div class="form-group">
-                                <textarea class="form-control form--control user-text-editor" rows="10" cols="40" name="body">{{ question_detail.body }}</textarea>
+                                <textarea class="form-control" rows="10" cols="40" name="body">{{ question_detail.body }}</textarea>
                                 <div class="d-flex align-items-center pt-2">
                                     <div class="mr-3">
                                         ``` <code class="badge bg-gray border border-gray text-gray">code</code> ```
@@ -123,15 +123,6 @@
                                 <div class="custom-control custom-checkbox fs-13 mb-1">
                                     <input type="checkbox" class="custom-control-input" id="notifiedMe" name="notifiedMe">
                                     <label class="custom-control-label custom--control-label" for="notifiedMe">Get notified by email when someone answers this question.</label>
-                                </div>
-                                <div class="custom-control custom-checkbox fs-13">
-                                    <input type="checkbox" class="custom-control-input" id="youAgreeCheckBox">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox fs-13 mb-1">
-                                    <input type="checkbox" class="custom-control-input" id="whatsapp_notify" name="whatsapp_notify">
-                                    <label class="custom-control-label custom--control-label" for="whatsapp_notify">Get notified by whatsapp when someone answers this question.</label>
                                 </div>
                                 <div class="custom-control custom-checkbox fs-13">
                                     <input type="checkbox" class="custom-control-input" id="youAgreeCheckBox">
