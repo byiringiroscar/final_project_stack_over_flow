@@ -238,6 +238,59 @@ def job_delete_super(request, id):
     job_detail.delete()
     return redirect('all_job_super')
 
+@is_admin_user
+def export_pdf_question_super(request):
+    # Create a file-like buffer to receive PDF data
+    buffer = BytesIO()
+
+    # Create the PDF object, using the buffer as its "file"
+    p = canvas.Canvas(buffer)
+
+    # Set the response headers for file download
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="question_{str(datetime.datetime.now())}.pdf"'
+
+    # generate pdf content
+    all_question = Questions_stuff.objects.all()
+    y = 800
+     # Set font styles
+    p.setFont("Helvetica-Bold", 16)  # Set main title font
+    title = "Report for All Question"
+    title_width = p.stringWidth(title, "Helvetica-Bold", 16)
+    title_x = (p._pagesize[0] - title_width) / 2
+    p.drawString(title_x, y, title)
+    y -= 30  # Move to the next row
+
+    p.setFont("Helvetica-Bold", 12)  # Set title font
+    p.drawString(2, y, "title")
+    p.drawString(100, y, "viewed")
+    p.drawString(350, y, "owner")
+    p.drawString(500, y, "tag")
+    y -= 20  # Move to the next row
+
+    # Set font styles for content
+    p.setFont("Helvetica", 10)
+
+    # Write data to PDF
+    for question_i in all_question:
+        p.drawString(2, y, question_i.title)
+        p.drawString(100, y, str(question_i.viewed))
+        p.drawString(300, y, question_i.owner.full_name)
+        p.drawString(500, y, question_i.tag)
+        y -= 20
+    
+    # Save the PDF file
+    p.showPage()
+    p.save()
+
+    # Get the value of the buffer and write it to the response
+    pdf_buffer = buffer.getvalue()
+    buffer.close()
+    response.write(pdf_buffer)
+
+    return response
+
+
 
 @is_admin_user
 def export_pdf_user_super(request):
