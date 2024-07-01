@@ -23,5 +23,7 @@ urlpatterns = [
     path('approve_badge/<int:id>/', views.approve_badge, name='approve_badge'),
 
     path('export-pdf-user_super/', views.export_pdf_user_super, name='export_pdf_user_super'),
+    path('export_pdf_question_super/', views.export_pdf_question_super, name='export_pdf_question_super'),
+    path('export_pdf_job_super/', views.export_pdf_job_super, name='export_pdf_job_super'),
 
 ]

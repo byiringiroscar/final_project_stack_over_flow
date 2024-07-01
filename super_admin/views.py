@@ -291,6 +291,58 @@ def export_pdf_question_super(request):
     return response
 
 
+@is_admin_user
+def export_pdf_job_super(request):
+    # Create a file-like buffer to receive PDF data
+    buffer = BytesIO()
+
+    # Create the PDF object, using the buffer as its "file"
+    p = canvas.Canvas(buffer)
+
+    # Set the response headers for file download
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="job_{str(datetime.datetime.now())}.pdf"'
+
+    # generate pdf content
+    all_job = Job_work.objects.all()
+    y = 800
+    # Set font styles
+    p.setFont("Helvetica-Bold", 16)  # Set main title font
+    title = "Report for All User"
+    title_width = p.stringWidth(title, "Helvetica-Bold", 16)
+    title_x = (p._pagesize[0] - title_width) / 2
+    p.drawString(title_x, y, title)
+    y -= 30  # Move to the next row
+
+    p.setFont("Helvetica-Bold", 12)  # Set title font
+    p.drawString(2, y, "title")
+    p.drawString(100, y, "type")
+    p.drawString(350, y, "posted")
+    p.drawString(500, y, "lastdate")
+    y -= 20  # Move to the next row
+
+    # Set font styles for content
+    p.setFont("Helvetica", 10)
+
+    # Write data to PDF
+    for job_i in all_job:
+        p.drawString(2, y, job_i.title_developer)
+        p.drawString(100, y, str(job_i.job_type))
+        p.drawString(300, y, str(job_i.published_date))
+        p.drawString(500, y, str(job_i.expire_date))
+        y -= 20
+    
+    # Save the PDF file
+    p.showPage()
+    p.save()
+    # Set the response's content to the generated PDF
+    pdf_buffer = buffer.getvalue()
+    buffer.close()
+    response.write(pdf_buffer)
+
+    return response
+    
+
 
 @is_admin_user
 def export_pdf_user_super(request):
