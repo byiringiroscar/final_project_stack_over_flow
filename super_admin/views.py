@@ -292,6 +292,58 @@ def export_pdf_question_super(request):
 
 
 @is_admin_user
+def export_pdf_appliedjob_super(request):
+    # Create a file-like buffer to receive PDF data
+    buffer = BytesIO()
+
+    # Create the PDF object, using the buffer as its "file"
+    p = canvas.Canvas(buffer)
+
+    # Set the response headers for file download
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="applied_job_{str(datetime.datetime.now())}.pdf"'
+
+    # generate pdf content
+    all_applied_job = Applied_job.objects.all()
+    y = 800
+     # Set font styles
+    p.setFont("Helvetica-Bold", 16)
+    title = "Report for All Applied to job"
+    title_width = p.stringWidth(title, "Helvetica-Bold", 16)
+    title_x = (p._pagesize[0] - title_width) / 2
+    p.drawString(title_x, y, title)
+    y -= 30  # Move to the next row
+
+    p.setFont("Helvetica-Bold", 12)  # Set title font
+    p.drawString(2, y, "full-namme")
+    p.drawString(100, y, "email")
+    p.drawString(350, y, "phone")
+    p.drawString(500, y, "applied-date")
+    y -= 20  # Move to the next row
+
+    # Set font styles for content
+    p.setFont("Helvetica", 10)
+
+    # Write data to PDF
+    for applied_job_i in all_applied_job:
+        p.drawString(2, y, applied_job_i.full_name)
+        p.drawString(100, y, applied_job_i.email)
+        p.drawString(300, y, str(applied_job_i.phone_number))
+        p.drawString(500, y, str(applied_job_i.applied_date))
+        y -= 20
+
+    
+    # Save the PDF file
+    p.showPage()
+    p.save()
+    # Set the buffer to contain the file data
+    pdf_buffer = buffer.getvalue()
+    buffer.close()
+    response.write(pdf_buffer)
+
+    return response
+
+@is_admin_user
 def export_pdf_job_super(request):
     # Create a file-like buffer to receive PDF data
     buffer = BytesIO()
@@ -308,7 +360,7 @@ def export_pdf_job_super(request):
     y = 800
     # Set font styles
     p.setFont("Helvetica-Bold", 16)  # Set main title font
-    title = "Report for All User"
+    title = "Report for All Job"
     title_width = p.stringWidth(title, "Helvetica-Bold", 16)
     title_x = (p._pagesize[0] - title_width) / 2
     p.drawString(title_x, y, title)
