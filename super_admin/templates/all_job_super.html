@@ -25,6 +25,7 @@
                                             <tr>
                                                 <th>Position</th>
                                                 <th>Type</th>
+                                                <th>Applied</th>
                                                 <th>Posted Date</th>
                                                 <th>Last Date</th>
                                                 <th>Status</th>
@@ -36,6 +37,7 @@
                                             <tr>
 										<td>{{ job.title_developer }}</td>
 										<td class="wspace-no">{{ job.job_type }}</td>
+                                        <td>hhh</td>
 										<td>{{ job.published_date }}</td>
 										<td>{{ job.expire_date }}</td>
                                                 {% if now > job.expire_date or job.job_hired == True  %}
