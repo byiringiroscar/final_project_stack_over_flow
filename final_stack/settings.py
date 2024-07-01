@@ -33,7 +33,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,7 +47,6 @@ INSTALLED_APPS = [
     'user_dashboard.apps.UserDashboardConfig',
     'super_admin.apps.SuperAdminConfig',
     "django_unicorn",
-    'channels',
     'codes.apps.CodesConfig',
     "corsheaders",
     "django_htmx",
@@ -83,8 +81,8 @@ TEMPLATES = [
         },
     },
 ]
-ASGI_APPLICATION = 'final_stack.asgi.application'
-# WSGI_APPLICATION = 'final_stack.wsgi.application'
+# ASGI_APPLICATION = 'final_stack.asgi.application'
+WSGI_APPLICATION = 'final_stack.wsgi.application'
 
 
 AUTH_USER_MODEL = 'authentication.User'
@@ -172,17 +170,6 @@ else:
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-
-
-settings.configure()
-# TinyMCE Configuration
-TINYMCE_DEFAULT_CONFIG = {
-    'height': 360,
-    'menubar': False,
-    'plugins': 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-    'toolbar': 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-    'content_css': '/static/css/content.css',
-}
 
 
 EMAIL_USE_TLS = True
