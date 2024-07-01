@@ -151,16 +151,26 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+PRODUCTION = config('PRODUCTION', default=False, cast=bool)
 
-CHANNEL_LAYERS = {
+if PRODUCTION:
+    CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": ["rediss://red-ck4aaiuct0pc738lmd7g:9bRlbaZ7n8awmbwJfQv6D6gqm6BQlrQd@oregon-redis.render.com:6379"],
+        },
+    },
 }
+else:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer"
+        }
+    }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:8000',
-]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 
 EMAIL_USE_TLS = True
