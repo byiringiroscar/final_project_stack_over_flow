@@ -152,37 +152,33 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
-PRODUCTION = config('PRODUCTION', default=False, cast=bool)
 
-if PRODUCTION:
-    CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": ["rediss://red-ck4aaiuct0pc738lmd7g:9bRlbaZ7n8awmbwJfQv6D6gqm6BQlrQd@oregon-redis.render.com:6379"],
-        },
-    },
-}
-else:
-    CHANNEL_LAYERS = {
+CHANNEL_LAYERS = {
         "default": {
             "BACKEND": "channels.layers.InMemoryChannelLayer"
         }
     }
 
+# PRODUCTION = config('PRODUCTION', default=False, cast=bool)
+
+# if PRODUCTION:
+#     CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": ["rediss://red-ck4aaiuct0pc738lmd7g:9bRlbaZ7n8awmbwJfQv6D6gqm6BQlrQd@oregon-redis.render.com:6379"],
+#         },
+#     },
+# }
+# else:
+#     CHANNEL_LAYERS = {
+#         "default": {
+#             "BACKEND": "channels.layers.InMemoryChannelLayer"
+#         }
+#     }
+
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-
-
-settings.configure()
-# TinyMCE Configuration
-TINYMCE_DEFAULT_CONFIG = {
-    'height': 360,
-    'menubar': False,
-    'plugins': 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-    'toolbar': 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-    'content_css': '/static/css/content.css',
-}
 
 
 EMAIL_USE_TLS = True
