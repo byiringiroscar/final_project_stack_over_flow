@@ -386,6 +386,20 @@ def approve_friend_request(request, id):
         messages.success(request, "Friend request approved and now you can chat.")
         return redirect('notifications')
 
+@login_required(login_url='login')
+def denie_request_friend(request, id):
+    friend_request = get_object_or_404(FriendRequest, id=id)
+
+    if friend_request.to_user != request.user:
+        messages.error(request, "You are not authorized to approve this friend request.")
+        return redirect('notifications')
+    
+    friend_request.status = 'rejected'
+    friend_request.save()
+
+    messages.success(request, "Friend request rejected.")
+    return redirect('notifications')
+
 def chat_friends(request, chatroom_name):
     current_domain = request.get_host()
     chat_group = get_object_or_404(ChatGroup, group_name=chatroom_name)

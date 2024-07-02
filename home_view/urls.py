@@ -21,6 +21,7 @@ urlpatterns = [
     path('notifications/', views.notifications, name="notifications"),
     path('connect_with_me/<int:id>/', views.connect_with_me, name="connect_with_me"),
     path('accept_request/<int:id>/', views.approve_friend_request, name="approve_friend_request"),
+    path('denie_request_friend/<int:id>/', views.denie_request_friend, name="denie_request_friend"),
     path('all_friends_user/', views.all_friends_user, name="all_friends_user"),
     path('chat_friends/<chatroom_name>/', views.chat_friends, name="chat_friends"),
 
