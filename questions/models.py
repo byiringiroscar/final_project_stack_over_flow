@@ -197,7 +197,7 @@ class FriendRequest(models.Model):
 
 
     def __str__(self):
-        return f'{self.from_user.username} to {self.to_user.username}'
+        return f'{self.from_user} to {self.to_user}'
     
     @property
     def check_group(self):
